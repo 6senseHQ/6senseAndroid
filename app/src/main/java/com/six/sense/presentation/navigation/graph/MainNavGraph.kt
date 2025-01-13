@@ -19,6 +19,7 @@ import com.six.sense.presentation.MainViewModel
 import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.navigation.route
 import com.six.sense.presentation.navigation.route.authRoute
+import com.six.sense.presentation.navigation.route.baseRoute
 import com.six.sense.presentation.navigation.route.homeRoute
 import kotlinx.coroutines.flow.mapNotNull
 
@@ -56,8 +57,12 @@ fun SetupMainNavGraph(
             startDestination = startDestination,
             navController = navController
         ) {
+            baseRoute(
+                navController = navController
+            )
             authRoute(
-                modifier = mainModifier
+                modifier = mainModifier,
+                navController = navController
             )
             homeRoute(
                 modifier = mainModifier,

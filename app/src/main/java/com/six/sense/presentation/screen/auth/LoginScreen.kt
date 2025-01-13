@@ -1,4 +1,4 @@
-package com.six.sense.presentation.screen
+package com.six.sense.presentation.screen.auth
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

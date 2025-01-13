@@ -51,7 +51,8 @@ fun SetupBottomNavGraph(
 //
 //            )
             profileRoute(
-                modifier = paddingModifier
+                modifier = paddingModifier,
+                navController = navController
             )
         }
     }

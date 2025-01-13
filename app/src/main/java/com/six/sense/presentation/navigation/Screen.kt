@@ -29,6 +29,13 @@ object Screens {
          */
         @Serializable object Profile
     }
+
+    /**
+     * Represents the error dialog screen.
+     */
+    @Serializable
+    data class ErrorDialog(val error: String)
+
 }
 
 /**
