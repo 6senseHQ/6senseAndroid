@@ -2,10 +2,8 @@ package com.six.sense.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Newspaper
 import androidx.compose.material.icons.rounded.Person3
 import androidx.compose.ui.graphics.vector.ImageVector
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 

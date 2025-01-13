@@ -1,6 +1,5 @@
 package com.six.sense.data.local
 
-import android.animation.TypeConverter
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.six.sense.data.local.entities.UserEntity
