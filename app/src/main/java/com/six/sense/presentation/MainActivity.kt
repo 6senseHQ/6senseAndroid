@@ -16,6 +16,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.navigation.graph.SetupMainNavGraph
+import com.six.sense.presentation.screen.chat.ChatView
 import com.six.sense.ui.theme.SixSenseAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,12 +35,8 @@ class MainActivity : ComponentActivity() {
                     startDestination = if(Firebase.auth.currentUser == null) Screens.Login else Screens.Home,
                     navController = navController
                 )
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                    ChatView()
+
             }
         }
     }

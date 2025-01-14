@@ -18,8 +18,10 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
+import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.serialization.json.Json
@@ -53,25 +55,24 @@ object NetworkModule {
     fun provideKtorClient(
         chuckerInterceptor: ChuckerInterceptor,
     ): HttpClient {
-        val okHttpEngine = OkHttp.create {
-            addInterceptor(chuckerInterceptor)
-        }
+        val okHttpEngine = OkHttp.create { addInterceptor(chuckerInterceptor) }
         return HttpClient(okHttpEngine) {
-            install(Logging) {
-                level = LogLevel.BODY
-            }
+            install(Logging) { level = LogLevel.BODY }
             defaultRequest {
                 url(Constants.BASE_URL)
+                contentType(ContentType.Application.Json)
 //                header(HttpHeaders.Authorization, Constants.TOKEN)
-                header(
-                    HttpHeaders.ContentType,
-                    ContentType.Application.Json
-                )//not needed , but for understanding
+//                header(
+//                    HttpHeaders.ContentType,
+//                    ContentType.Application.Json
+//                )
+                //not needed , but for understanding
                 //alternate way
                 /**     headers {
                 append(HttpHeaders.Authorization, Constants.TOKEN)
                 append(HttpHeaders.ContentType, ContentType.Application.Json) //not needed , but for understanding
                 }*/
+                headers { append(HttpHeaders.Authorization, "Bearer ${"TOKEN"}") }
             }
             install(ContentNegotiation) {
                 //for kotlinx and gson serialization

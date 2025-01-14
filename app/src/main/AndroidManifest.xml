@@ -18,6 +18,7 @@
         android:theme="@style/Theme._6senseAndroid"
         tools:targetApi="31">
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme._6senseAndroid">
