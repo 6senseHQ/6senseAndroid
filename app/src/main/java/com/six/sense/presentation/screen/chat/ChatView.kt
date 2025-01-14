@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
@@ -31,8 +32,11 @@ import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.six.sense.R
+import com.six.sense.presentation.screen.chat.components.ChatMessageItem
+import com.six.sense.presentation.screen.chat.components.ChatTextField
 import com.six.sense.ui.theme.SixSenseAndroidTheme
 import kotlin.text.trim
 
@@ -76,43 +80,7 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * A composable function that renders a chat message item.
- * @param modifier [Modifier] Modifier for the layout.
- */
-@Composable
-fun ChatMessageItem(modifier: Modifier = Modifier) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        Box(
-            modifier = Modifier
-                .size(36.dp)
-                .background(MaterialTheme.colorScheme.primary, CircleShape),
-            contentAlignment = Alignment.Companion.Center
-        ) {
-            Icon(
-                modifier = Modifier.requiredSize(16.dp),
-                imageVector = ImageVector.vectorResource(R.drawable.ic_polyline_outline),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.surfaceContainer
-            )
-        }
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(
-                topStart = 0.dp,
-                topEnd = 16.dp,
-                bottomStart = 16.dp,
-                bottomEnd = 16.dp
-            ),
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-                text = "Hello World\nHow are you?".trim(' ', '.'),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-    }
-}
+
 
 /**
  * A composable function that renders a chat view.
@@ -132,7 +100,8 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
             ChatMessageItem(
                 modifier = Modifier
                     .fillMaxWidth(.9f)
-                    .align(Alignment.Companion.Start)
+                    .align(Alignment.Companion.Start),
+                itemResponseText = LoremIpsum(words = 20).values.joinToString(" ")
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -156,29 +125,7 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
     }
 }
 
-/**
- * A composable function that renders a chat text field.
- * @param modifier [Modifier] Modifier for the layout.
- */
-@Composable
-fun ChatTextField(modifier: Modifier = Modifier) {
-    val (chatText, setChatText) = remember { mutableStateOf("") }
-    TextField(
-        modifier = modifier, value = chatText, onValueChange = setChatText,
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Transparent,
-            unfocusedIndicatorColor = Transparent
-        ),
-        shape = RoundedCornerShape(28.dp),
-        placeholder = {
-            Text(
-                text = "Message",
-                style = MaterialTheme.typography.bodySmall
-            )
-        },
-        textStyle = MaterialTheme.typography.bodySmall
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable

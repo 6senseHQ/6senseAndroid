@@ -71,7 +71,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp= { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-negotiation= { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-serialization-gson= { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
+ktor-client-serialization-kotlinx-json= { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 
@@ -129,7 +129,7 @@ ktor = [
     "ktor-client-core",
     "ktor-client-okhttp",
     "ktor-client-negotiation",
-    "ktor-client-serialization-gson",
+    "ktor-client-serialization-kotlinx-json",
     "ktor-client-logging",
     "slf4j-android",
 ]
@@ -156,7 +156,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.2" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.2" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin"}
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

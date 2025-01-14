@@ -20,7 +20,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 /**
@@ -49,7 +51,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideKtorClient(
-        chuckerInterceptor: ChuckerInterceptor
+        chuckerInterceptor: ChuckerInterceptor,
     ): HttpClient {
         val okHttpEngine = OkHttp.create {
             addInterceptor(chuckerInterceptor)
@@ -73,17 +75,13 @@ object NetworkModule {
             }
             install(ContentNegotiation) {
                 //for kotlinx and gson serialization
-                /**             json(Json {
-                explicitNulls = false
-                encodeDefaults = true
+                json(Json {
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                    prettyPrint = true
+                    explicitNulls = false
+                    encodeDefaults = true
                 })
-                gson{
-                serializeNulls()
-                }*/
-                //for jackson serialization-recommended
-                /*jackson {
-                    setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP))
-                }*/
             }
         }
     }
@@ -100,7 +98,7 @@ object NetworkModule {
     fun provideAuthRepo(
         @ApplicationContext context: Context,
         @IoDispatcher dispatcher: CoroutineDispatcher,
-        connectivity: ConnectivityObserver
+        connectivity: ConnectivityObserver,
     ): AuthRepo =
         AuthRepoImpl(context = context, dispatcher = dispatcher, connectivity = connectivity)
 
