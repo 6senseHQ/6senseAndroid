@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.mapNotNull
  * @param modifier Modifier for the layout.
  */
 fun NavGraphBuilder.homeRoute(
-    modifier: Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier
 ) {
     composable<Screens.Home> {
         val context = LocalContext.current
@@ -33,11 +33,11 @@ fun NavGraphBuilder.homeRoute(
             .collectAsStateWithLifecycle("")
 
         SetupSideNavGraph(
-            startDestination = Screens.Home,
+            startDestination = Screens.Home.Chat,
             currentDestination = currentDestination,
             onDestinationChanged  = {destination->
                 navControllerBottomBar.navigate(destination.route){
-                    popUpTo(Screens.Home)
+                    popUpTo(Screens.Home.Chat)
                     launchSingleTop = true
                 }
 //                viewModel.changeBottomNavDestination(destination.name)

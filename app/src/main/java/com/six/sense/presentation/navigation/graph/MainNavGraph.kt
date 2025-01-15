@@ -1,11 +1,7 @@
 package com.six.sense.presentation.navigation.graph
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -44,31 +40,22 @@ fun SetupMainNavGraph(
         .split('.').lastOrNull()
         ?.split('/')?.firstOrNull() ?: ""
     val isOnMainScreen = backStack == Screens.serializer().route
-    var mainModifier : Modifier
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-
-        },
-        contentWindowInsets = WindowInsets.statusBars
+    val mainModifier : Modifier = Modifier.fillMaxSize()
+    NavHost(
+        startDestination = startDestination,
+        navController = navController
     ) {
-        mainModifier = Modifier.padding(it)
-        NavHost(
-            startDestination = startDestination,
+        baseRoute(
             navController = navController
-        ) {
-            baseRoute(
-                navController = navController
-            )
-            authRoute(
-                modifier = mainModifier,
-                navController = navController
-            )
-            homeRoute(
-                modifier = mainModifier,
-                navController = navController
-            )
-        }
+        )
+        authRoute(
+            navController = navController,
+            modifier = mainModifier
+        )
+        homeRoute(
+            navController = navController,
+            modifier = mainModifier
+        )
     }
 
 }

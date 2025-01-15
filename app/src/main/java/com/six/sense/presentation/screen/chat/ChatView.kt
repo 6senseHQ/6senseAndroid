@@ -7,19 +7,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -90,9 +86,9 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
 fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
     val (chatText, setChatText) = remember { mutableStateOf("") }
     Scaffold(
-        topBar = { ChatHeader(
-            modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)
-        ) }
+        modifier = modifier,
+        topBar = { ChatHeader() },
+        contentWindowInsets = WindowInsets(0,0,0,0)
     ) { innerPadding ->
         Column(
             modifier = Modifier

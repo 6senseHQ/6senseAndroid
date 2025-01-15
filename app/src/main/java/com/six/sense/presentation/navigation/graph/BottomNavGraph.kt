@@ -51,7 +51,8 @@ fun SetupBottomNavGraph(
 //
 //            )
             navDrawerRoute(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
     }

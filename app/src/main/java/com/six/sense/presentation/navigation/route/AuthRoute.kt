@@ -16,8 +16,8 @@ import com.six.sense.utils.composableWithVM
  * @param modifier Modifier for the layout.
  */
 fun NavGraphBuilder.authRoute(
-    modifier: Modifier,
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     composableWithVM<Screens.Login, LoginViewModel>(navController = navController) {
         val activity = LocalContext.current as Activity

@@ -16,13 +16,15 @@ class LoginViewModel @Inject constructor(
 
     fun facebookSignIn(button: LoginButton, onSuccess: () -> Unit) {
         launch(showLoading = false){
-            authRepo.facebookSignIn(button)
+            val result= authRepo.facebookSignIn(button)
+            authRepo.firebaseSignIn(result.accessToken)
             onSuccess()
         }
     }
     fun googleSignIn(activity: Activity, onSuccess: () -> Unit) {
         launch {
-            authRepo.googleSignIn(activity)
+            val result= authRepo.googleSignIn(activity)
+            authRepo.firebaseSignIn(result)
             onSuccess()
         }
 
