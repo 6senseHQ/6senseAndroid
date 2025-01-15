@@ -1,5 +1,6 @@
 package com.six.sense
 
+import com.google.common.truth.Truth.assertThat
 import com.six.sense.domain.repo.MockKRepo
 import io.mockk.coEvery
 import io.mockk.every
@@ -25,14 +26,16 @@ class MockKUnitTest {
          * Set up the expected behavior of the mock object.
          *
          */
-        val expectedUser = mockRepo.loginUser("rana", "rana123", 1)
+        val expectedUser = mockRepo.loginUser("rana", "rana123", 1).apply {
+                assertThat(this).isEqualTo("rana")
+            }
         /**
          * Call the getUser() function on the mock object.
          * use [coEvery] for coroutine testing.
          * use [every] for regular testing.
          */
-        every {mockRepo.loginUser("rana", "rana123", 1) } returns expectedUser
-        verify{}
+        every { mockRepo.loginUser("rana", "rana123", 1) } returns expectedUser
+        verify {}
 //        coEvery { mockRepo.getUser() } returns (expectedUser)
 //        confirmVerified("test")
     }

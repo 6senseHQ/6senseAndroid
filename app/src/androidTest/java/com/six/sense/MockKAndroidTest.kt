@@ -21,8 +21,10 @@ class MockKAndroidTest {
     fun testWithMockK() = runTest {
         val mockRepo = mockk<MockKRepo>()
         val expectedUser = MockUser("John", "", 2)
-        coEvery { mockRepo.loginUser(any(), any(), any()) }.returns(expectedUser.toString())
-        coEvery { mockRepo.fetchUserData(2) }.returns(expectedUser.toString())
+        coEvery { mockRepo.loginUser(any(), any(), any()) }
+            .returns(expectedUser.toString())
+        coEvery { mockRepo.fetchUserData(2) }
+            .returns(expectedUser.toString())
 
 //        coVerify { mockRepo.getUser() }
 
