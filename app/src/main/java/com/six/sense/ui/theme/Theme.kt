@@ -22,6 +22,16 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink40
 )
 
+/**
+ * A composable function that provides the SixSense Android theme.
+ *
+ * This function sets up the Material Design theme for the application, including
+ * dynamic color support on Android 12 and above.
+ *
+ * @param darkTheme Whether to use the dark theme. Defaults to the system's dark theme setting.
+ * @param dynamicColor Whether to use dynamic color theming on Android 12+. Defaults to true.
+ * @param content The composable content to be themed.
+ */
 @Composable
 fun SixSenseAndroidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

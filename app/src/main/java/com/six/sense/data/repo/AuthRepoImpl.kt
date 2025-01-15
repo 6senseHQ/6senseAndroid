@@ -43,8 +43,7 @@ class AuthRepoImpl(
 ) : AuthRepo {
 
     override suspend fun firebaseSignIn(credential: Any): FirebaseUser = withContext(dispatcher) {
-        if (!connectivity.isNetworkAvailable)
-            error("No Internet Connection")
+        connectivity.checkAndThrow4NoInternet()
         suspendCancellableCoroutine { continuation ->
             val firebaseCredential = when (credential) {
                 is AccessToken -> FacebookAuthProvider.getCredential(credential.token)
@@ -73,8 +72,7 @@ class AuthRepoImpl(
 
     override suspend fun googleSignIn(activity: Activity): GoogleIdTokenCredential =
         withContext(dispatcher) {
-            if (!connectivity.isNetworkAvailable)
-                error("No Internet Connection")
+            connectivity.checkAndThrow4NoInternet()
             val signInGoogleOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId(Constants.WEB_CLIENT_ID)
@@ -105,8 +103,7 @@ class AuthRepoImpl(
     override suspend fun facebookSignIn(
         button: LoginButton,
     ): LoginResult = withContext(dispatcher) {
-        if (!connectivity.isNetworkAvailable)
-            error("No Internet Connection")
+        connectivity.checkAndThrow4NoInternet()
         suspendCancellableCoroutine { continuation ->
             button.permissions = listOf("public_profile", "user_link")
 

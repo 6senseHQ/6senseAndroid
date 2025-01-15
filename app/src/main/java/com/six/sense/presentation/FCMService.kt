@@ -83,6 +83,9 @@ class FCMService : FirebaseMessagingService() {
             System.nanoTime().toInt().plus(Random(1000).nextInt())
 
 
+    /**
+     * The companion object containing constants and methods related to the Firebase notification service.
+     */
     companion object {
         private const val TAG = "FirebaseNotificationService"
         private const val CHANNEL_ID = "Six Sense Alert"

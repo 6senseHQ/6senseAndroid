@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import com.six.sense.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.six.sense.utils.log
 
 /**
  * Observes network connectivity status and provides updates via a StateFlow.
@@ -65,38 +65,42 @@ class ConnectivityObserver(context: Context) {
 
     init {
         _networkStatus.value = if (isNetworkAvailable) Status.Available else Status.Unavailable
-        networkStatus.value.message.log("ConnectivityObserver")
+        logStatus()
 
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 _networkStatus.value = Status.Available
                 isNetworkAvailable = true
-                networkStatus.value.message.log("ConnectivityObserver")
+                logStatus()
             }
 
             override fun onLosing(network: Network, maxMsToLive: Int) {
                 super.onLosing(network, maxMsToLive)
                 _networkStatus.value = Status.Losing
-                networkStatus.value.message.log("ConnectivityObserver")
+                logStatus()
             }
 
             override fun onLost(network: Network) {
                 super.onLost(network)
                 _networkStatus.value = Status.Lost
                 isNetworkAvailable = false
-                networkStatus.value.message.log("ConnectivityObserver")
+                logStatus()
             }
 
             override fun onUnavailable() {
                 super.onUnavailable()
                 _networkStatus.value = Status.Unavailable
                 isNetworkAvailable = false
-                networkStatus.value.message.log("ConnectivityObserver")
+                logStatus()
             }
         }
 
         connectivityManager.registerDefaultNetworkCallback(callback)
+    }
+
+    private fun logStatus() {
+        networkStatus.value.message.log("ConnectivityObserver")
     }
 
 
@@ -113,5 +117,18 @@ class ConnectivityObserver(context: Context) {
             }
         }
         return status
+    }
+
+    /**
+     * Checks if a network connection is available and throws an error if not.
+     *
+     * This function checks the device's network connectivity and throws an exception
+     * with the message "No Internet Connection" if no network is available.
+     *
+     * @throws IllegalStateException If no network connection is available.
+     */
+    fun checkAndThrow4NoInternet() {
+        if (!isNetworkAvailable)
+            error(Status.Unavailable)
     }
 }

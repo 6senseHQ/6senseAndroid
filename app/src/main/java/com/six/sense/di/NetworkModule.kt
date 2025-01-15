@@ -19,7 +19,6 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -115,6 +114,11 @@ object NetworkModule {
     fun provideConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver =
         ConnectivityObserver(context)
 
+    /**
+     * Provides a singleton instance of the OpenAI client.
+     *
+     * @return An instance of the [OpenAIClient].
+     */
     @Provides
     @Singleton
     fun provideOpenAIClient(): OpenAIClient =
