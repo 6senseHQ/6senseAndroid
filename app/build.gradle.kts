@@ -62,10 +62,12 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
+        viewBinding = true
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1,INDEX.LIST,DEPENDENCIES}"
+            excludes += "mozilla/public-suffix-list.txt"
         }
     }
 }
@@ -73,6 +75,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.ui)
+    implementation(libs.androidx.ui.viewbinding)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -128,4 +131,8 @@ dependencies {
     // Play In-App Update
     implementation(libs.app.update)
     implementation(libs.app.update.ktx)
+
+    implementation(libs.openai.java)
+
+
 }

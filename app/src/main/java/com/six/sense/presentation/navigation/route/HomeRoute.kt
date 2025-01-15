@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.six.sense.presentation.MainViewModel
 import com.six.sense.presentation.navigation.Screens
-import com.six.sense.presentation.navigation.graph.SetupBottomNavGraph
+import com.six.sense.presentation.navigation.graph.SetupSideNavGraph
 import kotlinx.coroutines.flow.mapNotNull
 
 /**
@@ -32,7 +32,7 @@ fun NavGraphBuilder.homeRoute(
         val currentDestination by navControllerBottomBar.currentBackStackEntryFlow.mapNotNull { it.destination.route?.split(".")?.lastOrNull() }
             .collectAsStateWithLifecycle("")
 
-        SetupBottomNavGraph(
+        SetupSideNavGraph(
             startDestination = Screens.Home,
             currentDestination = currentDestination,
             onDestinationChanged  = {destination->

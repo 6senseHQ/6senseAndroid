@@ -1,10 +1,14 @@
 package com.six.sense.presentation.base
 
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -15,20 +19,18 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class BaseViewModel: ViewModel() {
 
-    var lastDialog : AlertDialog.Builder? = null
-
     /**
      * SharedFlow for default error messages.
      */
-    val errorFlow= MutableSharedFlow<String?>()
+    val errorFlow= MutableSharedFlow<String>()
     /**
      * SharedFlow for success messages.
      */
-    val successFlow= MutableSharedFlow<String?>()
+    val successFlow= MutableSharedFlow<String>()
     /**
      * SharedFlow for loading state.
      */
-    val loadingFlow = MutableSharedFlow<Boolean>()
+    val loadingFlow = MutableStateFlow(false)
 
 
     protected val mainContext: CoroutineContext = Dispatchers.Main
@@ -56,19 +58,23 @@ abstract class BaseViewModel: ViewModel() {
     ): Job {
         return viewModelScope.launch(dispatcher + coroutineExceptionHandler) {
             try {
-                if(showLoading) loadingFlow.emit(true)
+                if(showLoading)
+                    loadingFlow.value = true
                 block()
             } finally {
-                if(showLoading) loadingFlow.emit(false)
+                if(showLoading)
+                    loadingFlow.value = false
             }
         }
     }
 
     private fun sendError(throwable: Throwable) {
-        launch(mainContext) {
+        launch(mainContext, showLoading = false) {
             throwable.printStackTrace()
-            if(throwable.message?.contains("handler", true) == true) return@launch
-            errorFlow.emit(throwable.message)
+            if(throwable.message?.equals("null", true) == true) return@launch
+            throwable.message?.let {
+                errorFlow.emit(it)
+            }
         }
     }
 

@@ -2,6 +2,8 @@ package com.six.sense.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.data.repo.AuthRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
@@ -112,5 +114,14 @@ object NetworkModule {
     @Singleton
     fun provideConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver =
         ConnectivityObserver(context)
+
+    @Provides
+    @Singleton
+    fun provideOpenAIClient(): OpenAIClient =
+        OpenAIOkHttpClient.builder()
+            .apiKey(Constants.OPENAI_API_KEY)
+            .organization(Constants.OPENAI_ORG_ID)
+            .project(Constants.OPENAI_PROJECT_ID)
+            .build()
 
 }

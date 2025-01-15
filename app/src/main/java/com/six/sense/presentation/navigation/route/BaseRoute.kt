@@ -26,7 +26,7 @@ fun NavGraphBuilder.baseRoute(
             },
             onDismissRequest = {
                 navController.popBackStack()
-                               },
+            },
             confirmButton = {
                 Button(onClick = { navController.popBackStack() }) {
                     Text(text = "Close")

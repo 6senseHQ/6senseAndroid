@@ -26,10 +26,15 @@ ktor = "3.0.3"
 chucker = "4.1.0"
 gson = "2.11.0"
 datastore = "1.1.1"
+openaiJava = "0.11.2"
 room = "2.6.1"
 slf4jAndroid = "1.7.36"
 sdpAndroid = "1.1.1"
 androidxWork = "2.10.0"
+material3WindowSizeClass = "1.3.1"
+adaptiveAndroid = "1.1.0-alpha08"
+material3AdaptiveAndroid = "1.0.0-alpha06"
+uiViewbinding = "1.7.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -110,6 +115,13 @@ google-identity = { module = "com.google.android.libraries.identity.googleid:goo
 #fb auth
 facebook-android-sdk = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebookAndroidSdk" }
 
+#openai
+openai-java = { module = "com.openai:openai-java", version.ref = "openaiJava" }
+#androidx-material3-adaptive-android = { group = "androidx.compose.material3", name = "material3-adaptive-android", version.ref = "material3AdaptiveAndroid" }
+androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
+androidx-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "uiViewbinding" }
+#androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
+
 [bundles]
 compose-ui = [
     "androidx-core-ktx",
@@ -118,6 +130,7 @@ compose-ui = [
     "androidx-ui-graphics",
     "androidx-ui-tooling-preview",
     "androidx-material3",
+    "androidx-adaptive-android",
     "androidx-lifecycle-runtime-ktx",
     "androidx-lifecycle-runtime-compose"
 ]

@@ -1,6 +1,7 @@
 package com.six.sense
 
 import android.app.Application
+import com.facebook.FacebookSdk
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -10,6 +11,7 @@ import dagger.hilt.android.HiltAndroidApp
 class SixSenseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        FacebookSdk.sdkInitialize(applicationContext)
         // Initialize any necessary libraries or components here
     }
 

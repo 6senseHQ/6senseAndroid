@@ -1,7 +1,6 @@
 package com.six.sense.domain.repo
 
 import android.app.Activity
-import com.facebook.CallbackManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -29,9 +28,8 @@ interface AuthRepo {
 
     /**
      * Signs in a user using Facebook Login.
-     * @param fbLoginBtn The Facebook login button.
-     * @param callbackManager The Facebook callback manager.
+     * @param button The Facebook login button.
      * @return [LoginResult] containing the result of the Facebook login attempt.
      */
-    suspend fun fbLogin(fbLoginBtn: LoginButton, callbackManager: CallbackManager): LoginResult
+    suspend fun facebookSignIn(button: LoginButton): LoginResult
 }

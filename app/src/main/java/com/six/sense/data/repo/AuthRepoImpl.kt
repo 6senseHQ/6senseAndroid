@@ -82,40 +82,35 @@ class AuthRepoImpl(
             val request = GetCredentialRequest.Builder()
                 .addCredentialOption(signInGoogleOption)
                 .build()
-            val result = CredentialManager
-                .create(activity)
-                .getCredential(activity, request)
-            suspendCancellableCoroutine { continuation ->
-                try {
-                    val credential = result.credential
-                    if (credential is CustomCredential &&
-                        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
-                    ) {
-                        val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                        continuation.resume(googleCredential)
-                    } else
-                        error("Only Google Account Allowed")
-                } catch (e: GetCredentialCancellationException) {
-                    e.printStackTrace()
-                    if (e.type == GetCredentialException.TYPE_USER_CANCELED)
-                        error("null")
-                    else
-                        continuation.resumeWithException(e)
-                }
+            try {
+                val result = CredentialManager
+                    .create(activity)
+                    .getCredential(activity, request)
+                val credential = result.credential
+                if (credential is CustomCredential &&
+                    credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                ) {
+                    val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                    googleCredential
+                } else
+                    error("Only Google Account Allowed")
+            } catch (e: GetCredentialCancellationException) {
+                if (e.type == GetCredentialException.TYPE_USER_CANCELED) error("null")
+                else throw e
             }
         }
 
-    override suspend fun fbLogin(
-        fbLoginBtn: LoginButton,
-        callbackManager: CallbackManager
+    private val callbackManager by lazy { CallbackManager.Factory.create() }
+
+    override suspend fun facebookSignIn(
+        button: LoginButton,
     ): LoginResult = withContext(dispatcher) {
         if (!connectivity.isNetworkAvailable)
             error("No Internet Connection")
         suspendCancellableCoroutine { continuation ->
-            fbLoginBtn.permissions = listOf("public_profile", "user_link")
+            button.permissions = listOf("public_profile", "user_link")
 
-            fbLoginBtn.registerCallback(callbackManager, object :
-                FacebookCallback<LoginResult> {
+            button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
                     Log.d("TAG1", "facebook:onSuccess:${result.accessToken} $result ")
                     continuation.resume(result)
@@ -124,7 +119,7 @@ class AuthRepoImpl(
                 override fun onCancel() {
                     Log.d("TAG2", "facebook:onCancel")
                     //"Canceled by user."
-                    error("null")
+                    continuation.resumeWithException(Exception("null"))
                 }
 
                 override fun onError(error: FacebookException) {

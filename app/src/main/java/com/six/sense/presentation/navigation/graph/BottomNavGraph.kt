@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.six.sense.presentation.navigation.MainScreenType
 import com.six.sense.presentation.navigation.component.BottomBar
-import com.six.sense.presentation.navigation.route.profileRoute
+import com.six.sense.presentation.navigation.route.navDrawerRoute
 
 /**
  * A composable function that sets up the bottom navigation graph.
@@ -50,8 +50,7 @@ fun SetupBottomNavGraph(
 //            chatRoute(
 //
 //            )
-            profileRoute(
-                modifier = paddingModifier,
+            navDrawerRoute(
                 navController = navController
             )
         }
