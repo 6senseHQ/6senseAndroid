@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">6sense Android</string>
+    <string name="app_name">6sense</string>
     <string name="facebook_app_id">660377585299971</string>
     <string name="fb_login_protocol_scheme">fb660377585299971</string>
     <string name="facebook_client_token">87f984dc5e7955c044299324404a303a</string>

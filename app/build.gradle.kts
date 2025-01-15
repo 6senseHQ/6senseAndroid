@@ -123,8 +123,7 @@ dependencies {
     implementation(libs.androidx.work.multiprocess)
 
     //dimen sdp ssp
-    implementation(libs.sdp.android)
-    implementation(libs.ssp.android)
+    implementation(libs.sdp.compose)
 
     implementation(libs.androidx.material.icons.extended)
 

@@ -28,6 +28,7 @@ gson = "2.11.0"
 datastore = "1.1.1"
 openaiJava = "0.11.2"
 room = "2.6.1"
+sdpCompose = "1.1.0"
 slf4jAndroid = "1.7.36"
 sdpAndroid = "1.1.1"
 androidxWork = "2.10.0"
@@ -103,8 +104,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 androidx-work-multiprocess = { group = "androidx.work", name = "work-multiprocess", version.ref = "androidxWork" }
 
-sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
-ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sdpAndroid" }
+sdp-compose = { module = "com.github.Kaaveh:sdp-compose", version.ref = "sdpCompose" }
 
 #google auth
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }

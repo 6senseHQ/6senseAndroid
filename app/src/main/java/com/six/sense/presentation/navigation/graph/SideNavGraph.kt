@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import com.six.sense.R
 import com.six.sense.presentation.navigation.MainScreenType
 import com.six.sense.presentation.navigation.route.navDrawerRoute
+import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
 
 /**
@@ -59,16 +61,18 @@ fun SetupSideNavGraph(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
+                    title = { Text(currentDestination) },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            coroutineScope.launch {
-                                drawerState.apply {
-                                    if (isClosed) open() else close()
+                        if(windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED) {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    drawerState.apply {
+                                        if (isClosed) open() else close()
+                                    }
                                 }
+                            }) {
+                                Icon(Icons.Default.Menu, contentDescription = "Menu")
                             }
-                        }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     }
                 )
@@ -80,29 +84,29 @@ fun SetupSideNavGraph(
             ) {
                 navDrawerRoute(
                     navController = navController,
-                    modifier = Modifier.fillMaxSize().padding(paddingValues)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
                 )
             }
         }
     }
     val drawerContent: @Composable () -> Unit = {
-        ModalDrawerSheet{
-            Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.headlineSmall)
-            HorizontalDivider(modifier = Modifier.padding(5.dp))
-            MainScreenType.entries.forEach{  destination ->
-                NavigationDrawerItem(
-                    icon = { Icon(destination.icon, contentDescription = destination.name) },
-                    label = { Text(destination.name) },
-                    selected = currentDestination == destination.name,
-                    onClick = {
-                        onDestinationChanged(destination)
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-                    },
-                    modifier = Modifier.padding(5.dp)
-                )
-            }
+        Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.headlineSmall)
+        HorizontalDivider(modifier = Modifier.padding(5.dp))
+        MainScreenType.entries.forEach{  destination ->
+            NavigationDrawerItem(
+                icon = { Icon(destination.icon, contentDescription = destination.name) },
+                label = { Text(destination.name) },
+                selected = currentDestination == destination.name,
+                onClick = {
+                    onDestinationChanged(destination)
+                    coroutineScope.launch {
+                        drawerState.close()
+                    }
+                },
+                modifier = Modifier.padding(6.sdp)
+            )
         }
     }
 
@@ -111,7 +115,9 @@ fun SetupSideNavGraph(
         WindowWidthSizeClass.COMPACT, WindowWidthSizeClass.MEDIUM -> {
             // Use ModalNavigationDrawer for compact and medium screens
             ModalNavigationDrawer(
-                drawerContent = drawerContent,
+                drawerContent = {
+                    ModalDrawerSheet { drawerContent() }
+                },
                 drawerState = drawerState,
                 gesturesEnabled = true, // Allow swipe gestures to open/close the drawer
                 content = mainContent
@@ -121,7 +127,9 @@ fun SetupSideNavGraph(
         WindowWidthSizeClass.EXPANDED -> {
             // Use PermanentNavigationDrawer for expanded screens (e.g., tablets in landscape mode)
             PermanentNavigationDrawer(
-                drawerContent = drawerContent,
+                drawerContent = {
+                    PermanentDrawerSheet { drawerContent() }
+                },
                 content = mainContent
             )
         }
