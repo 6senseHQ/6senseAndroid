@@ -11,7 +11,6 @@ import dagger.hilt.android.HiltAndroidApp
 class SixSenseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        FacebookSdk.sdkInitialize(applicationContext)
         // Initialize any necessary libraries or components here
     }
 
