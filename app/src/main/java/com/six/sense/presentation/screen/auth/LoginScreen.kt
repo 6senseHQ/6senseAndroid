@@ -24,6 +24,15 @@ import com.six.sense.databinding.FbLoginBtnBinding
 import com.six.sense.databinding.GoogleLoginBtnBinding
 import com.six.sense.ui.theme.SixSenseAndroidTheme
 
+/**
+ * A composable function that renders the login screen.
+ *
+ * This screen provides options for users to log in using Facebook or Google.
+ *
+ * @param onClickFacebookLogin A callback function that is invoked when the Facebook login button is clicked.
+ * @param onClickGoogleLogin A callback function that is invoked when the Google login button is clicked.
+ * @param modifier Modifier for the layout.
+ */
 @SuppressLint("InflateParams")
 @Composable
 fun LoginScreen(
@@ -66,6 +75,9 @@ fun LoginScreen(
     }
 }
 
+/**
+ * A preview composable function for the LoginScreen.
+ */
 @Preview(showBackground = true)
 @Composable
 fun Previews() {

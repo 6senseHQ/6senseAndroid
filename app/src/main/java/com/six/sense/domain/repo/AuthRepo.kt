@@ -15,7 +15,7 @@ interface AuthRepo {
     /**
      * Signs in a user using Firebase authentication.
      * @param credential The authentication credential.
-     * @return [UserInfo] object containing user details.
+     * @return [FirebaseUser] object containing user details.
      */
     suspend fun firebaseSignIn(credential: Any): FirebaseUser
 

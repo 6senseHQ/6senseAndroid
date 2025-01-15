@@ -2,18 +2,38 @@ package com.six.sense.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import com.openai.client.OpenAIClient
-import com.openai.models.*
+import com.openai.models.AssistantTool
+import com.openai.models.BetaAssistantCreateParams
+import com.openai.models.BetaThreadRunCreateParams
+import com.openai.models.ChatCompletion
+import com.openai.models.ChatCompletionCreateParams
+import com.openai.models.ChatCompletionMessageParam
+import com.openai.models.ChatCompletionUserMessageParam
+import com.openai.models.ChatModel
+import com.openai.models.FunctionTool
+import com.openai.models.ModelListParams
 import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+/**
+ * ViewModel for the main screen of the application.
+ *
+ * This ViewModel manages the state and logic for the main screen, including interactions with the OpenAI API.
+ *
+ * @property savedStateHandle SavedStateHandle for managing state across configuration changes.
+ * @property openAIClient The client for interacting with the OpenAI API.
+ */
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val openAIClient: OpenAIClient
 ) : BaseViewModel() {
 
+    /**
+     * A function to test the OpenAI API.
+     */
     fun testOpenAI(){
         launch(ioContext){
             val assistantId= openAIClient.beta().assistants().create(

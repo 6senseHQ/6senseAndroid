@@ -27,6 +27,19 @@ import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.presentation.navigation.Screens
 import kotlinx.coroutines.launch
 
+/**
+ * An extension function for [NavGraphBuilder] that creates a composable destination with a ViewModel.
+ *
+ * This function simplifies the process of creating composable destinations that require a ViewModel.
+ * It automatically handles the creation of the ViewModel, loading state, error handling, and success messages.
+ *
+ * @receiver NavGraphBuilder
+ * @param T The type of the destination.
+ * @param VM The type of the ViewModel associated with the destination.
+ * @param navController The NavController for navigation.
+ * @param content The composable content to be displayed for this destination.
+ *   It receives a [BaseContent] object containing the ViewModel and other necessary components.
+ */
 inline fun <reified T : Any, reified VM : BaseViewModel> NavGraphBuilder.composableWithVM(
     navController: NavController,
     crossinline content: @Composable (BaseContent<VM>.(NavBackStackEntry) -> Unit)
@@ -65,6 +78,13 @@ inline fun <reified T : Any, reified VM : BaseViewModel> NavGraphBuilder.composa
     }
 }
 
+/**
+ * A composable function that displays a loading layout.
+ *
+ * This layout shows a circular progress indicator on top of a semi-transparent background.
+ *
+ * @param modifier Modifier for the layout.
+ */
 @Composable
 fun LoadingLayout(modifier: Modifier = Modifier) {
     Box(
@@ -77,9 +97,24 @@ fun LoadingLayout(modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Data class that holds the base content for a composable destination.
+ *
+ * @property animatedContentScope The AnimatedContentScope for animations.
+ * @property viewModel The ViewModel associated with the destination.
+ * @property mainViewModel The MainViewModel for the application.
+ */
 data class BaseContent<VM : BaseViewModel>(
+    /**
+     * The AnimatedContentScope for animations.
+     */
     val animatedContentScope: AnimatedContentScope,
+    /**
+     * The ViewModel associated with the destination.
+     */
     val viewModel: VM,
+    /**
+     * The MainViewModel for the application.
+     */
     val mainViewModel: MainViewModel,
 )
-
