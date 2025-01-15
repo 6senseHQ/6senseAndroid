@@ -26,7 +26,7 @@ fun ChatTextField(
         modifier = modifier, value = chatText, onValueChange = setChatText,
         colors = TextFieldDefaults.colors(focusedIndicatorColor = Transparent, unfocusedIndicatorColor = Transparent),
         shape = RoundedCornerShape(28.dp),
-        placeholder = {Text(text = "Message", style = MaterialTheme.typography.bodySmall) },
-        textStyle = MaterialTheme.typography.bodySmall
+        placeholder = {Text(text = "Message", style = MaterialTheme.typography.bodyMedium) },
+        textStyle = MaterialTheme.typography.bodyMedium
     )
 }

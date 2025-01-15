@@ -55,7 +55,7 @@ fun ChatMessageItem(modifier: Modifier = Modifier, itemResponseText: String = "H
             Text(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 text = itemResponseText.trim(' ', '.'),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }

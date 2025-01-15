@@ -134,4 +134,10 @@ dependencies {
     implementation(libs.openai.java)
 
 
+
+    //MockK Android
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.mockk.agent)
+    testImplementation(libs.google.truth)
 }

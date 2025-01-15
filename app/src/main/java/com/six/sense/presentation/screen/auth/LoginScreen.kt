@@ -54,14 +54,14 @@ fun LoginScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 80.dp)
         )
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             AndroidViewBinding(
                 factory = FbLoginBtnBinding::inflate,
                 update = {
                     onClickFacebookLogin(loginButton)
                 }
             )
-            Text(text = "or", modifier = Modifier.padding(top=5.dp, bottom = 8.dp))
+            Text(text = "or")
             AndroidViewBinding(
                 factory = { li, vg, atr ->
                     GoogleLoginBtnBinding.inflate(li, vg, atr).apply {
