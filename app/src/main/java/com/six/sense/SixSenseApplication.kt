@@ -1,7 +1,11 @@
 package com.six.sense
 
 import android.app.Application
-import com.facebook.FacebookSdk
+import android.app.NotificationManager
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.six.sense.presentation.screen.worker.setupWorkManagerOnAppStart
+import com.six.sense.utils.AppNotifications
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -11,7 +15,6 @@ import dagger.hilt.android.HiltAndroidApp
 class SixSenseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        // Initialize any necessary libraries or components here
+        setupWorkManagerOnAppStart(this)
     }
-
 }
