@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
 }
 
 android {
@@ -66,7 +67,7 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1,INDEX.LIST,DEPENDENCIES}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,INDEX.LIST,DEPENDENCIES,LICENSE.md,LICENSE-notice.md}"
             excludes += "mozilla/public-suffix-list.txt"
         }
     }
@@ -76,10 +77,10 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.ui)
     implementation(libs.androidx.ui.viewbinding)
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.androidx.test)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(libs.bundles.compose.debug)
+    debugImplementation(libs.bundles.androidx.debug.test)
 
     // firebase
     implementation(platform(libs.firebase.bom))
@@ -133,11 +134,4 @@ dependencies {
 
     implementation(libs.openai.java)
 
-
-
-    //MockK Android
-    testImplementation(libs.mockk)
-    androidTestImplementation(libs.mockk.android)
-    androidTestImplementation(libs.mockk.agent)
-    testImplementation(libs.google.truth)
 }

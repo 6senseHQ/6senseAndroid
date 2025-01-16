@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 }
 
@@ -18,7 +19,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        maven("https://jitpack.io")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 }
 
