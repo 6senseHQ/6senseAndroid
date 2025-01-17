@@ -84,6 +84,7 @@ ktor-client-negotiation = { module = "io.ktor:ktor-client-content-negotiation", 
 ktor-client-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
+ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 
 #chucker
 chucker-library = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
@@ -155,6 +156,7 @@ ktor = [
     "ktor-client-serialization-kotlinx-json",
     "ktor-client-logging",
     "slf4j-android",
+    "ktor-auth"
 ]
 firebase = [
     "firebase-auth",

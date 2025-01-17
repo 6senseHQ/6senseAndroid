@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.six.sense.presentation.screen.materialComponents.materialBottomNav.MaterialBottomNavigation
+import com.six.sense.presentation.screen.materialComponents.materialList.MaterialList
 import com.six.sense.presentation.screen.materialComponents.primaryTab.PrimaryTabItems
 import com.six.sense.presentation.screen.materialComponents.textFields.MaterialTextFields
 import com.six.sense.ui.theme.SixSenseAndroidTheme
@@ -39,10 +41,11 @@ fun ComponentsScreen(modifier: Modifier = Modifier) {
                     selectedTabIndex = selectedTabIndex,
                     onClick = { selectedTabIndex = it })
             }
-            HorizontalPager(state = pagerState) { pagerItems ->
+            HorizontalPager(state = pagerState,userScrollEnabled = false) { pagerItems ->
                 when (selectedTabIndex) {
                     0 -> MaterialTextFields()
-                    1 -> Text(text = "BottomAppBar")
+                    1 -> MaterialList()
+                    2 -> MaterialBottomNavigation()
                 }
             }
         }
