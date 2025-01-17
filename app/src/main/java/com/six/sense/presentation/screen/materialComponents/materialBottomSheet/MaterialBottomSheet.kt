@@ -1,5 +1,6 @@
 package com.six.sense.presentation.screen.materialComponents.materialBottomSheet
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,36 +33,50 @@ fun MaterialBottomSheet(modifier: Modifier = Modifier) {
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
+                text = { Text("Show sheet") },
                 icon = { Icon(Icons.Outlined.Add, contentDescription = "") },
                 onClick = { showBottomSheet = true }
             )
         }
     ) { contentPadding ->
-
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
-                onDismissRequest = {
-                    showBottomSheet = false
-                },
-                sheetState = sheetState
-            ) {
-                // Sheet content
-                Button(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally), onClick = {
-                        scope.launch { sheetState.hide() }.invokeOnCompletion {
-                            if (!sheetState.isVisible) { showBottomSheet = false }
-                        }
-                    }) {
-                    Text(
-                        text = "Hide bottom sheet"
-                    )
+        Column(
+            modifier = Modifier
+                .padding(contentPadding)
+        ) {
+            ComponentInfo(
+                modifier = Modifier,
+                title = "Bottom sheets",
+                description = arrayOf(
+                    "Bottom sheets show secondary content anchored to the bottom of the screen",
+                    "",
+                    "Bottom sheets can be dismissed in order to interact with the main content",
+                    "",
+                    "Modal bottom sheets are above a scrim while standard bottom sheets don't have a scrim. Besides this, both types of bottom sheets have the same specs."
+                )
+            )
+            if (showBottomSheet)
+                ModalBottomSheet(
+                    modifier = Modifier.fillMaxSize(),
+                    onDismissRequest = {
+                        showBottomSheet = false
+                    },
+                    sheetState = sheetState
+                ) {
+                    // Sheet content
+                    Button(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally), onClick = {
+                            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    showBottomSheet = false
+                                }
+                            }
+                        }) {
+                        Text(
+                            text = "Hide bottom sheet"
+                        )
+                    }
                 }
-            }
         }
     }
 }

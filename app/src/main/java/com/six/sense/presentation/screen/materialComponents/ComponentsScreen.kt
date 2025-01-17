@@ -53,7 +53,7 @@ fun ComponentsScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 private fun DefPrev() {
     SixSenseAndroidTheme {
