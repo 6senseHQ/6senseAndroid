@@ -132,6 +132,14 @@ $dokka.location:com.six.sense.presentation.screen.chat////PointingToDeclaration/
 $dokka.location:com.six.sense.presentation.screen.chat//ChatView/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat/-chat-view.html
 $dokka.location:com.six.sense.presentation.screen.chat/ChatViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat/-chat-view-model/index.html
 $dokka.location:com.six.sense.presentation.screen.chat/ChatViewModel/ChatViewModel/#androidx.lifecycle.SavedStateHandle/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat/-chat-view-model/-chat-view-model.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.primaryTab////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.primaryTab/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.primaryTab//PrimaryTabItems/#androidx.compose.ui.Modifier#kotlin.Int#kotlin.Function1[kotlin.Int,kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.primaryTab/-primary-tab-items.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.textFields////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.textFields/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.textFields//MaterialTextFields/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.textFields/-material-text-fields.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents//ComponentsScreen/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-components-screen.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents/MaterialComponents///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-material-components/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents/MaterialComponents/componentsList/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-material-components/components-list.html
 $dokka.location:com.six.sense.presentation.screen.profile////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/index.html
 $dokka.location:com.six.sense.presentation.screen.profile/ProfileViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-profile-view-model/index.html
 $dokka.location:com.six.sense.presentation.screen.profile/ProfileViewModel/ProfileViewModel/#androidx.lifecycle.SavedStateHandle/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-profile-view-model/-profile-view-model.html
@@ -209,6 +217,9 @@ com.six.sense.presentation.navigation.route
 com.six.sense.presentation.screen.auth
 com.six.sense.presentation.screen.chat
 com.six.sense.presentation.screen.chat.components
+com.six.sense.presentation.screen.materialComponents
+com.six.sense.presentation.screen.materialComponents.primaryTab
+com.six.sense.presentation.screen.materialComponents.textFields
 com.six.sense.presentation.screen.profile
 com.six.sense.presentation.screen.worker
 com.six.sense.ui.theme

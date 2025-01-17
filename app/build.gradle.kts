@@ -171,6 +171,6 @@ dokka {
         footerMessage.set("(c) 2025 6sense Technology")
     }
     dokkaPublications.html {
-        outputDirectory.set(file("../documentation"))
+        outputDirectory.set(file("../docs"))
     }
 }
