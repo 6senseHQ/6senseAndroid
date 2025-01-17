@@ -3,9 +3,11 @@ package com.six.sense.presentation.navigation.route
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.screen.chat.ChatView
 import com.six.sense.presentation.screen.chat.ChatViewModel
+import com.six.sense.presentation.screen.materialComponents.ComponentsScreen
 import com.six.sense.presentation.screen.profile.ProfileViewModel
 import com.six.sense.utils.composableWithVM
 
@@ -21,5 +23,8 @@ fun NavGraphBuilder.navDrawerRoute(
     }
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController){
         ChatView(modifier = modifier)
+    }
+    composable<Screens.Home.MaterialComponents>{
+        ComponentsScreen(modifier = modifier)
     }
 }

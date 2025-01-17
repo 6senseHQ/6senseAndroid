@@ -1,6 +1,7 @@
 package com.six.sense.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person3
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,6 +25,10 @@ object Screens {
          * Represents the chat sub-screen within the home screen.
          */
         @Serializable object Chat
+        /**
+         * Represents the MaterialComponents sub-screen within the home screen.
+         */
+        @Serializable object MaterialComponents
         /**
          * Represents the profile sub-screen within the home screen.
          */
@@ -55,6 +60,10 @@ enum class MainScreenType(val icon: ImageVector, val route: Any) {
      * Represents the chat screen.
      */
     Chat(icon = Icons.Rounded.Home, route = Screens.Home.Chat),
+    /**
+     * Represents the MaterialComponents screen.
+     */
+    MaterialComponents(icon = Icons.Rounded.Category, route = Screens.Home.MaterialComponents),
     /**
      * Represents the profile screen.
      */
