@@ -28,7 +28,7 @@ object Screens {
         /**
          * Represents the MaterialComponents sub-screen within the home screen.
          */
-        @Serializable object MaterialComponents
+        @Serializable object Components
         /**
          * Represents the profile sub-screen within the home screen.
          */
@@ -63,7 +63,7 @@ enum class MainScreenType(val icon: ImageVector, val route: Any) {
     /**
      * Represents the MaterialComponents screen.
      */
-    MaterialComponents(icon = Icons.Rounded.Category, route = Screens.Home.MaterialComponents),
+    Components(icon = Icons.Rounded.Category, route = Screens.Home.Components),
     /**
      * Represents the profile screen.
      */

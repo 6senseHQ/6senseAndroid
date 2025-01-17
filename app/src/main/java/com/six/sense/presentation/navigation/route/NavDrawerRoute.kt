@@ -24,7 +24,7 @@ fun NavGraphBuilder.navDrawerRoute(
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController){
         ChatView(modifier = modifier)
     }
-    composable<Screens.Home.MaterialComponents>{
+    composable<Screens.Home.Components>{
         ComponentsScreen(modifier = modifier)
     }
 }
