@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.DataUsage
@@ -102,10 +101,7 @@ fun MaterialList(modifier: Modifier = Modifier) {
                     leadingIconColor = MaterialTheme.colorScheme.primary
                 ),
                 trailingContent = {
-                    Icon(
-                        Icons.AutoMirrored.Outlined.ArrowForward,
-                        null
-                    )
+                    Text(text = "100+", style = MaterialTheme.typography.labelSmall)
                 }
             )
         }

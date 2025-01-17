@@ -5,8 +5,8 @@ object MaterialComponents {
         "TextFields",
         "Material ListItem",
         "Bottom Navigation",
-        "Top AppBar",
         "Bottom Sheet",
+        "Top AppBar",
         "Primary Tab",
         "Primary Scrollable Tab"
     )
