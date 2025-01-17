@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -134,4 +136,41 @@ dependencies {
 
     implementation(libs.openai.java)
 
+    dokkaPlugin(libs.android.documentation.plugin)
+//    implementation(libs.dokka.android.gradle.plugin)
+
+}
+
+dokka {
+    moduleName.set(rootProject.name + " Documentation")
+    moduleVersion.set(ProjectConfig.versionName)
+
+    dokkaSourceSets.main {
+        sourceRoots.from(file("app/src/main/java"))
+        jdkVersion.set(ProjectConfig.javaVersion.toString().toInt())
+        documentedVisibilities(
+            VisibilityModifier.Public,
+            VisibilityModifier.Protected,
+            VisibilityModifier.Package
+        )
+        sourceLink {
+            localDirectory.set(file("app/src/main/java"))
+            remoteUrl("https://github.com/6sense-Bangladesh/ome-android/tree/ome-dev/app/src/main/java")
+            remoteLineSuffix.set("#L")
+        }
+    }
+    dokkaSourceSets.configureEach {
+        if(name != "main")
+            suppress.set(true)
+        suppressGeneratedFiles = true
+        println(name)
+    }
+
+    pluginsConfiguration.html {
+//        customAssets.from("logo.png")
+        footerMessage.set("(c) 2025 6sense Technology")
+    }
+    dokkaPublications.html {
+        outputDirectory.set(file("../documentation"))
+    }
 }
