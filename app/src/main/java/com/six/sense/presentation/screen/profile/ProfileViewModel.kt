@@ -1,8 +1,6 @@
 package com.six.sense.presentation.screen.profile
 
 import androidx.lifecycle.SavedStateHandle
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.local.datastore.StoreKeys
 import com.six.sense.domain.model.UserInfo
@@ -30,9 +28,4 @@ class ProfileViewModel @Inject constructor(
             savedStateHandle[StoreKeys.USER_INFO] = dataStoreManager.read(StoreKeys.USER_INFO, UserInfo())
         }
     }
-
-    fun signOut() {
-        Firebase.auth.signOut()
-    }
-
 }

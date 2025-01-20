@@ -97,7 +97,7 @@ class AuthRepoImpl(
                         email = googleCredential.id,
                         name = googleCredential.displayName,
                         phone = googleCredential.phoneNumber,
-                        photoUrl = googleCredential.profilePictureUri.toString()
+                        photoUrl = googleCredential.profilePictureUri.toString().replace("=s96", "=s384")
                     ))
                     googleCredential
                 } else

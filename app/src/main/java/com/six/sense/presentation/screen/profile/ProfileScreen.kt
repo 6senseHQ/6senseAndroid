@@ -50,20 +50,19 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.android.billingclient.api.SkuDetails
 import com.six.sense.domain.model.UserInfo
-import com.stripe.android.paymentsheet.PaymentSheetResult
-import com.stripe.android.paymentsheet.rememberPaymentSheet
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
-    userInfo: UserInfo,
     modifier: Modifier = Modifier,
-    onLogoutClicked: () -> Unit,
+    userInfo: UserInfo = UserInfo(),
+    onLogoutClicked: () -> Unit = {},
 ) {
     val activity = LocalActivity.current as Activity
     val context: Context = LocalContext.current
@@ -74,9 +73,7 @@ fun ProfileScreen(
             MaterialTheme.colorScheme.surface
         )
     )
-    val paymentSheet = rememberPaymentSheet(::onPaymentSheetResult)
     val scope = rememberCoroutineScope()
-
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -225,9 +222,6 @@ fun ProfileScreen(
     }
 }
 
-fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
-
-}
 
 @Composable
 fun PaymentItem(
@@ -268,4 +262,10 @@ fun PaymentItem(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun ProfileScreenPreview() {
+    ProfileScreen()
 }
