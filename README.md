@@ -43,7 +43,6 @@ A boilerplate android project for future use to make the development quicker.
     │  ├─ domain
     │  │  ├─ model
     │  │  └─ repo
-        ConnectivityObserver
     │  ├─ presentation
     │  │  ├─ base
     │  │  ├─ navigation
@@ -55,7 +54,8 @@ A boilerplate android project for future use to make the development quicker.
     │  │  ├─ profile
     │  │  └─ worker
     │  ├─ utils
-    SixSenseApplication
+    buildSrc
+
 ## Authors
 
 - [@AhmadUmarMahdi](https://github.com/AhmadUmarMahdi)
