@@ -1,5 +1,6 @@
 package com.six.sense.presentation.screen.profile
 
+import android.content.Context
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -51,13 +54,16 @@ import com.six.sense.domain.model.UserInfo
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.rememberPaymentSheet
 import ir.kaaveh.sdpcompose.sdp
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
     userInfo: UserInfo,
     modifier: Modifier = Modifier,
-    onLogoutClicked: () -> Unit
+    onLogoutClicked: () -> Unit,
 ) {
+    val context: Context = LocalContext.current
+    val googlePlayBillingManager: BillingManager = BillingManager(context)
     val gradient = Brush.verticalGradient(
         colors = listOf(
             MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
@@ -65,6 +71,7 @@ fun ProfileScreen(
         )
     )
     val paymentSheet = rememberPaymentSheet(::onPaymentSheetResult)
+    val scope = rememberCoroutineScope()
 
 
     Box(
@@ -163,11 +170,22 @@ fun ProfileScreen(
 
             Column(modifier = Modifier.padding(vertical = 25.sdp)) {
                 PaymentItem("Pay with Stripe", onClick = {})
-                PaymentItem("Pay with Play In-App", onClick = {})
+                PaymentItem("Pay with Play In-App", onClick = {
+                    scope.launch {
+                        googlePlayBillingManager.startConnection {
+                            googlePlayBillingManager.queryProducts(listOf("product_id")) { skuDetailsList ->
+                                val skuDetails = skuDetailsList.firstOrNull()
+                                if (skuDetails != null) {
+                                    paymentSheet.presentWithPaymentIntent(skuDetails.sku)
+                                }
+                            }
+                        }
+                    }
+                })
             }
 
             Button(
-                onClick =onLogoutClicked,
+                onClick = onLogoutClicked,
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(40.sdp)
@@ -208,7 +226,7 @@ fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
 fun PaymentItem(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier

@@ -22,6 +22,11 @@ import androidx.compose.ui.Modifier
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 import ir.kaaveh.sdpcompose.sdp
 
+/**
+ * Material top bar.
+ *
+ * @param modifier
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialTopBar(modifier: Modifier = Modifier) {
