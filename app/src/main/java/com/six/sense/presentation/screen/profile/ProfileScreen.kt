@@ -1,6 +1,8 @@
 package com.six.sense.presentation.screen.profile
 
+import android.app.Activity
 import android.content.Context
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,6 +52,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.android.billingclient.api.SkuDetails
 import com.six.sense.domain.model.UserInfo
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.rememberPaymentSheet
@@ -62,6 +65,7 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     onLogoutClicked: () -> Unit,
 ) {
+    val activity = LocalActivity.current as Activity
     val context: Context = LocalContext.current
     val googlePlayBillingManager: BillingManager = BillingManager(context)
     val gradient = Brush.verticalGradient(
@@ -176,7 +180,10 @@ fun ProfileScreen(
                             googlePlayBillingManager.queryProducts(listOf("product_id")) { skuDetailsList ->
                                 val skuDetails = skuDetailsList.firstOrNull()
                                 if (skuDetails != null) {
-                                    paymentSheet.presentWithPaymentIntent(skuDetails.sku)
+                                    googlePlayBillingManager.launchPurchaseFlow(
+                                        activity,
+                                        SkuDetails("")
+                                    )
                                 }
                             }
                         }
