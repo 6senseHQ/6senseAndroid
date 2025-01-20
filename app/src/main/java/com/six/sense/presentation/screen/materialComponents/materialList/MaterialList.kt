@@ -25,8 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 
+/**
+ * Material list
+ *
+ * @param modifier Modifier for the layout.
+ */
 @Composable
 fun MaterialList(modifier: Modifier = Modifier) {
+    /**
+     * Is switch checked.
+     */
     var isSwitchChecked by remember { mutableStateOf(false) }
     Column(
         modifier

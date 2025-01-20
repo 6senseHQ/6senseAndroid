@@ -22,20 +22,43 @@ import androidx.compose.ui.util.fastForEachIndexed
 import com.six.sense.R
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 
+/**
+ * Material bottom navigation
+ *
+ * @param modifier Modifier for the layout.
+ */
 @Composable
 fun MaterialBottomNavigation(modifier: Modifier = Modifier) {
+    /**
+     * Selected index with label.
+     */
     var selectedIndexWithLabel by remember { mutableIntStateOf(0) }
+
+    /**
+     * Selected index without label.
+     */
     var selectedIndexWithoutLabel by remember { mutableIntStateOf(1) }
+
+    /**
+     * Outlined icons list.
+     */
     val outlinedIcons = listOf(
         R.drawable.home_24px_out,
         R.drawable.person_24px,
         R.drawable.settings_24px
     )
+
+    /**
+     * Filled icons list.
+     */
     val filledIcons = listOf(
         R.drawable.home_24px,
         R.drawable.person_24px_fill,
         R.drawable.settings_24px_fill
     )
+    /**
+     * Labels list.
+     */
     val labels = listOf("Home", "Profile", "Settings")
 
 

@@ -17,9 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 
+/**
+ * Material text fields
+ *
+ * @param modifier Modifier for the layout.
+ */
 @Composable
 fun MaterialTextFields(modifier: Modifier = Modifier) {
+    /**
+     * Filled text field value.
+     */
     val (filledTextField, setFilledTextFieldValue) = remember { mutableStateOf("") }
+    /**
+     * Outlined text field value.
+     */
     val (outlinedTextField, setOutlinedTextFieldValue) = remember { mutableStateOf("") }
     Column(
         modifier

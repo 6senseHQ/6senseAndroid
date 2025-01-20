@@ -11,6 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Component info
+ *
+ * @param modifier Modifier for the layout.
+ * @param title Title.
+ * @param description Description.
+ */
 @Composable
 fun ComponentInfo(modifier: Modifier = Modifier, title: String, vararg description: String) {
     Column(

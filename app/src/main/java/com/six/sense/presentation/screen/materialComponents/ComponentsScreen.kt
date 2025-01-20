@@ -18,17 +18,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.six.sense.presentation.screen.materialComponents.materialBottomNav.MaterialBottomNavigation
 import com.six.sense.presentation.screen.materialComponents.materialBottomSheet.MaterialBottomSheet
 import com.six.sense.presentation.screen.materialComponents.materialList.MaterialList
+import com.six.sense.presentation.screen.materialComponents.materialTopBar.MaterialTopBar
 import com.six.sense.presentation.screen.materialComponents.primaryTab.PrimaryTabItems
 import com.six.sense.presentation.screen.materialComponents.textFields.MaterialTextFields
 import com.six.sense.ui.theme.SixSenseAndroidTheme
 
+/**
+ * Components screen.
+ *
+ * @param modifier Modifier for the layout.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComponentsScreen(modifier: Modifier = Modifier) {
     Scaffold(
-        modifier=modifier, contentWindowInsets = WindowInsets(0,0,0,0)
+        modifier = modifier, contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
+        /**
+         * Selected tab index.
+         */
         var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+        /**
+         * Pager state.
+         */
         val pagerState = rememberPagerState { MaterialComponents.componentsList.size }
         Column(
             modifier = Modifier
@@ -41,12 +54,13 @@ fun ComponentsScreen(modifier: Modifier = Modifier) {
                     selectedTabIndex = selectedTabIndex,
                     onClick = { selectedTabIndex = it })
             }
-            HorizontalPager(state = pagerState,userScrollEnabled = false) { pagerItems ->
+            HorizontalPager(state = pagerState, userScrollEnabled = false) { pagerItems ->
                 when (selectedTabIndex) {
                     0 -> MaterialTextFields()
                     1 -> MaterialList()
                     2 -> MaterialBottomNavigation()
-                    3-> MaterialBottomSheet()
+                    3 -> MaterialBottomSheet()
+                    4 -> MaterialTopBar()
                 }
             }
         }

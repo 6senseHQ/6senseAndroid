@@ -24,11 +24,25 @@ import androidx.compose.ui.Modifier
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
 import kotlinx.coroutines.launch
 
+/**
+ * Material bottom sheet.
+ *
+ * @param modifier Modifier for the layout.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialBottomSheet(modifier: Modifier = Modifier) {
+    /**
+     * Sheet state.
+     */
     val sheetState = rememberModalBottomSheetState()
+    /**
+     * Coroutine Scope.
+     */
     val scope = rememberCoroutineScope()
+    /**
+     * Show bottom sheet.
+     */
     var showBottomSheet by remember { mutableStateOf(false) }
     Scaffold(
         floatingActionButton = {
@@ -41,7 +55,6 @@ fun MaterialBottomSheet(modifier: Modifier = Modifier) {
     ) { contentPadding ->
         Column(
             modifier = Modifier
-                .padding(contentPadding)
         ) {
             ComponentInfo(
                 modifier = Modifier,
@@ -56,7 +69,7 @@ fun MaterialBottomSheet(modifier: Modifier = Modifier) {
             )
             if (showBottomSheet)
                 ModalBottomSheet(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(contentPadding).fillMaxSize(),
                     onDismissRequest = {
                         showBottomSheet = false
                     },
