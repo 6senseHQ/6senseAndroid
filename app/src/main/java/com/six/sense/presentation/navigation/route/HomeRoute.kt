@@ -1,16 +1,14 @@
 package com.six.sense.presentation.navigation.route
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.six.sense.presentation.MainViewModel
 import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.navigation.graph.SetupSideNavGraph
 import kotlinx.coroutines.flow.mapNotNull
@@ -27,8 +25,7 @@ fun NavGraphBuilder.homeRoute(
     composable<Screens.Home> {
         val context = LocalContext.current
         val navControllerBottomBar = rememberNavController()
-        val viewModel = hiltViewModel<MainViewModel>(context as ViewModelStoreOwner)
-
+        val scope = rememberCoroutineScope()
         val currentDestination by navControllerBottomBar.currentBackStackEntryFlow.mapNotNull { it.destination.route?.split(".")?.lastOrNull() }
             .collectAsStateWithLifecycle("")
 

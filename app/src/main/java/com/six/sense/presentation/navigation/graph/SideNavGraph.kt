@@ -1,5 +1,6 @@
 package com.six.sense.presentation.navigation.graph
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -56,7 +57,7 @@ fun SetupSideNavGraph(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val mainContent: @Composable () -> Unit = {
         Scaffold(
             topBar = {
@@ -65,7 +66,7 @@ fun SetupSideNavGraph(
                     navigationIcon = {
                         if(windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED) {
                             IconButton(onClick = {
-                                coroutineScope.launch {
+                                scope.launch {
                                     drawerState.apply {
                                         if (isClosed) open() else close()
                                     }
@@ -89,6 +90,10 @@ fun SetupSideNavGraph(
                         .padding(paddingValues)
                 )
             }
+            // BackHandler to handle drawer state
+            BackHandler(enabled = drawerState.isOpen) {
+                scope.launch { drawerState.close() }
+            }
         }
     }
     val drawerContent: @Composable () -> Unit = {
@@ -101,7 +106,7 @@ fun SetupSideNavGraph(
                 selected = currentDestination == destination.name,
                 onClick = {
                     onDestinationChanged(destination)
-                    coroutineScope.launch {
+                    scope.launch {
                         drawerState.close()
                     }
                 },

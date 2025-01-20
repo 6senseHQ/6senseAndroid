@@ -1,12 +1,12 @@
 [versions]
 agp = "8.8.0"
 appUpdate = "2.1.0"
-facebookAndroidSdk = "17.0.2"
+facebookAndroidSdk = "18.0.0"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 coreKtx = "1.15.0"
 credentials = "1.3.0"
-googleAuth = "1.23.0"
+googleAuth = "1.30.1"
 googleid = "1.1.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -15,7 +15,6 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
 composeBom = "2025.01.00"
 coreSplashscreen = "1.2.0-alpha02"
-materialIconsCoreAndroid = "1.7.6"
 firebaseBom = "33.8.0"
 kotlinxSerialization = "1.8.0"
 coil = "2.7.0"
@@ -26,18 +25,12 @@ ktor = "3.0.3"
 chucker = "4.1.0"
 gson = "2.11.0"
 datastore = "1.1.2"
-openaiJava = "0.11.2"
+openaiJava = "0.11.8"
 room = "2.6.1"
 sdpCompose = "1.1.0"
 slf4jAndroid = "1.7.36"
-sdpAndroid = "1.1.1"
 androidxWork = "2.10.0"
 mockK = "1.13.16"
-material3WindowSizeClass = "1.3.1"
-adaptiveAndroid = "1.1.0-alpha09"
-material3AdaptiveAndroid = "1.0.0-alpha06"
-uiTest = "1.8.0-alpha08"
-uiViewbinding = "1.7.6"
 truth = "1.4.4"
 dokka = "2.0.0"
 
@@ -49,8 +42,9 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom-alpha", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -58,9 +52,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsCoreAndroid" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
@@ -129,10 +122,8 @@ google-truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 #openai
 openai-java = { module = "com.openai:openai-java", version.ref = "openaiJava" }
-#androidx-material3-adaptive-android = { group = "androidx.compose.material3", name = "material3-adaptive-android", version.ref = "material3AdaptiveAndroid" }
-androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
-androidx-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "uiViewbinding" }
-#androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
+androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android" }
+androidx-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding" }
 
 android-documentation-plugin = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
 
@@ -167,14 +158,14 @@ firebase = [
 test = [
     "junit",
     "mockk-android",
-    "mockk-agent"
+    "mockk-agent",
+    "google-truth"
 ]
 androidx-test = [
     "androidx-junit",
     "androidx-espresso-core",
     "androidx-ui-test-junit4",
-    "mockk",
-    "google-truth"
+    "mockk"
 ]
 androidx-debug-test = [
     "androidx-ui-tooling",

@@ -1,5 +1,3 @@
-import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -46,8 +44,7 @@ android {
         }
     }
     applicationVariants.all {
-        outputs.forEach {
-            val output = it as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+        outputs.filterIsInstance<com.android.build.gradle.internal.api.BaseVariantOutputImpl>().forEach { output ->
             output.outputFileName = "${rootProject.name.replace(' ', '_')}_v"
             output.outputFileName += "$versionName-$name.apk"
         }
@@ -149,9 +146,9 @@ dokka {
         sourceRoots.from(file("app/src/main/java"))
         jdkVersion.set(ProjectConfig.javaVersion.toString().toInt())
         documentedVisibilities(
-            VisibilityModifier.Public,
-            VisibilityModifier.Protected,
-            VisibilityModifier.Package
+            org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Public,
+            org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Protected,
+            org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Package
         )
         sourceLink {
             localDirectory.set(file("app/src/main/java"))
