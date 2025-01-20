@@ -1,9 +1,9 @@
-package com.six.sense.data.local
+package com.six.sense.data.local.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.six.sense.data.local.entities.UserEntity
+import com.six.sense.data.local.room.entities.UserEntity
 
 /**
  * Data Access Object for interacting with the user table in the local database.

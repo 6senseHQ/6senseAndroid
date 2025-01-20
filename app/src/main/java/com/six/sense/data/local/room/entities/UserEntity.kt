@@ -1,4 +1,4 @@
-package com.six.sense.data.local.entities
+package com.six.sense.data.local.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

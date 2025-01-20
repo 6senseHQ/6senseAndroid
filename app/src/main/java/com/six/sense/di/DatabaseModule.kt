@@ -2,8 +2,9 @@ package com.six.sense.di
 
 import android.content.Context
 import androidx.room.Room
-import com.six.sense.data.local.LocalDatabase
-import com.six.sense.data.local.UserDao
+import com.six.sense.data.local.datastore.DataStoreManager
+import com.six.sense.data.local.room.LocalDatabase
+import com.six.sense.data.local.room.UserDao
 import com.six.sense.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -42,5 +43,15 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideLocalDao(database: LocalDatabase): UserDao = database.userDao()
+
+    /**
+     * Provide data store manager
+     *
+     * @param context The application context.
+     * @return
+     */
+    @Singleton
+    @Provides
+    fun provideDataStoreManager(@ApplicationContext context: Context): DataStoreManager = DataStoreManager(context)
 
 }

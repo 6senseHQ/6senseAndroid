@@ -36,6 +36,7 @@ import com.six.sense.R
 import com.six.sense.presentation.screen.chat.components.ChatMessageItem
 import com.six.sense.presentation.screen.chat.components.ChatTextField
 import com.six.sense.ui.theme.SixSenseAndroidTheme
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * A composable function that renders a chat header.
@@ -47,13 +48,13 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.sdp),
             verticalAlignment = Alignment.Companion.CenterVertically,
         ) {
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary, CircleShape)
-                    .requiredSize(48.dp),
+                    .requiredSize(48.sdp),
                 contentAlignment = Alignment.Companion.Center
             ) {
                 Icon(
@@ -62,10 +63,10 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
                     tint = MaterialTheme.colorScheme.surfaceContainer
                 )
             }
-            Spacer(modifier = Modifier.requiredWidth(10.dp))
+            Spacer(modifier = Modifier.requiredWidth(10.sdp))
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.sdp)
             ) {
                 Text(text = "6Sense", style = MaterialTheme.typography.titleMedium)
                 Text(
@@ -94,9 +95,9 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
             modifier = Modifier
                 .consumeWindowInsets(WindowInsets.systemBars)
                 .padding(innerPadding)
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(start = 16.sdp, end = 16.sdp, bottom = 16.sdp)
                 .imePadding(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.sdp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             ChatMessageItem(
@@ -107,7 +108,7 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Companion.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Companion.End)
+                horizontalArrangement = Arrangement.spacedBy(8.sdp, Alignment.Companion.End)
             ) {
                 ChatTextField(
                     modifier = Modifier.weight(1f),

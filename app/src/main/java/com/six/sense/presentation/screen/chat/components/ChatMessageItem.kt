@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.six.sense.R
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * A composable function that renders a chat message item.
@@ -29,22 +30,22 @@ import com.six.sense.R
  */
 @Composable
 fun ChatMessageItem(modifier: Modifier = Modifier, itemResponseText: String = "Hello World") {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.sdp)) {
         Box(
             modifier = Modifier
-                .size(36.dp)
+                .size(36.sdp)
                 .background(MaterialTheme.colorScheme.primary, CircleShape),
             contentAlignment = Alignment.Companion.Center
         ) {
             Icon(
-                modifier = Modifier.requiredSize(16.dp),
+                modifier = Modifier.requiredSize(16.sdp),
                 imageVector = ImageVector.vectorResource(R.drawable.ic_polyline_outline),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.surfaceContainer
             )
         }
         Card(
-            modifier = modifier.heightIn(36.dp),
+            modifier = modifier.heightIn(36.sdp),
             shape = RoundedCornerShape(
                 topStart = 0.dp,
                 topEnd = 16.dp,
@@ -53,7 +54,7 @@ fun ChatMessageItem(modifier: Modifier = Modifier, itemResponseText: String = "H
             ),
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.sdp),
                 text = itemResponseText.trim(' ', '.'),
                 style = MaterialTheme.typography.bodyMedium,
             )

@@ -4,6 +4,7 @@ package com.six.sense.utils
  * Object containing constant values used throughout the application.
  */
 object Constants {
+
     /**
      * The base URL for API requests.
      */

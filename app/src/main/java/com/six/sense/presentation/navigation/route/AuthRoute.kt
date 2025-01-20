@@ -1,8 +1,8 @@
 package com.six.sense.presentation.navigation.route
 
 import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.six.sense.presentation.navigation.Screens
@@ -20,9 +20,13 @@ fun NavGraphBuilder.authRoute(
     modifier: Modifier = Modifier
 ) {
     composableWithVM<Screens.Login, LoginViewModel>(navController = navController) {
-        val activity = LocalContext.current as Activity
+        val activity = LocalActivity.current as Activity
         val onSuccess = {
-            navController.navigate(Screens.Home)
+            navController.navigate(Screens.Home){
+                popUpTo(Screens.Login){
+                    inclusive = true
+                }
+            }
         }
         LoginScreen(
             onClickFacebookLogin = {

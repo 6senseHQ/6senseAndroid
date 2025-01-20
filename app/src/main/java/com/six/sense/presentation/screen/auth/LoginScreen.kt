@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.common.SignInButton
@@ -23,6 +22,7 @@ import com.six.sense.R
 import com.six.sense.databinding.FbLoginBtnBinding
 import com.six.sense.databinding.GoogleLoginBtnBinding
 import com.six.sense.ui.theme.SixSenseAndroidTheme
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * A composable function that renders the login screen.
@@ -46,15 +46,15 @@ fun LoginScreen(
         modifier = modifier
             .fillMaxSize()
             .imePadding()
-            .padding(vertical = 50.dp)
+            .padding(vertical = 50.sdp)
     ) {
         Text(
             text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 80.dp)
+            modifier = Modifier.padding(horizontal = 80.sdp)
         )
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.sdp)) {
             AndroidViewBinding(
                 factory = FbLoginBtnBinding::inflate,
                 update = {

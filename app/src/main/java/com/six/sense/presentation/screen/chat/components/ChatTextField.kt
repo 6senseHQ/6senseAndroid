@@ -8,7 +8,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
-import androidx.compose.ui.unit.dp
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * A composable function that renders a chat text field.
@@ -25,7 +25,7 @@ fun ChatTextField(
     TextField(
         modifier = modifier, value = chatText, onValueChange = setChatText,
         colors = TextFieldDefaults.colors(focusedIndicatorColor = Transparent, unfocusedIndicatorColor = Transparent),
-        shape = RoundedCornerShape(28.dp),
+        shape = RoundedCornerShape(28.sdp),
         placeholder = {Text(text = "Message", style = MaterialTheme.typography.bodyMedium) },
         textStyle = MaterialTheme.typography.bodyMedium
     )

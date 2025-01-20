@@ -1,9 +1,7 @@
 package com.six.sense.presentation.navigation.route
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,9 +21,7 @@ fun NavGraphBuilder.homeRoute(
     modifier: Modifier
 ) {
     composable<Screens.Home> {
-        val context = LocalContext.current
         val navControllerBottomBar = rememberNavController()
-        val scope = rememberCoroutineScope()
         val currentDestination by navControllerBottomBar.currentBackStackEntryFlow.mapNotNull { it.destination.route?.split(".")?.lastOrNull() }
             .collectAsStateWithLifecycle("")
 

@@ -136,6 +136,10 @@ dependencies {
     dokkaPlugin(libs.android.documentation.plugin)
 //    implementation(libs.dokka.android.gradle.plugin)
 
+    implementation(libs.stripe.android)
+    implementation(libs.coil.compose)
+    implementation(libs.datastore.pref)
+
 }
 
 dokka {

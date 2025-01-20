@@ -9,7 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.six.sense.presentation.navigation.MainScreenType
+import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.navigation.component.BottomBar
 import com.six.sense.presentation.navigation.route.navDrawerRoute
 
@@ -52,7 +55,15 @@ fun SetupBottomNavGraph(
 //            )
             navDrawerRoute(
                 navController = navController,
-                modifier = modifier
+                modifier = modifier,
+                onLogoutClicked = {
+                    Firebase.auth.signOut()
+                    navController.navigate(Screens.Login) {
+                        popUpTo(Screens.Home) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
     }

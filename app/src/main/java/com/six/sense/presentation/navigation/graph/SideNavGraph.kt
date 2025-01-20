@@ -25,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.six.sense.R
 import com.six.sense.presentation.navigation.MainScreenType
+import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.navigation.route.navDrawerRoute
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
@@ -87,7 +89,15 @@ fun SetupSideNavGraph(
                     navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues)
+                        .padding(paddingValues),
+                    onLogoutClicked = {
+                        Firebase.auth.signOut()
+                        navController.navigate(Screens.Login){
+                            popUpTo(Screens.Home){
+                                inclusive = true
+                            }
+                        }
+                    }
                 )
             }
             // BackHandler to handle drawer state
@@ -97,8 +107,8 @@ fun SetupSideNavGraph(
         }
     }
     val drawerContent: @Composable () -> Unit = {
-        Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.headlineSmall)
-        HorizontalDivider(modifier = Modifier.padding(5.dp))
+        Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.sdp), style = MaterialTheme.typography.headlineSmall)
+        HorizontalDivider(modifier = Modifier.padding(5.sdp))
         MainScreenType.entries.forEach{  destination ->
             NavigationDrawerItem(
                 icon = { Icon(destination.icon, contentDescription = destination.name) },

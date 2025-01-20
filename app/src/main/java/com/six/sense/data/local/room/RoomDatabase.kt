@@ -1,8 +1,8 @@
-package com.six.sense.data.local
+package com.six.sense.data.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.six.sense.data.local.entities.UserEntity
+import com.six.sense.data.local.room.entities.UserEntity
 
 /**
  * The Room database for local data persistence.

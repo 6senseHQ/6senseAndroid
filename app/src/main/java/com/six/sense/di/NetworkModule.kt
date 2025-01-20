@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.repo.AuthRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
@@ -122,8 +123,9 @@ object NetworkModule {
         @ApplicationContext context: Context,
         @IoDispatcher dispatcher: CoroutineDispatcher,
         connectivity: ConnectivityObserver,
+        dataStoreManager: DataStoreManager
     ): AuthRepo =
-        AuthRepoImpl(context = context, dispatcher = dispatcher, connectivity = connectivity)
+        AuthRepoImpl(context = context, dispatcher = dispatcher, connectivity = connectivity, dataStoreManager = dataStoreManager)
 
     /**
      * Provides a singleton instance of [ConnectivityObserver].

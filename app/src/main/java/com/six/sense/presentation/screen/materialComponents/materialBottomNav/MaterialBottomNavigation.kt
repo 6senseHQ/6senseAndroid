@@ -17,10 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import com.six.sense.R
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * Material bottom navigation
@@ -74,8 +74,8 @@ fun MaterialBottomNavigation(modifier: Modifier = Modifier) {
         )
         Column(
             modifier = Modifier
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.sdp),
+            verticalArrangement = Arrangement.spacedBy(16.sdp)
         ) {
             Text(
                 text = "Material Navigation Bar \"Icons with labels\"",

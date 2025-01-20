@@ -14,8 +14,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
+import ir.kaaveh.sdpcompose.sdp
 
 /**
  * Material text fields
@@ -35,7 +35,7 @@ fun MaterialTextFields(modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.sdp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ComponentInfo(
@@ -49,8 +49,8 @@ fun MaterialTextFields(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.sdp),
+            verticalArrangement = Arrangement.spacedBy(16.sdp)
         ) {
             Text(text = "Filled text field", style = MaterialTheme.typography.titleMedium)
             TextField(

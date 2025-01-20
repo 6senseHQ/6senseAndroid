@@ -21,7 +21,10 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.six.sense.data.local.datastore.DataStoreManager
+import com.six.sense.data.local.datastore.StoreKeys
 import com.six.sense.domain.ConnectivityObserver
+import com.six.sense.domain.model.UserInfo
 import com.six.sense.domain.repo.AuthRepo
 import com.six.sense.utils.Constants
 import kotlinx.coroutines.CoroutineDispatcher
@@ -40,6 +43,7 @@ class AuthRepoImpl(
     private val context: Context,
     private val dispatcher: CoroutineDispatcher,
     private val connectivity: ConnectivityObserver,
+    private val dataStoreManager: DataStoreManager
 ) : AuthRepo {
 
     override suspend fun firebaseSignIn(credential: Any): FirebaseUser = withContext(dispatcher) {
@@ -89,6 +93,12 @@ class AuthRepoImpl(
                     credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
                 ) {
                     val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                    dataStoreManager.save(StoreKeys.USER_INFO, UserInfo(
+                        email = googleCredential.id,
+                        name = googleCredential.displayName,
+                        phone = googleCredential.phoneNumber,
+                        photoUrl = googleCredential.profilePictureUri.toString()
+                    ))
                     googleCredential
                 } else
                     error("Only Google Account Allowed")
