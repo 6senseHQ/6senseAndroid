@@ -6,6 +6,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.QueryProductDetailsParams
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,10 @@ class GooglePlayBillingManager(
         billingClient = BillingClient.newBuilder(context)
             .setListener { billingResult, purchases ->
                 // Handle purchase updates
-            }
-            .build()
+            }.enablePendingPurchases(PendingPurchasesParams.newBuilder()
+                .enableOneTimeProducts()
+                .build()
+            ).build()
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
