@@ -20,7 +20,8 @@ class GooglePlayBillingManager(
     val productDetails: StateFlow<List<ProductDetails>> = _productDetails
 
 
-    fun setupBillingClient() {
+    private fun setupBillingClient() {
+        if(::billingClient.isInitialized) return
         billingClient = BillingClient.newBuilder(context)
             .setListener { billingResult, purchases ->
                 // Handle purchase updates
@@ -62,6 +63,7 @@ class GooglePlayBillingManager(
     }
 
     fun launchPurchaseFlow(activity: Activity) {
+        setupBillingClient()
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .apply {

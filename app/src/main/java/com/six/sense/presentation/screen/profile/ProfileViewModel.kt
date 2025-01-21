@@ -43,7 +43,6 @@ class ProfileViewModel @Inject constructor(
     fun launchPurchaseFlow(activity: Activity?) {
         launch{
             activity?.let {
-                googlePlayBillingManager.setupBillingClient()
                 googlePlayBillingManager.launchPurchaseFlow(it)
             }
         }
