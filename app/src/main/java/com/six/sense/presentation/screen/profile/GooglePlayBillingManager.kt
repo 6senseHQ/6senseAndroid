@@ -2,6 +2,7 @@ package com.six.sense.presentation.screen.profile
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class GooglePlayBillingManager(
-    private val context: Context
+    private val context: Context,
 ) {
     private lateinit var billingClient: BillingClient
     private val _productDetails = MutableStateFlow<List<ProductDetails>>(emptyList())
@@ -21,13 +22,14 @@ class GooglePlayBillingManager(
 
 
     private fun setupBillingClient() {
-        if(::billingClient.isInitialized) return
+        if (::billingClient.isInitialized) return
         billingClient = BillingClient.newBuilder(context)
             .setListener { billingResult, purchases ->
                 // Handle purchase updates
-            }.enablePendingPurchases(PendingPurchasesParams.newBuilder()
-                .enableOneTimeProducts()
-                .build()
+            }.enablePendingPurchases(
+                PendingPurchasesParams.newBuilder()
+                    .enableOneTimeProducts()
+                    .build()
             ).build()
 
         billingClient.startConnection(object : BillingClientStateListener {
@@ -35,10 +37,11 @@ class GooglePlayBillingManager(
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     queryProducts()
                 }
+                Log.d("TAG", "onBillingSetupFinished: ${billingResult.responseCode} ")
             }
 
             override fun onBillingServiceDisconnected() {
-                // Optional: Retry connection
+                Log.d("TAG", "onBillingServiceDisconnected: ")
             }
         })
     }
@@ -66,11 +69,7 @@ class GooglePlayBillingManager(
         setupBillingClient()
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
-                .apply {
-                    productDetails.value.firstOrNull()?.let {
-                        setProductDetails(it)
-                    }
-                }
+                .apply { productDetails.value.firstOrNull()?.let { setProductDetails(it) } }
                 .build()
         )
 
