@@ -25,12 +25,12 @@ A boilerplate android project for future use to make the development quicker.
 
 **Language:** Kotlin
 
-
 ## Testing
 
 - **MockK** for unit testing
 - **Compose UI Test** for UI testing
 - **Google Truth** for test result verification
+
 ## Project Structure
 
     app
@@ -60,7 +60,6 @@ A boilerplate android project for future use to make the development quicker.
 
 - [@AhmadUmarMahdi](https://github.com/AhmadUmarMahdi)
 - [@6senseRana](https://github.com/6senseRana)
-
 
 ## Documentation
 

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -22,19 +24,27 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.six.sense.R
+import com.six.sense.presentation.MainViewModel
 import com.six.sense.presentation.navigation.MainScreenType
 import com.six.sense.presentation.navigation.Screens
+import com.six.sense.presentation.navigation.route
 import com.six.sense.presentation.navigation.route.navDrawerRoute
 import ir.kaaveh.sdpcompose.sdp
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
 /**
@@ -57,14 +67,20 @@ fun SetupSideNavGraph(
     navControllerBottomBar: NavHostController,
     modifier: Modifier,
 ) {
+    val context = LocalContext.current
+    val mainViewModel = hiltViewModel<MainViewModel>(context as ViewModelStoreOwner)
+    val currentRoute by navControllerBottomBar.currentBackStackEntryFlow.mapNotNull { it.destination.route }
+        .collectAsStateWithLifecycle("")
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val isUiLightMode by mainViewModel.isUiLightMode.collectAsStateWithLifecycle()
+
     val mainContent: @Composable () -> Unit = {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(currentDestination) },
+                    title = { Text(text = currentDestination) },
                     navigationIcon = {
                         if(windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED) {
                             IconButton(onClick = {
@@ -77,7 +93,14 @@ fun SetupSideNavGraph(
                                 Icon(Icons.Default.Menu, contentDescription = "Menu")
                             }
                         }
-                    }
+                    },
+
+                    actions = { if (currentRoute == Screens.Home.Profile.serializer().route) IconButton(onClick = {
+                        mainViewModel.switchUiMode(!isUiLightMode)
+                    }) {
+                        Icon(
+                            if (isUiLightMode) Icons.Outlined.DarkMode else Icons.Outlined.LightMode, contentDescription = "Menu")
+                    } }
                 )
             }
         ) { paddingValues ->

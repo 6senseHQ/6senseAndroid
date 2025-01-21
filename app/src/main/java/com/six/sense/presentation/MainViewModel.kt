@@ -1,6 +1,7 @@
 package com.six.sense.presentation
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.openai.client.OpenAIClient
 import com.openai.models.AssistantTool
 import com.openai.models.BetaAssistantCreateParams
@@ -12,9 +13,13 @@ import com.openai.models.ChatCompletionUserMessageParam
 import com.openai.models.ChatModel
 import com.openai.models.FunctionTool
 import com.openai.models.ModelListParams
+import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -28,8 +33,20 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val openAIClient: OpenAIClient
+    private val openAIClient: OpenAIClient,
+    private val dataStoreManager: DataStoreManager,
 ) : BaseViewModel() {
+    /**
+     * Ui mode state light by default
+     */
+    val isUiLightMode = dataStoreManager.readAsFlow("THEME_MODE",true)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), true)
+
+    fun switchUiMode(isLightMode: Boolean) {
+        viewModelScope.launch {
+            dataStoreManager.save("THEME_MODE", isLightMode)
+        }
+    }
 
     /**
      * A function to test the OpenAI API.

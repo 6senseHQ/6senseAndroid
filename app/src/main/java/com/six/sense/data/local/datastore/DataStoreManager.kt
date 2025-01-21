@@ -1,6 +1,7 @@
 package com.six.sense.data.local.datastore
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
@@ -27,7 +28,8 @@ import kotlinx.serialization.json.Json
  */
 class DataStoreManager(val context: Context) {
     //initialize datastore
-    val Context.dataStore by preferencesDataStore(
+    val Context.dataStore: DataStore<Preferences>
+    by preferencesDataStore(
         name = StoreKeys.STORE_PREF
     )
 
