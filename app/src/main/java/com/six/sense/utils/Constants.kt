@@ -8,11 +8,11 @@ object Constants {
     /**
      * The base URL for API requests.
      */
-    const val BASE_URL = ""
+    const val BASE_URL = "https://google.com"
     /**
      * The name of the local database.
      */
-    const val DATABASE_NAME = ""
+    const val DATABASE_NAME = "yks_db"
     /**
      * The client ID for web-based authentication.
      */

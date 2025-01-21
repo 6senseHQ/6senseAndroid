@@ -1,7 +1,5 @@
 package com.six.sense.presentation.screen.profile
 
-import android.app.Activity
-import android.content.Context
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -63,10 +61,11 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     userInfo: UserInfo = UserInfo(),
     onLogoutClicked: () -> Unit = {},
+    onStripePaymentClicked: () -> Unit = {}
 ) {
-    val activity = LocalActivity.current as Activity
-    val context: Context = LocalContext.current
-    val googlePlayBillingManager: BillingManager = BillingManager(context)
+    val activity = LocalActivity.current
+    val context = LocalContext.current
+    val googlePlayBillingManager = BillingManager(context)
     val gradient = Brush.verticalGradient(
         colors = listOf(
             MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
@@ -170,13 +169,13 @@ fun ProfileScreen(
             }
 
             Column(modifier = Modifier.padding(vertical = 25.sdp)) {
-                PaymentItem("Pay with Stripe", onClick = {})
+                PaymentItem("Pay with Stripe", onClick = onStripePaymentClicked)
                 PaymentItem("Pay with Play In-App", onClick = {
                     scope.launch {
                         googlePlayBillingManager.startConnection {
                             googlePlayBillingManager.queryProducts(listOf("product_id")) { skuDetailsList ->
                                 val skuDetails = skuDetailsList.firstOrNull()
-                                if (skuDetails != null) {
+                                if (skuDetails != null && activity != null) {
                                     googlePlayBillingManager.launchPurchaseFlow(
                                         activity,
                                         SkuDetails("")

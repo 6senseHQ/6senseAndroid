@@ -1,6 +1,16 @@
 package com.six.sense.utils
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Extension function to log any object with a tag.
@@ -14,4 +24,38 @@ import android.util.Log
 fun Any?.log(tag: String = "TAG"): Any? {
     Log.d("log> '$tag'", "$tag - $this : ${this?.javaClass?.name?.split('.')?.lastOrNull() ?: ""}")
     return this
+}
+
+/**
+ * Collects a [Flow] within the lifecycle of a [LifecycleOwner], ensuring that the collection
+ * only happens when the lifecycle is in the specified [minActiveState].
+ *
+ * This function uses `repeatOnLifecycle` to automatically handle starting and stopping the
+ * collection based on the lifecycle state. It also filters out null values from the flow.
+ *
+ * @param T The type of data emitted by the flow.
+ * @param context The coroutine context to use for launching the coroutine. Defaults to
+ *   [EmptyCoroutineContext].
+ * @param minActiveState The minimum lifecycle state required for the collection to be active.
+ *   Defaults to [Lifecycle.State.RESUMED].
+ * @param block A suspend function that will be called with each non-null value emitted by the
+ *   flow.
+ *
+ * @receiver [LifecycleOwner] The lifecycle owner that this function is called on.
+ * @receiver [Flow] The flow that this function is called on.
+ */
+context(LifecycleOwner)
+fun <T> Flow<T?>.collectWithLifecycle(
+    context: CoroutineContext = EmptyCoroutineContext,
+    minActiveState: Lifecycle.State = Lifecycle.State.RESUMED,
+    block: suspend CoroutineScope.(T) -> Unit,
+) {
+    lifecycleScope.launch(context) {
+        repeatOnLifecycle(minActiveState) {
+            filterNotNull().collect { value ->
+                if (lifecycle.currentState.isAtLeast(minActiveState))
+                    block(value)
+            }
+        }
+    }
 }

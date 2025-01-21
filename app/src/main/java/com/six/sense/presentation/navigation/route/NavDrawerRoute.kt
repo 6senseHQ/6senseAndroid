@@ -23,8 +23,16 @@ fun NavGraphBuilder.navDrawerRoute(
     onLogoutClicked: () -> Unit
 ) {
     composableWithVM<Screens.Home.Profile, ProfileViewModel>(navController = navController) {
+        viewModel.stripePaymentManager.CreatePaymentSheet()
         val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
-        ProfileScreen(userInfo = userInfo, modifier = modifier, onLogoutClicked = onLogoutClicked)
+        ProfileScreen(
+            userInfo = userInfo,
+            modifier = modifier,
+            onLogoutClicked = onLogoutClicked,
+            onStripePaymentClicked = {
+                viewModel.presentPaymentSheet()
+            })
+
     }
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController) {
         ChatView(modifier = modifier)

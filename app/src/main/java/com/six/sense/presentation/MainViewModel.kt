@@ -18,6 +18,7 @@ import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,11 +37,14 @@ class MainViewModel @Inject constructor(
     private val openAIClient: OpenAIClient,
     private val dataStoreManager: DataStoreManager,
 ) : BaseViewModel() {
+    var keepSplashOpened: Boolean = true
+
     /**
      * Ui mode state light by default
      */
-    val isUiLightMode = dataStoreManager.readAsFlow("THEME_MODE",true)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), true)
+    val isUiLightMode = dataStoreManager.readAsFlow("THEME_MODE",true).onEach {
+        keepSplashOpened = false
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
 
     fun switchUiMode(isLightMode: Boolean) {
         viewModelScope.launch {

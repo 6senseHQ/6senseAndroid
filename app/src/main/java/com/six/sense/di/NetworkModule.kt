@@ -5,6 +5,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.data.local.datastore.DataStoreManager
+import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
@@ -150,5 +151,23 @@ object NetworkModule {
             .organization(Constants.OPENAI_ORG_ID)
             .project(Constants.OPENAI_PROJECT_ID)
             .build()
+
+
+    /**
+     * Provides a singleton instance of [StripePaymentManager].
+     *
+     * This function is responsible for creating and providing a [StripePaymentManager] instance.
+     * It uses the application [Context] and an [HttpClient] for network requests.
+     *
+     * @param context The application context.
+     * @param ktorClient The Ktor HTTP client for network requests.
+     * @return A singleton instance of [StripePaymentManager].
+     */
+    @Provides
+    @Singleton
+    fun provideStripePaymentManager(
+        @ApplicationContext context: Context,
+        ktorClient: HttpClient
+    ): StripePaymentManager = StripePaymentManager(context, ktorClient)
 
 }

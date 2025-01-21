@@ -1,20 +1,48 @@
 package com.six.sense.data.remote
 
+import android.content.Context
 import androidx.compose.runtime.Composable
+import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.rememberPaymentSheet
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.post
+import io.ktor.http.isSuccess
 
 class StripePaymentManager(
-    ktorClient: HttpClient
-){
+    private val context: Context,
+    private val ktorClient: HttpClient
+) {
 
     private var paymentSheet: PaymentSheet? = null
+    private var customerConfig: PaymentSheet.CustomerConfiguration? = null
+    private var paymentIntentClientSecret: String = ""
 
     @Composable
-    fun CreatePaymentSheet(){
+    fun CreatePaymentSheet() {
         paymentSheet = rememberPaymentSheet(::onPaymentSheetResult)
+    }
+
+    suspend fun connectToStripeBackend() {
+        val response = ktorClient.post("payment-sheet")
+        if (response.status.isSuccess()) {
+            val responseBody = response.body<Map<String, String>>()
+            paymentIntentClientSecret =
+                responseBody["paymentIntent"] ?: throw Exception("Missing paymentIntent")
+            customerConfig = PaymentSheet.CustomerConfiguration(
+                id = responseBody["customer"] ?: throw Exception("Missing customer"),
+                ephemeralKeySecret = responseBody["ephemeralKey"]
+                    ?: throw Exception("Missing ephemeralKey")
+            )
+            val publishableKey =
+                responseBody["publishableKey"] ?: throw Exception("Missing publishableKey")
+
+            PaymentConfiguration.init(context, publishableKey)
+        } else {
+            throw Exception("Failed to fetch payment details: ${response.status}")
+        }
     }
 
     private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
@@ -35,19 +63,12 @@ class StripePaymentManager(
     }
 
 
-    private fun presentPaymentSheet(
-        paymentSheet: PaymentSheet,
-        customerConfig: PaymentSheet.CustomerConfiguration,
-        paymentIntentClientSecret: String
-    ) {
-        paymentSheet.presentWithPaymentIntent(
+    fun presentPaymentSheet() {
+        paymentSheet?.presentWithPaymentIntent(
             paymentIntentClientSecret,
             PaymentSheet.Configuration(
-                merchantDisplayName = "My merchant name",
-                customer = customerConfig,
-                // Set `allowsDelayedPaymentMethods` to true if your business handles
-                // delayed notification payment methods like US bank accounts.
-                allowsDelayedPaymentMethods = true
+                merchantDisplayName = "6sense Technology",
+                customer = customerConfig
             )
         )
     }
