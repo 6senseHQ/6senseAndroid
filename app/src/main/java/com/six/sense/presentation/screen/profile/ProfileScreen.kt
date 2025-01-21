@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,8 +51,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import coil.compose.AsyncImage
-import com.android.billingclient.api.SkuDetails
 import com.six.sense.domain.model.UserInfo
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
@@ -61,11 +63,14 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     userInfo: UserInfo = UserInfo(),
     onLogoutClicked: () -> Unit = {},
-    onStripePaymentClicked: () -> Unit = {}
+    onStripePaymentClicked: () -> Unit = {},
 ) {
     val activity = LocalActivity.current
     val context = LocalContext.current
-    val googlePlayBillingManager = BillingManager(context)
+
+    val googlePlayBillingManager: GooglePlayBillingManager =
+        GooglePlayBillingManager(activity!!, (activity as LifecycleOwner).lifecycleScope)
+    val products by googlePlayBillingManager.productDetails.collectAsState()
     val gradient = Brush.verticalGradient(
         colors = listOf(
             MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
@@ -172,16 +177,10 @@ fun ProfileScreen(
                 PaymentItem("Pay with Stripe", onClick = onStripePaymentClicked)
                 PaymentItem("Pay with Play In-App", onClick = {
                     scope.launch {
-                        googlePlayBillingManager.startConnection {
-                            googlePlayBillingManager.queryProducts(listOf("product_id")) { skuDetailsList ->
-                                val skuDetails = skuDetailsList.firstOrNull()
-                                if (skuDetails != null && activity != null) {
-                                    googlePlayBillingManager.launchPurchaseFlow(
-                                        activity,
-                                        SkuDetails("")
-                                    )
-                                }
-                            }
+                        products.firstOrNull {
+                            it.productId == "test_premium"
+                        }?.let {
+                            googlePlayBillingManager.launchPurchaseFlow(it)
                         }
                     }
                 })

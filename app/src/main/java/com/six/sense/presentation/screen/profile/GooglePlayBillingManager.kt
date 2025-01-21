@@ -1,69 +1,74 @@
 package com.six.sense.presentation.screen.profile
 
 import android.app.Activity
-import android.content.Context
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.android.billingclient.api.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class BillingManager(private val context: Context) {
-    private val billingClient: BillingClient = BillingClient.newBuilder(context)
-        .setListener { billingResult, purchases ->
-            handlePurchaseUpdates(billingResult, purchases)
-        }
-        .enablePendingPurchases()
-        .build()
+class GooglePlayBillingManager(
+    private val activity: Activity,
+    private val lifecycleScope: LifecycleCoroutineScope
+) {
+    private lateinit var billingClient: BillingClient
+    private val _productDetails = MutableStateFlow<List<ProductDetails>>(emptyList())
+    val productDetails: StateFlow<List<ProductDetails>> = _productDetails
 
-    fun startConnection(onConnected: () -> Unit) {
+    init {
+        setupBillingClient()
+    }
+
+    private fun setupBillingClient() {
+        billingClient = BillingClient.newBuilder(activity)
+            .setListener { billingResult, purchases ->
+                // Handle purchase updates
+            }
+            .enablePendingPurchases()
+            .build()
+
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    onConnected()
+                    queryProducts()
                 }
             }
 
             override fun onBillingServiceDisconnected() {
-                // Retry connection logic here
+                // Optional: Retry connection
             }
         })
     }
 
-    fun queryProducts(productIds: List<String>, onProductsFetched: (List<SkuDetails>) -> Unit) {
-        val params = SkuDetailsParams.newBuilder()
-            .setSkusList(productIds)
-            .setType(BillingClient.SkuType.INAPP) // Use SkuType.SUBS for subscriptions
+    private fun queryProducts() {
+        val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
+            .setProductList(
+                listOf(
+                    QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId("test_premium")
+                        .setProductType(BillingClient.ProductType.INAPP)
+                        .build()
+                )
+            )
             .build()
 
-        billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuDetailsList.isNullOrEmpty()) {
-                onProductsFetched(skuDetailsList)
+        billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult, productDetailsList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                _productDetails.value = productDetailsList
             }
         }
     }
 
-    fun launchPurchaseFlow(activity: Activity, skuDetails: SkuDetails) {
-        val billingFlowParams = BillingFlowParams.newBuilder()
-            .setSkuDetails(skuDetails)
-            .build()
-        billingClient.launchBillingFlow(activity, billingFlowParams)
-    }
-
-    private fun handlePurchaseUpdates(billingResult: BillingResult, purchases: List<Purchase>?) {
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            for (purchase in purchases) {
-                handlePurchase(purchase)
-            }
-        }
-    }
-
-    private fun handlePurchase(purchase: Purchase) {
-        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
-            val acknowledgeParams = AcknowledgePurchaseParams.newBuilder()
-                .setPurchaseToken(purchase.purchaseToken)
+    fun launchPurchaseFlow(productDetails: ProductDetails) {
+        val productDetailsParamsList = listOf(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                .setProductDetails(productDetails)
                 .build()
-            billingClient.acknowledgePurchase(acknowledgeParams) { billingResult ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    // Grant the entitlement
-                }
-            }
-        }
+        )
+
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .build()
+
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 }

@@ -1,9 +1,9 @@
 package com.six.sense.presentation.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Category
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Person3
+import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material.icons.outlined.MarkChatUnread
+import androidx.compose.material.icons.rounded.PersonOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -59,13 +59,13 @@ enum class MainScreenType(val icon: ImageVector, val route: Any) {
     /**
      * Represents the chat screen.
      */
-    Chat(icon = Icons.Rounded.Home, route = Screens.Home.Chat),
+    Chat(icon = Icons.Outlined.MarkChatUnread, route = Screens.Home.Chat),
     /**
      * Represents the MaterialComponents screen.
      */
-    Components(icon = Icons.Rounded.Category, route = Screens.Home.Components),
+    Components(icon = Icons.Outlined.Category, route = Screens.Home.Components),
     /**
      * Represents the profile screen.
      */
-    Profile(icon = Icons.Rounded.Person3, route = Screens.Home.Profile)
+    Profile(icon = Icons.Rounded.PersonOutline, route = Screens.Home.Profile)
 }

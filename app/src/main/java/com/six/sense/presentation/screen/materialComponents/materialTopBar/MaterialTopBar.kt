@@ -19,8 +19,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.six.sense.presentation.screen.materialComponents.ComponentInfo
-import ir.kaaveh.sdpcompose.sdp
 
 /**
  * Material top bar.
@@ -40,8 +40,8 @@ fun MaterialTopBar(modifier: Modifier = Modifier) {
             )
         )
         Column(
-            modifier = Modifier.padding(16.sdp),
-            verticalArrangement = Arrangement.spacedBy(16.sdp)
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(text = "\"Small\"Top App Bar", style = MaterialTheme.typography.titleMedium)
             TopAppBar(
