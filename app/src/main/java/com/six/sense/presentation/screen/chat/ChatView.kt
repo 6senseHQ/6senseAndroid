@@ -36,6 +36,7 @@ import com.six.sense.R
 import com.six.sense.presentation.screen.chat.components.ChatMessageItem
 import com.six.sense.presentation.screen.chat.components.ChatTextField
 import com.six.sense.ui.theme.SixSenseAndroidTheme
+import com.six.sense.utils.bounceClick
 import ir.kaaveh.sdpcompose.sdp
 
 /**
@@ -96,7 +97,8 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
                 .consumeWindowInsets(WindowInsets.systemBars)
                 .padding(innerPadding)
                 .padding(start = 16.sdp, end = 16.sdp, bottom = 16.sdp)
-                .imePadding(),
+                .imePadding()
+            ,
             verticalArrangement = Arrangement.spacedBy(16.sdp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
@@ -105,25 +107,31 @@ fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
                     .fillMaxWidth(.9f),
                 itemResponseText = LoremIpsum(words = 20).values.joinToString(" ")
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Companion.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.sdp, Alignment.Companion.End)
-            ) {
-                ChatTextField(
-                    modifier = Modifier.weight(1f),
-                    chatText = chatText, setChatText = setChatText
-                )
-                FilledIconButton(modifier = Modifier.size(56.dp), onClick = {}) {
-                    Icon(
-                        modifier = Modifier
-                            .offset(x = 2.dp)
-                            .size(32.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_send_outline),
-                        contentDescription = null
-                    )
-                }
-            }
+            ChatBottom(chatText, setChatText)
+        }
+    }
+}
+
+@Composable
+private fun ChatBottom(chatText: String, setChatText: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(8.sdp, Alignment.End)
+    ) {
+        ChatTextField(
+            modifier = Modifier.weight(1f),
+            chatText = chatText, setChatText = setChatText
+        )
+        FilledIconButton(modifier = Modifier.size(56.dp).bounceClick(), onClick = {}) {
+            Icon(
+                modifier = Modifier
+                    .offset(x = 2.dp)
+                    .size(32.dp),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_send_outline),
+                contentDescription = null
+            )
         }
     }
 }

@@ -1,29 +1,29 @@
 package com.six.sense.presentation.screen.profile
 
 import android.app.Activity
-import androidx.lifecycle.LifecycleCoroutineScope
-import com.android.billingclient.api.*
+import android.content.Context
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.QueryProductDetailsParams
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class GooglePlayBillingManager(
-    private val activity: Activity,
-    private val lifecycleScope: LifecycleCoroutineScope
+    private val context: Context
 ) {
     private lateinit var billingClient: BillingClient
     private val _productDetails = MutableStateFlow<List<ProductDetails>>(emptyList())
     val productDetails: StateFlow<List<ProductDetails>> = _productDetails
 
-    init {
-        setupBillingClient()
-    }
 
-    private fun setupBillingClient() {
-        billingClient = BillingClient.newBuilder(activity)
+    fun setupBillingClient() {
+        billingClient = BillingClient.newBuilder(context)
             .setListener { billingResult, purchases ->
                 // Handle purchase updates
             }
-            .enablePendingPurchases()
             .build()
 
         billingClient.startConnection(object : BillingClientStateListener {
@@ -58,10 +58,14 @@ class GooglePlayBillingManager(
         }
     }
 
-    fun launchPurchaseFlow(productDetails: ProductDetails) {
+    fun launchPurchaseFlow(activity: Activity) {
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails)
+                .apply {
+                    productDetails.value.firstOrNull()?.let {
+                        setProductDetails(it)
+                    }
+                }
                 .build()
         )
 

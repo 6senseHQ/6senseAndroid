@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().setKeepOnScreenCondition { viewModel.keepSplashOpened }
         super.onCreate(savedInstanceState)
-        viewModel.isUiLightMode.collectWithLifecycle{
+        viewModel.isUiLightMode.collectWithLifecycle {
             enableEdgeToEdge(
                 statusBarStyle = if (!it)
                     SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)

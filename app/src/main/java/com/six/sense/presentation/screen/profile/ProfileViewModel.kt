@@ -1,5 +1,6 @@
 package com.six.sense.presentation.screen.profile
 
+import android.app.Activity
 import androidx.lifecycle.SavedStateHandle
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.local.datastore.StoreKeys
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val dataStoreManager: DataStoreManager,
-    val stripePaymentManager: StripePaymentManager
+    val stripePaymentManager: StripePaymentManager,
+    private val googlePlayBillingManager: GooglePlayBillingManager
 ) : BaseViewModel(){
 
     val userInfo = savedStateHandle.getStateFlow(StoreKeys.USER_INFO, UserInfo())
@@ -35,6 +37,15 @@ class ProfileViewModel @Inject constructor(
         launch{
             stripePaymentManager.connectToStripeBackend()
             stripePaymentManager.presentPaymentSheet()
+        }
+    }
+
+    fun launchPurchaseFlow(activity: Activity?) {
+        launch{
+            activity?.let {
+                googlePlayBillingManager.setupBillingClient()
+                googlePlayBillingManager.launchPurchaseFlow(it)
+            }
         }
     }
 }

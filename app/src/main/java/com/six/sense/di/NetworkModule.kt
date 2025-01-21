@@ -9,6 +9,7 @@ import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
+import com.six.sense.presentation.screen.profile.GooglePlayBillingManager
 import com.six.sense.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -169,5 +170,11 @@ object NetworkModule {
         @ApplicationContext context: Context,
         ktorClient: HttpClient
     ): StripePaymentManager = StripePaymentManager(context, ktorClient)
+
+    @Provides
+    @Singleton
+    fun provideSGooglePlayBillingManager(
+        @ApplicationContext context: Context,
+    ): GooglePlayBillingManager = GooglePlayBillingManager(context)
 
 }

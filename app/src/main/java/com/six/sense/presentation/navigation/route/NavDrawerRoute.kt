@@ -1,5 +1,6 @@
 package com.six.sense.presentation.navigation.route
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +24,7 @@ fun NavGraphBuilder.navDrawerRoute(
     onLogoutClicked: () -> Unit
 ) {
     composableWithVM<Screens.Home.Profile, ProfileViewModel>(navController = navController) {
+        val activity = LocalActivity.current
         viewModel.stripePaymentManager.CreatePaymentSheet()
         val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
         ProfileScreen(
@@ -31,6 +33,9 @@ fun NavGraphBuilder.navDrawerRoute(
             onLogoutClicked = onLogoutClicked,
             onStripePaymentClicked = {
                 viewModel.presentPaymentSheet()
+            },
+            onPlayInAppPaymentClicked = {
+                viewModel.launchPurchaseFlow(activity)
             })
 
     }
