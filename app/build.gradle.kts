@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -140,6 +141,7 @@ dependencies {
     implementation(libs.stripe.android)
     implementation(libs.coil.compose)
     implementation(libs.datastore.pref)
+    implementation(libs.generativeai)
 
 }
 

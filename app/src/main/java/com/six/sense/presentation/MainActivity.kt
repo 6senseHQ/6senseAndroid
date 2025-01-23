@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
             SixSenseAndroidTheme(darkTheme = !isUiLightMode) {
                 val navController = rememberNavController()
                 SetupMainNavGraph(
-                    startDestination = if (Firebase.auth.currentUser == null) Screens.Login else Screens.Home,
+                    startDestination = if (Firebase.auth.currentUser != null) Screens.Login else Screens.Home,
                     navController = navController
                 )
             }

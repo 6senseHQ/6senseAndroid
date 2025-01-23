@@ -176,5 +176,4 @@ object NetworkModule {
     fun provideSGooglePlayBillingManager(
         @ApplicationContext context: Context,
     ): GooglePlayBillingManager = GooglePlayBillingManager(context)
-
 }

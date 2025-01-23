@@ -8,8 +8,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.six.sense.presentation.navigation.Screens
-import com.six.sense.presentation.screen.chat.ChatView
-import com.six.sense.presentation.screen.chat.ChatViewModel
+import com.six.sense.presentation.screen.chat.gemini.ChatView
+import com.six.sense.presentation.screen.chat.gemini.ChatViewModel
 import com.six.sense.presentation.screen.materialComponents.ComponentsScreen
 import com.six.sense.presentation.screen.profile.ProfileScreen
 import com.six.sense.presentation.screen.profile.ProfileViewModel
@@ -21,7 +21,7 @@ import com.six.sense.utils.composableWithVM
 fun NavGraphBuilder.navDrawerRoute(
     modifier: Modifier,
     navController: NavController,
-    onLogoutClicked: () -> Unit
+    onLogoutClicked: () -> Unit,
 ) {
     composableWithVM<Screens.Home.Profile, ProfileViewModel>(navController = navController) {
         val activity = LocalActivity.current
@@ -40,7 +40,7 @@ fun NavGraphBuilder.navDrawerRoute(
 
     }
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController) {
-        ChatView(modifier = modifier)
+        ChatView(modifier = modifier, sendPrompt = { viewModel.sendPrompt(it) },viewModel)
     }
     composable<Screens.Home.Components> {
         ComponentsScreen(modifier = modifier)
