@@ -12,8 +12,8 @@ import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.Firebase
@@ -111,13 +111,13 @@ class AuthRepoImpl(
     private val callbackManager by lazy { CallbackManager.Factory.create() }
 
     override suspend fun facebookSignIn(
-        button: LoginButton,
+        activity: Activity
     ): LoginResult = withContext(dispatcher) {
         connectivity.checkAndThrow4NoInternet()
         suspendCancellableCoroutine { continuation ->
-            button.permissions = listOf("public_profile", "user_link")
-
-            button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+//            button.permissions = listOf("public_profile", "user_link")
+            val loginManager = LoginManager.getInstance()
+            loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
                     Log.d("TAG1", "facebook:onSuccess:${result.accessToken} $result ")
                     continuation.resume(result)
@@ -133,7 +133,9 @@ class AuthRepoImpl(
                     Log.d("TAG3", "facebook:onError", error)
                     continuation.resumeWithException(error)
                 }
-            })
+            }).apply {
+                loginManager.logInWithReadPermissions(activity, listOf("public_profile"))
+            }
         }
     }
 

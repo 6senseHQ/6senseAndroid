@@ -2,7 +2,6 @@ package com.six.sense.presentation.screen.auth
 
 import android.app.Activity
 import androidx.lifecycle.SavedStateHandle
-import com.facebook.login.widget.LoginButton
 import com.six.sense.domain.repo.AuthRepo
 import com.six.sense.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,12 +24,12 @@ class LoginViewModel @Inject constructor(
     /**
      * Initiates the Facebook sign-in process.
      *
-     * @param button The Facebook login button.
+     * @param activity The activity context.
      * @param onSuccess A callback function that is invoked when the sign-in is successful.
      */
-    fun facebookSignIn(button: LoginButton, onSuccess: () -> Unit) {
+    fun facebookSignIn(activity: Activity, onSuccess: () -> Unit) {
         launch(showLoading = false){
-            val result= authRepo.facebookSignIn(button)
+            val result= authRepo.facebookSignIn(activity)
             authRepo.firebaseSignIn(result.accessToken)
             onSuccess()
         }

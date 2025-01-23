@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.common.SignInButton
 import com.six.sense.R
 import com.six.sense.databinding.FbLoginBtnBinding
@@ -36,7 +35,7 @@ import ir.kaaveh.sdpcompose.sdp
 @SuppressLint("InflateParams")
 @Composable
 fun LoginScreen(
-    onClickFacebookLogin: (LoginButton) -> Unit,
+    onClickFacebookLogin: (View) -> Unit,
     onClickGoogleLogin: (View) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -56,9 +55,12 @@ fun LoginScreen(
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.sdp)) {
             AndroidViewBinding(
-                factory = FbLoginBtnBinding::inflate,
+                factory = { li, vg, atr ->
+                    FbLoginBtnBinding.inflate(li, vg, atr).apply {
+                        loginButton.setOnClickListener(onClickFacebookLogin)
+                    }
+                },
                 update = {
-                    onClickFacebookLogin(loginButton)
                 }
             )
             Text(text = "or")

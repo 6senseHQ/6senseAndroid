@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">6sense</string>
-    <string name="facebook_app_id">660377585299971</string>
-    <string name="fb_login_protocol_scheme">fb660377585299971</string>
-    <string name="facebook_client_token">87f984dc5e7955c044299324404a303a</string>
+    <string name="facebook_app_id">9201280986629786</string>
+    <string name="fb_login_protocol_scheme">fb9201280986629786</string>
+    <string name="facebook_client_token">9c203284309ae18f4690baa17733d495</string>
 </resources>

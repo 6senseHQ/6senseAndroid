@@ -30,7 +30,7 @@ fun NavGraphBuilder.authRoute(
         }
         LoginScreen(
             onClickFacebookLogin = {
-                viewModel.facebookSignIn(button = it, onSuccess = onSuccess)
+                viewModel.facebookSignIn(activity = activity, onSuccess = onSuccess)
             },
             onClickGoogleLogin = {
                 viewModel.googleSignIn(activity = activity, onSuccess = onSuccess)

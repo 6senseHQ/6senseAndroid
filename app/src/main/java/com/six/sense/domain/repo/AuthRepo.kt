@@ -2,10 +2,8 @@ package com.six.sense.domain.repo
 
 import android.app.Activity
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseUser
-import com.six.sense.domain.model.UserInfo
 
 /**
  * Repository interface for handling authentication-related operations.
@@ -28,8 +26,8 @@ interface AuthRepo {
 
     /**
      * Signs in a user using Facebook Login.
-     * @param button The Facebook login button.
+     * @param activity The activity context.
      * @return [LoginResult] containing the result of the Facebook login attempt.
      */
-    suspend fun facebookSignIn(button: LoginButton): LoginResult
+    suspend fun facebookSignIn(activity: Activity): LoginResult
 }
