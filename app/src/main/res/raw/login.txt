@@ -1,0 +1,19 @@
+Login
+  -Social Login
+  -Regular Login
+
+Signup Screen
+
+Onboarding Screen
+
+Profile Screen
+
+Settings Screen
+
+Error Screen
+
+Loading Screen
+
+Threads
+assistant access
+file reading capabilites
