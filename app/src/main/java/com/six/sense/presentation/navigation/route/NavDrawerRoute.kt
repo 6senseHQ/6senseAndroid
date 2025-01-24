@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import com.six.sense.presentation.EmptyViewModel
 import com.six.sense.presentation.navigation.Screens
 import com.six.sense.presentation.screen.chat.gemini.ChatView
 import com.six.sense.presentation.screen.chat.gemini.ChatViewModel
@@ -42,7 +42,7 @@ fun NavGraphBuilder.navDrawerRoute(
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController) {
         ChatView(modifier = modifier, sendPrompt = { viewModel.sendPrompt(it) },viewModel)
     }
-    composable<Screens.Home.Components> {
+    composableWithVM<Screens.Home.Components, EmptyViewModel>(navController = navController) {
         ComponentsScreen(modifier = modifier)
     }
 }

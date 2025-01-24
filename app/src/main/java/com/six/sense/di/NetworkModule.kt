@@ -2,6 +2,9 @@ package com.six.sense.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.data.local.datastore.DataStoreManager
@@ -97,12 +100,12 @@ object NetworkModule {
             install(Auth) {
                 bearer {
                     loadTokens {
-                        BearerTokens("access","refresh")
+                        BearerTokens("access", "refresh")
                     }
                     refreshTokens {
                         val token = client.post("jwt/refresh/") {
                             markAsRefreshTokenRequest()
-                            setBody(BearerTokens("access","refresh"))
+                            setBody(BearerTokens("access", "refresh"))
                         }.body<BearerTokens>()
                         //Save the token to local
                         BearerTokens("access", "refresh")
@@ -125,9 +128,16 @@ object NetworkModule {
         @ApplicationContext context: Context,
         @IoDispatcher dispatcher: CoroutineDispatcher,
         connectivity: ConnectivityObserver,
-        dataStoreManager: DataStoreManager
+        dataStoreManager: DataStoreManager,
+        firebaseAnalytics: FirebaseAnalytics
     ): AuthRepo =
-        AuthRepoImpl(context = context, dispatcher = dispatcher, connectivity = connectivity, dataStoreManager = dataStoreManager)
+        AuthRepoImpl(
+            context = context,
+            dispatcher = dispatcher,
+            connectivity = connectivity,
+            dataStoreManager = dataStoreManager,
+            firebaseAnalytics = firebaseAnalytics
+        )
 
     /**
      * Provides a singleton instance of [ConnectivityObserver].
@@ -176,4 +186,8 @@ object NetworkModule {
     fun provideSGooglePlayBillingManager(
         @ApplicationContext context: Context,
     ): GooglePlayBillingManager = GooglePlayBillingManager(context)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAnalytics(): FirebaseAnalytics = Firebase.analytics
 }
