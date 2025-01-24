@@ -22,6 +22,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
 import com.six.sense.presentation.MainViewModel
 import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.presentation.navigation.Screens
@@ -54,6 +56,13 @@ inline fun <reified T : Any, reified VM : BaseViewModel> NavGraphBuilder.composa
         val coroutineScope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
+            mainViewModel.firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+                val name = navBackStackEntry.destination.route.toString().split('.').lastOrNull()
+                    ?.split('/')?.firstOrNull() ?: ""
+                name.log("ScreenLog")
+                param(FirebaseAnalytics.Param.SCREEN_NAME, name)
+                param(FirebaseAnalytics.Param.SCREEN_CLASS, name)
+            }
             coroutineScope.launch {
                 viewModel.errorFlow.collect { error ->
                     navController.navigate(Screens.ErrorDialog(error))

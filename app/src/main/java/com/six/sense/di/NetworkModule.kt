@@ -7,10 +7,8 @@ import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
-import com.six.sense.data.repo.GeminiFilesRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
-import com.six.sense.domain.repo.GeminiFilesRepo
 import com.six.sense.presentation.screen.profile.GooglePlayBillingManager
 import com.six.sense.utils.Constants
 import dagger.Module
@@ -128,12 +126,14 @@ object NetworkModule {
         @IoDispatcher dispatcher: CoroutineDispatcher,
         connectivity: ConnectivityObserver,
         dataStoreManager: DataStoreManager,
+        firebaseAnalytics: FirebaseAnalytics
     ): AuthRepo =
         AuthRepoImpl(
             context = context,
             dispatcher = dispatcher,
             connectivity = connectivity,
-            dataStoreManager = dataStoreManager
+            dataStoreManager = dataStoreManager,
+            firebaseAnalytics = firebaseAnalytics
         )
 
     /**
@@ -175,7 +175,7 @@ object NetworkModule {
     @Singleton
     fun provideStripePaymentManager(
         @ApplicationContext context: Context,
-        ktorClient: HttpClient,
+        ktorClient: HttpClient
     ): StripePaymentManager = StripePaymentManager(context, ktorClient)
 
     @Provides
@@ -195,4 +195,8 @@ object NetworkModule {
         dispatcher = ioDispatcher,
         context = context
     )
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAnalytics(): FirebaseAnalytics = Firebase.analytics
 }

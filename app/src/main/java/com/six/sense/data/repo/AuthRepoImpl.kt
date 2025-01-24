@@ -17,6 +17,7 @@ import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -43,7 +44,8 @@ class AuthRepoImpl(
     private val context: Context,
     private val dispatcher: CoroutineDispatcher,
     private val connectivity: ConnectivityObserver,
-    private val dataStoreManager: DataStoreManager
+    private val dataStoreManager: DataStoreManager,
+    private val firebaseAnalytics: FirebaseAnalytics,
 ) : AuthRepo {
 
     override suspend fun firebaseSignIn(credential: Any): FirebaseUser = withContext(dispatcher) {
@@ -62,8 +64,16 @@ class AuthRepoImpl(
                 .addOnSuccessListener { result ->
                     Log.d("TAG", "firebase:onSuccess:${result.user}")
                     val user = result.user
-                    if (user != null)
+                    if (user != null) {
+                        firebaseAnalytics.apply {
+                            setUserId(user.email)
+                            setUserProperty("name", user.displayName)
+                            setUserProperty("email", user.email)
+                            setUserProperty("phone", user.phoneNumber)
+                            setUserProperty("photoUrl", user.photoUrl.toString())
+                        }
                         continuation.resume(user)
+                    }
                     else
                         error("User is null")
                 }.addOnFailureListener {

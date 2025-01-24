@@ -2,6 +2,8 @@ package com.six.sense.presentation.screen.profile
 
 import android.app.Activity
 import androidx.lifecycle.SavedStateHandle
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.local.datastore.StoreKeys
 import com.six.sense.data.remote.StripePaymentManager
@@ -22,7 +24,8 @@ class ProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val dataStoreManager: DataStoreManager,
     val stripePaymentManager: StripePaymentManager,
-    private val googlePlayBillingManager: GooglePlayBillingManager
+    private val googlePlayBillingManager: GooglePlayBillingManager,
+    private val firebaseAnalytics: FirebaseAnalytics
 ) : BaseViewModel(){
 
     val userInfo = savedStateHandle.getStateFlow(StoreKeys.USER_INFO, UserInfo())
@@ -35,6 +38,10 @@ class ProfileViewModel @Inject constructor(
 
     fun presentPaymentSheet() {
         launch{
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                param(FirebaseAnalytics.Param.ITEM_ID, 0)
+                param(FirebaseAnalytics.Param.PAYMENT_TYPE, "Stripe Payment")
+            }
             stripePaymentManager.connectToStripeBackend()
             stripePaymentManager.presentPaymentSheet()
         }
@@ -42,6 +49,10 @@ class ProfileViewModel @Inject constructor(
 
     fun launchPurchaseFlow(activity: Activity?) {
         launch{
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                param(FirebaseAnalytics.Param.ITEM_ID, 1)
+                param(FirebaseAnalytics.Param.PAYMENT_TYPE, "Google Play Billing")
+            }
             activity?.let {
                 googlePlayBillingManager.launchPurchaseFlow(it)
             }

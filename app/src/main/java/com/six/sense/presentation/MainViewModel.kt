@@ -2,6 +2,7 @@ package com.six.sense.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.openai.client.OpenAIClient
 import com.openai.models.AssistantTool
 import com.openai.models.BetaAssistantCreateParams
@@ -36,6 +37,7 @@ class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val openAIClient: OpenAIClient,
     private val dataStoreManager: DataStoreManager,
+    val firebaseAnalytics: FirebaseAnalytics
 ) : BaseViewModel() {
     var keepSplashOpened: Boolean = true
 
