@@ -2,87 +2,47 @@ package com.six.sense.presentation.screen.chat.gemini
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.ai.client.generativeai.type.content
-import com.six.sense.R
-import com.six.sense.presentation.screen.chat.components.ChatMessageItem
 import com.six.sense.presentation.screen.chat.components.ChatTextField
-import com.six.sense.ui.theme.SixSenseAndroidTheme
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
-
-/**
- * A composable function that renders a chat header.
- * @param modifier [Modifier] Modifier for the layout.
- */
-@Composable
-private fun ChatHeader(modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(16.sdp),
-            verticalAlignment = Alignment.Companion.CenterVertically,
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary, CircleShape)
-                    .requiredSize(48.sdp),
-                contentAlignment = Alignment.Companion.Center
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_polyline_outline),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.surfaceContainer
-                )
-            }
-            Spacer(modifier = Modifier.requiredWidth(10.sdp))
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.sdp)
-            ) {
-                Text(text = "6Sense", style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = "Your personal assistant",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-        }
-    }
-}
-
 
 /**
  * A composable function that renders a chat view.
@@ -91,89 +51,79 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
 @Composable
 fun ChatView(
     modifier: Modifier = Modifier,
+    showModelDialog: Boolean,
     sendPrompt: (String) -> Unit,
-    chatViewModel: ChatViewModel,
+    chatUiState: ChatUiState,
 ) {
-    val chatUiState by chatViewModel.chatUiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
     val (chatText, setChatText) = remember { mutableStateOf("") }
-    val chatHistory = remember { mutableStateListOf("") }
-   /* val chat = remember {
-        chatViewModel.generativeModel.startChat(
-            listOf(
-                content("user") {
-                    text(chatText)
-                },
-                content("model") {
-                    text("how are you?")
-                }
-            )
-        )
-    }*/
-    Scaffold(
-        modifier = modifier,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        bottomBar = {
-            ChatBottom(
+    var currentModel by remember { mutableIntStateOf(0) }
+
+    val listState = rememberLazyListState()
+    LaunchedEffect(chatUiState.outputContent) {
+        if (chatUiState.outputContent.isNotEmpty()) {
+            listState.animateScrollToItem(chatUiState.chatHistory.lastIndex)
+        }
+    }
+    if (showModelDialog) {
+        ModelSelection(selectedButton = currentModel, onSelectedButton = { currentModel = it })
+    } else
+        Scaffold(
+            modifier = modifier,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            bottomBar = {
+                ChatBottom(
+                    modifier = Modifier
+                        .consumeWindowInsets(WindowInsets.systemBars)
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .imePadding(),
+                    chatText = chatText,
+                    setChatText = setChatText,
+                    sendPrompt = { sendPrompt(chatText); setChatText("") }
+                )
+            }
+        ) { innerPadding ->
+            LazyColumn(
                 modifier = Modifier
                     .consumeWindowInsets(WindowInsets.systemBars)
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .imePadding(),
-                chatText = chatText,
-                setChatText = setChatText,
-                sendPrompt = {
-                    coroutineScope.launch {
-                        chatHistory.add(chatText)
-
-                        // Send the message to the model
-                        val response = chat.sendMessage(chatText)
-
-                        // Add model's response to chat history
-                        chatHistory.add("${response.text}")
-                    }
-                    setChatText("")
-                }
-            )
-        }
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .consumeWindowInsets(WindowInsets.systemBars)
-                .padding(innerPadding)
-                .fillMaxWidth()
-                , contentPadding = PaddingValues(
-                horizontal = 16.dp
-                )
-        ) {
-            items(chatHistory.size) { index ->
-                if (index % 2 == 0) {
-                    Text(
-                        modifier = Modifier,
-                        text = chatHistory[index],
-                        textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-
-                } else {
-                    Column (modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)) {
+                    .padding(innerPadding)
+                    .fillMaxWidth(), contentPadding = PaddingValues(
+                    horizontal = 16.dp
+                ),
+                state = listState
+            ) {
+                items(chatUiState.chatHistory.size) { index ->
+                    if (index % 2 != 0) {
                         Text(
-                            modifier = Modifier
-                                .align(Alignment.End)
-                                .background(
-                                    color = MaterialTheme.colorScheme.surfaceContainer,
-                                    shape = CircleShape
-                                )
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            text = chatHistory[index],
-                            textAlign = TextAlign.End,
+                            modifier = Modifier,
+                            text = chatUiState.chatHistory[index],
+                            textAlign = TextAlign.Start,
                             style = MaterialTheme.typography.bodyMedium
                         )
+
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp)
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surfaceContainer,
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                text = chatUiState.chatHistory[index],
+                                textAlign = TextAlign.End,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
                     }
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -198,27 +148,76 @@ fun ChatBottom(
     }
 }
 
-
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DefPrev() {
-    SixSenseAndroidTheme {
-//        ChatView()
+fun ChatBottomSheet(modifier: Modifier = Modifier) {
+    val sheetState = rememberModalBottomSheetState()
+
+    /**
+     * Coroutine Scope.
+     */
+    val scope = rememberCoroutineScope()
+
+    /**
+     * Show bottom sheet.
+     */
+    var showBottomSheet by remember { mutableStateOf(false) }
+    Scaffold(
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text("Show sheet") },
+                icon = { Icon(Icons.Outlined.Add, contentDescription = "") },
+                onClick = { showBottomSheet = true }
+            )
+        }
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+        ) {
+            if (showBottomSheet)
+                ModalBottomSheet(
+                    modifier = Modifier
+                        .padding(contentPadding)
+                        .fillMaxSize(),
+                    onDismissRequest = {
+                        showBottomSheet = false
+                    },
+                    sheetState = sheetState
+                ) {
+                    // Sheet content
+                    Button(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally), onClick = {
+                            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    showBottomSheet = false
+                                }
+                            }
+                        }) {
+                        Text(
+                            text = "Hide bottom sheet"
+                        )
+                    }
+                }
+        }
     }
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DefPrevTwo() {
-    SixSenseAndroidTheme {
-        ChatMessageItem()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefPrevThree() {
-    SixSenseAndroidTheme {
-        ChatTextField()
+fun ModelSelection(
+    modifier: Modifier = Modifier,
+    selectedButton: Int,
+    onSelectedButton: (Int) -> Unit,
+) {
+    BasicAlertDialog(onDismissRequest = {}) {
+        SystemInstructions.entries.forEachIndexed { index, instruction ->
+            Row {
+                RadioButton(
+                    selected = selectedButton == index,
+                    onClick = { onSelectedButton(selectedButton) })
+                Text(text = instruction.role)
+            }
+        }
     }
 }

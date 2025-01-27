@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
+import com.google.ai.client.generativeai.type.generationConfig
 import com.six.sense.BuildConfig
-import com.six.sense.R
-import com.six.sense.domain.repo.GeminiFilesRepo
 import com.six.sense.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,53 +25,59 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context,
-    private val geminiFilesRepo: GeminiFilesRepo,
 ) : BaseViewModel() {
     private val _chatUiState = MutableStateFlow(ChatUiState())
     val chatUiState = _chatUiState.asStateFlow()
 
 
-
-    private val resourceId = R.raw.login
-    val uri = "android.resource://${context.packageName}/$resourceId"
-
-    val inputStream = context.resources.openRawResource(resourceId)
-
-
-    val fileBytes = inputStream.readBytes()
-
-
     val generativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash-exp",
         apiKey = BuildConfig.apiKey,
-        systemInstruction = content {
-            text("act as a comedian.")
-        }
+        systemInstruction = content {text(_chatUiState.value.systemRole.instruction) }
     )
 
-    fun geminiChat(
-        userPrompt: String,
-        modelResponse: String,
-    ) {
+
+
+    val toneChangerModel = GenerativeModel(
+        "gemini-1.5-flash",
+        // Retrieve API key as an environmental variable defined in a Build Configuration
+        // see https://github.com/google/secrets-gradle-plugin for further instructions
+        BuildConfig.apiKey,
+        generationConfig = generationConfig {
+            temperature = 2f
+            topK = 40
+            topP = 0.95f
+            maxOutputTokens = 8192
+            responseMimeType = "text/plain"
+        },
+    )
+
+    val chatHistory = emptyList<String>()
+
+    val chat = toneChangerModel.startChat()
+
+    // Note that sendMessage() is a suspend function and should be called from
+// a coroutine scope or another suspend function
+
+//    val response = chat.sendMessage(content{})
+
+    fun geminiChat(userPrompt: String) {
         launch {
-            val chat = generativeModel.startChat(
-                history = listOf(
-                    content(role = "user") {
-                        text(userPrompt)
-                    },
-                    content(role = "model") {
-                        text(modelResponse)
-                    }
-                )
-            )
-
+            val chat = generativeModel.startChat()
             val response = chat.sendMessage(userPrompt)
-            chat.sendMessage(userPrompt)
 
-
-            _chatUiState.update { it.copy(inputContent = userPrompt) }
-            _chatUiState.update { it.copy(outputContent = response.text ?: "") }
+            _chatUiState.update {
+                it.copy(inputContent = userPrompt, outputContent = response.text ?: "",
+                    chatHistory = it.chatHistory.apply {
+                        add(userPrompt)
+                        add(response.text ?: "")
+                    })
+            }
         }
+    }
+
+    fun changeSystemRole(systemRole: SystemInstructions) {
+        _chatUiState.update { it.copy(systemRole = systemRole) }
     }
 
     /**

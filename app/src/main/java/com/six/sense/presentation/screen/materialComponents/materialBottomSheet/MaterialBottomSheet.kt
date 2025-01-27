@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MaterialBottomSheet(modifier: Modifier = Modifier) {
+fun MaterialBottomSheet(modifier: Modifier = Modifier,) {
     /**
      * Sheet state.
      */

@@ -16,6 +16,7 @@ import com.openai.models.FunctionTool
 import com.openai.models.ModelListParams
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.presentation.base.BaseViewModel
+import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,14 +38,14 @@ class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val openAIClient: OpenAIClient,
     private val dataStoreManager: DataStoreManager,
-    val firebaseAnalytics: FirebaseAnalytics
+    val firebaseAnalytics: FirebaseAnalytics,
 ) : BaseViewModel() {
     var keepSplashOpened: Boolean = true
 
     /**
      * Ui mode state light by default
      */
-    val isUiLightMode = dataStoreManager.readAsFlow("THEME_MODE",true).onEach {
+    val isUiLightMode = dataStoreManager.readAsFlow("THEME_MODE", true).onEach {
         keepSplashOpened = false
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
 
@@ -54,16 +55,33 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    val currentModel = dataStoreManager.readAsFlow("MODEL", SystemInstructions.DEFAULT).stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5_000), SystemInstructions.DEFAULT
+    )
+
+    fun switchModel(model: String, isVisible: Boolean) {
+        if (isVisible)
+            viewModelScope.launch {
+                dataStoreManager.save("MODEL", model)
+            }
+    }
+
     /**
      * A function to test the OpenAI API.
      */
-    fun testOpenAI(){
-        launch(ioContext){
-            val assistantId= openAIClient.beta().assistants().create(
+    fun testOpenAI() {
+        launch(ioContext) {
+            val assistantId = openAIClient.beta().assistants().create(
                 BetaAssistantCreateParams.builder()
                     .model(ChatModel.GPT_4O)
                     .instructions("")
-                    .tools(listOf(AssistantTool.ofFunctionTool(FunctionTool.builder().type(FunctionTool.Type.FUNCTION).build())))
+                    .tools(
+                        listOf(
+                            AssistantTool.ofFunctionTool(
+                                FunctionTool.builder().type(FunctionTool.Type.FUNCTION).build()
+                            )
+                        )
+                    )
                     .build()
             ).id()
             openAIClient.beta().threads().runs().create(
@@ -78,12 +96,16 @@ class MainViewModel @Inject constructor(
                     .build()
             ).data().map { it.id() }.log()
             val params = ChatCompletionCreateParams.builder()
-                .messages(listOf(
-                    ChatCompletionMessageParam.ofChatCompletionUserMessageParam(
-                        ChatCompletionUserMessageParam.builder()
-                        .role(ChatCompletionUserMessageParam.Role.USER)
-                        .content(ChatCompletionUserMessageParam.Content.ofTextContent("Hay, this is a test"))
-                        .build())))
+                .messages(
+                    listOf(
+                        ChatCompletionMessageParam.ofChatCompletionUserMessageParam(
+                            ChatCompletionUserMessageParam.builder()
+                                .role(ChatCompletionUserMessageParam.Role.USER)
+                                .content(ChatCompletionUserMessageParam.Content.ofTextContent("Hay, this is a test"))
+                                .build()
+                        )
+                    )
+                )
                 .model(ChatModel.GPT_3_5_TURBO)
                 .build()
             val chatCompletion: ChatCompletion = openAIClient.chat().completions().create(params)

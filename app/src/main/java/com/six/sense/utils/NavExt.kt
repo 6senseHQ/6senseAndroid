@@ -4,7 +4,9 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -94,6 +97,7 @@ inline fun <reified T : Any, reified VM : BaseViewModel> NavGraphBuilder.composa
  *
  * @param modifier Modifier for the layout.
  */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingLayout(modifier: Modifier = Modifier) {
     Box(
@@ -102,7 +106,9 @@ fun LoadingLayout(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background.copy(.6F))
     ){
-        CircularProgressIndicator()
+        LoadingIndicator(
+            modifier = Modifier.size(60.dp),
+        )
     }
 }
 

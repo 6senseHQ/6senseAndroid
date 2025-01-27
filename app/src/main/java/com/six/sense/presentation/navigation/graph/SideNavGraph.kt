@@ -25,10 +25,16 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -75,6 +81,7 @@ fun SetupSideNavGraph(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val isUiLightMode by mainViewModel.isUiLightMode.collectAsStateWithLifecycle()
+    var showModelDialog by remember { mutableStateOf(false) }
 
     val mainContent: @Composable () -> Unit = {
         Scaffold(
@@ -82,7 +89,7 @@ fun SetupSideNavGraph(
                 TopAppBar(
                     title = { Text(text = currentDestination) },
                     navigationIcon = {
-                        if(windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED) {
+                        if (windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED) {
                             IconButton(onClick = {
                                 scope.launch {
                                     drawerState.apply {
@@ -95,12 +102,23 @@ fun SetupSideNavGraph(
                         }
                     },
 
-                    actions = { if (currentRoute == Screens.Home.Profile.serializer().route) IconButton(onClick = {
-                        mainViewModel.switchUiMode(!isUiLightMode)
-                    }) {
-                        Icon(
-                            if (isUiLightMode) Icons.Outlined.DarkMode else Icons.Outlined.LightMode, contentDescription = "Menu")
-                    } }
+                    actions = {
+                        if (currentRoute == Screens.Home.Profile.serializer().route) IconButton(
+                            onClick = {
+                                mainViewModel.switchUiMode(!isUiLightMode)
+                            }) {
+                            Icon(
+                                if (isUiLightMode) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
+                                contentDescription = "Menu"
+                            )
+                        }
+                        if (currentRoute == Screens.Home.Chat.serializer().route) IconButton(onClick = { showModelDialog = !showModelDialog }) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.page_info_24px),
+                                contentDescription = "Automate"
+                            )
+                        }
+                    }
                 )
             }
         ) { paddingValues ->
@@ -110,13 +128,14 @@ fun SetupSideNavGraph(
             ) {
                 navDrawerRoute(
                     navController = navController,
+                    showModelDialog = showModelDialog,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues),
                     onLogoutClicked = {
                         Firebase.auth.signOut()
-                        navController.navigate(Screens.Login){
-                            popUpTo(Screens.Home){
+                        navController.navigate(Screens.Login) {
+                            popUpTo(Screens.Home) {
                                 inclusive = true
                             }
                         }
@@ -130,9 +149,13 @@ fun SetupSideNavGraph(
         }
     }
     val drawerContent: @Composable () -> Unit = {
-        Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.sdp), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            stringResource(R.string.app_name),
+            modifier = Modifier.padding(16.sdp),
+            style = MaterialTheme.typography.headlineSmall
+        )
         HorizontalDivider(modifier = Modifier.padding(5.sdp))
-        MainScreenType.entries.forEach{  destination ->
+        MainScreenType.entries.forEach { destination ->
             NavigationDrawerItem(
                 icon = { Icon(destination.icon, contentDescription = destination.name) },
                 label = { Text(destination.name) },

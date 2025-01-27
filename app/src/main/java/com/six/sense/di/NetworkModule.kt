@@ -2,13 +2,18 @@ package com.six.sense.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
+import com.six.sense.data.repo.GeminiFilesRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
+import com.six.sense.domain.repo.GeminiFilesRepo
 import com.six.sense.presentation.screen.profile.GooglePlayBillingManager
 import com.six.sense.utils.Constants
 import dagger.Module

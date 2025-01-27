@@ -21,6 +21,7 @@ import com.six.sense.utils.composableWithVM
 fun NavGraphBuilder.navDrawerRoute(
     modifier: Modifier,
     navController: NavController,
+    showModelDialog: Boolean,
     onLogoutClicked: () -> Unit,
 ) {
     composableWithVM<Screens.Home.Profile, ProfileViewModel>(navController = navController) {
@@ -40,7 +41,8 @@ fun NavGraphBuilder.navDrawerRoute(
 
     }
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController) {
-        ChatView(modifier = modifier, sendPrompt = { viewModel.sendPrompt(it) },viewModel)
+        val chatUiState by viewModel.chatUiState.collectAsStateWithLifecycle()
+        ChatView(modifier = modifier,showModelDialog=showModelDialog, sendPrompt = {userPrompt-> viewModel.geminiChat(userPrompt = userPrompt) }, chatUiState = chatUiState)
     }
     composableWithVM<Screens.Home.Components, EmptyViewModel>(navController = navController) {
         ComponentsScreen(modifier = modifier)
