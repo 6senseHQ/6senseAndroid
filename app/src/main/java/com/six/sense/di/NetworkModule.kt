@@ -17,6 +17,7 @@ import com.six.sense.data.repo.OpenAiRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
 import com.six.sense.domain.repo.GeminiFilesRepo
+import com.six.sense.domain.repo.OpenAiRepo
 import com.six.sense.presentation.screen.profile.GooglePlayBillingManager
 import com.six.sense.utils.Constants
 import dagger.Module
@@ -178,11 +179,11 @@ object NetworkModule {
      */
     @Provides
     @Singleton
-    fun provideOpenAiRepoImpl(
+    fun provideOpenAiRepo(
         openAIClient: OpenAIClient,
         threadDao: ThreadDao,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): OpenAiRepoImpl = OpenAiRepoImpl(
+    ): OpenAiRepo = OpenAiRepoImpl(
         openAIClient = openAIClient,
         threadDao = threadDao,
         dispatcher = ioDispatcher

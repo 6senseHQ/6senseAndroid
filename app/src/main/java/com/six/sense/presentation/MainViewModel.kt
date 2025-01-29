@@ -22,6 +22,7 @@ import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -44,6 +45,8 @@ class MainViewModel @Inject constructor(
     val firebaseAnalytics: FirebaseAnalytics,
 ) : BaseViewModel() {
     var keepSplashOpened: Boolean = true
+
+    val showChatDialog = MutableStateFlow(false)
 
     /**
      * Ui mode state light by default
