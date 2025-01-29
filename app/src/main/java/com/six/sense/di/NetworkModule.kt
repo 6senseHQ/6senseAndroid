@@ -9,9 +9,11 @@ import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.six.sense.BuildConfig
 import com.six.sense.data.local.datastore.DataStoreManager
+import com.six.sense.data.local.room.ThreadDao
 import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
 import com.six.sense.data.repo.GeminiFilesRepoImpl
+import com.six.sense.data.repo.OpenAiRepoImpl
 import com.six.sense.domain.ConnectivityObserver
 import com.six.sense.domain.repo.AuthRepo
 import com.six.sense.domain.repo.GeminiFilesRepo
@@ -166,6 +168,26 @@ object NetworkModule {
             .project(BuildConfig.OPENAI_PROJECT_ID)
             .build()
 
+    /**
+     * Provides a singleton instance of [OpenAiRepoImpl].
+     *
+     * @param openAIClient The OpenAI client.
+     * @param threadDao The ThreadDao for database access.
+     * @param ioDispatcher The IO coroutine dispatcher.
+     * @return A singleton instance of [OpenAiRepoImpl].
+     */
+    @Provides
+    @Singleton
+    fun provideOpenAiRepoImpl(
+        openAIClient: OpenAIClient,
+        threadDao: ThreadDao,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+    ): OpenAiRepoImpl = OpenAiRepoImpl(
+        openAIClient = openAIClient,
+        threadDao = threadDao,
+        dispatcher = ioDispatcher
+    )
+
 
     /**
      * Provides a singleton instance of [StripePaymentManager].
@@ -184,12 +206,27 @@ object NetworkModule {
         ktorClient: HttpClient
     ): StripePaymentManager = StripePaymentManager(context, ktorClient)
 
+
+    /**
+     * Provides a singleton instance of [GooglePlayBillingManager].
+     *
+     * @param context The application context.
+     * @return A singleton instance of [GooglePlayBillingManager].
+     */
     @Provides
     @Singleton
-    fun provideSGooglePlayBillingManager(
+    fun provideGooglePlayBillingManager(
         @ApplicationContext context: Context,
     ): GooglePlayBillingManager = GooglePlayBillingManager(context)
 
+    /**
+     * Provides a singleton instance of [GeminiFilesRepo].
+     *
+     * @param ktorClient The Ktor HTTP client.
+     * @param context The application context.
+     * @param ioDispatcher The IO coroutine dispatcher.
+     * @return A singleton instance of [GeminiFilesRepo].
+     */
     @Provides
     @Singleton
     fun provideGeminiFilesUpload(
@@ -202,6 +239,12 @@ object NetworkModule {
         context = context
     )
 
+
+    /**
+     * Provides a singleton instance of [FirebaseAnalytics].
+     *
+     * @return A singleton instance of [FirebaseAnalytics].
+     */
     @Provides
     @Singleton
     fun provideFirebaseAnalytics(): FirebaseAnalytics = Firebase.analytics

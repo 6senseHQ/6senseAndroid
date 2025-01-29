@@ -6,6 +6,9 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.openai.client.OpenAIClient
 import com.openai.models.AssistantTool
 import com.openai.models.BetaAssistantCreateParams
+import com.openai.models.BetaThreadCreateAndRunParams
+import com.openai.models.BetaThreadMessageCreateParams
+import com.openai.models.BetaThreadMessageListParams
 import com.openai.models.BetaThreadRunCreateParams
 import com.openai.models.ChatCompletion
 import com.openai.models.ChatCompletionCreateParams
@@ -75,21 +78,30 @@ class MainViewModel @Inject constructor(
                 BetaAssistantCreateParams.builder()
                     .model(ChatModel.GPT_4O)
                     .instructions("")
-                    .tools(
-                        listOf(
-                            AssistantTool.ofFunctionTool(
-                                FunctionTool.builder().type(FunctionTool.Type.FUNCTION).build()
-                            )
-                        )
-                    )
+                    .tools(listOf(AssistantTool.ofFunction(FunctionTool.builder().build())))
                     .build()
             ).id()
-            openAIClient.beta().threads().runs().create(
+            val threadId = openAIClient.beta().threads().createAndRun(
+                BetaThreadCreateAndRunParams.builder()
+                    .assistantId(assistantId)
+                    .instructions("Help me about the knowledge of the company")
+                    .build()
+            ).id()
+            openAIClient.beta().threads().messages().create(
+                BetaThreadMessageCreateParams.builder()
+                    .threadId(threadId)
+                    .content("")
+                    .build()
+            ).content()
+            val x = openAIClient.beta().threads().runs().create(
                 BetaThreadRunCreateParams.builder()
                     .assistantId(assistantId)
                     .instructions("")
                     .build()
             )
+            val list = openAIClient.beta().threads().messages().list(
+                BetaThreadMessageListParams.builder().threadId(threadId).build()
+            ).data()
 
             openAIClient.models().list(
                 ModelListParams.builder()
@@ -98,10 +110,9 @@ class MainViewModel @Inject constructor(
             val params = ChatCompletionCreateParams.builder()
                 .messages(
                     listOf(
-                        ChatCompletionMessageParam.ofChatCompletionUserMessageParam(
+                        ChatCompletionMessageParam.ofUser(
                             ChatCompletionUserMessageParam.builder()
-                                .role(ChatCompletionUserMessageParam.Role.USER)
-                                .content(ChatCompletionUserMessageParam.Content.ofTextContent("Hay, this is a test"))
+                                .content(ChatCompletionUserMessageParam.Content.ofText("Hay, this is a test"))
                                 .build()
                         )
                     )

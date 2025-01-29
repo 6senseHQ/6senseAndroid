@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.local.room.LocalDatabase
+import com.six.sense.data.local.room.ThreadDao
 import com.six.sense.data.local.room.UserDao
 import com.six.sense.utils.Constants
 import dagger.Module
@@ -43,6 +44,16 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideLocalDao(database: LocalDatabase): UserDao = database.userDao()
+
+
+    /**
+     * Provides a singleton instance of [ThreadDao].
+     * @param database The [LocalDatabase] instance.
+     * @return A [ThreadDao] instance.
+     */
+    @Singleton
+    @Provides
+    fun provideThreadDao(database: LocalDatabase): ThreadDao = database.threadDao()
 
     /**
      * Provide data store manager
