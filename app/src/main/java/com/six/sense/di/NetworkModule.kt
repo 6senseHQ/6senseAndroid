@@ -7,6 +7,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.six.sense.BuildConfig
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.data.remote.StripePaymentManager
 import com.six.sense.data.repo.AuthRepoImpl
@@ -160,9 +161,9 @@ object NetworkModule {
     @Singleton
     fun provideOpenAIClient(): OpenAIClient =
         OpenAIOkHttpClient.builder()
-            .apiKey(Constants.OPENAI_API_KEY)
-            .organization(Constants.OPENAI_ORG_ID)
-            .project(Constants.OPENAI_PROJECT_ID)
+            .apiKey(BuildConfig.OPENAI_API_KEY)
+            .organization(BuildConfig.OPENAI_ORG_ID)
+            .project(BuildConfig.OPENAI_PROJECT_ID)
             .build()
 
 

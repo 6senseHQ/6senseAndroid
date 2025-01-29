@@ -145,6 +145,10 @@ dependencies {
 
 }
 
+secrets {
+    defaultPropertiesFileName = "local.defaults.properties"
+}
+
 dokka {
     moduleName.set(rootProject.name + " Documentation")
     moduleVersion.set(ProjectConfig.versionName)
