@@ -1,15 +1,19 @@
 package com.six.sense.presentation.screen.chat.components
 
+import android.graphics.Bitmap
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -29,24 +33,46 @@ fun ChatTextField(
     modifier: Modifier = Modifier,
     chatText: String = "",
     setChatText: (String) -> Unit = {},
-    sendPrompt: (String) -> Unit = {}
+    setBitMap: Bitmap,
+
+    sendPrompt: (String, Bitmap) -> Unit,
+    openSheet: () -> Unit,
 ) {
     TextField(
         modifier = modifier, value = chatText, onValueChange = setChatText,
-        colors = TextFieldDefaults.colors(focusedIndicatorColor = Transparent, unfocusedIndicatorColor = Transparent),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Transparent,
+            unfocusedIndicatorColor = Transparent
+        ),
         shape = RoundedCornerShape(28.sdp),
-        placeholder = {Text(text = "Message", style = MaterialTheme.typography.bodyMedium) },
+        placeholder = { Text(text = "Message", style = MaterialTheme.typography.bodyMedium) },
         textStyle = MaterialTheme.typography.bodyMedium,
         trailingIcon = {
-            FilledIconButton(modifier = Modifier
-                .bounceClick(),
-                onClick = { sendPrompt(chatText.trimEnd()) }) {
-                Icon(
+            Row {
+                IconButton(
                     modifier = Modifier
-                        .offset(x = 2.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_send_outline),
-                    contentDescription = null
-                )
+                        .bounceClick(),
+                    onClick = openSheet
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .rotate(45f),
+                        imageVector = ImageVector.vectorResource(R.drawable.attach_file_24px),
+                        contentDescription = null
+                    )
+                }
+
+                FilledIconButton(modifier = Modifier
+                    .bounceClick(),
+                    onClick = { sendPrompt(chatText.trimEnd(), setBitMap) }) {
+                    Icon(
+                        modifier = Modifier
+                            .offset(x = 2.dp),
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_send_outline),
+                        contentDescription = null
+                    )
+                }
+
             }
         },
         singleLine = true

@@ -1,3 +1,4 @@
+/*
 package com.six.sense.presentation.screen.chat.openAi
 
 import androidx.compose.foundation.background
@@ -39,10 +40,12 @@ import com.six.sense.ui.theme.SixSenseAndroidTheme
 import com.six.sense.utils.bounceClick
 import ir.kaaveh.sdpcompose.sdp
 
+*/
 /**
  * A composable function that renders a chat header.
  * @param modifier [Modifier] Modifier for the layout.
- */
+ *//*
+
 @Composable
 private fun ChatHeader(modifier: Modifier = Modifier) {
     Box(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
@@ -80,10 +83,12 @@ private fun ChatHeader(modifier: Modifier = Modifier) {
 }
 
 
+*/
 /**
  * A composable function that renders a chat view.
  * @param modifier [Modifier] Modifier for the layout.
- */
+ *//*
+
 @Composable
 fun ChatView(modifier: Modifier = Modifier, sendPrompt: () -> Unit = {}) {
     val (chatText, setChatText) = remember { mutableStateOf("") }
@@ -159,4 +164,4 @@ private fun DefPrevThree() {
     SixSenseAndroidTheme {
         ChatTextField()
     }
-}
+}*/

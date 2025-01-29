@@ -128,7 +128,6 @@ fun SetupSideNavGraph(
             ) {
                 navDrawerRoute(
                     navController = navController,
-                    showModelDialog = showModelDialog,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues),

@@ -51,9 +51,6 @@ fun SetupBottomNavGraph(
             startDestination = startDestination,
             navController = navControllerBottomBar
         ) {
-//            chatRoute(
-//
-//            )
             navDrawerRoute(
                 navController = navController,
                 modifier = modifier,
@@ -65,7 +62,6 @@ fun SetupBottomNavGraph(
                         }
                     }
                 },
-                showModelDialog = showModelDialog
             )
         }
     }

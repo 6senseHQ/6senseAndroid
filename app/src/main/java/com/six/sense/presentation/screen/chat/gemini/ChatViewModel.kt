@@ -1,6 +1,7 @@
 package com.six.sense.presentation.screen.chat.gemini
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -33,9 +34,8 @@ class ChatViewModel @Inject constructor(
     val generativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash-exp",
         apiKey = BuildConfig.apiKey,
-        systemInstruction = content {text(_chatUiState.value.systemRole.instruction) }
+        systemInstruction = content { text(_chatUiState.value.systemRole.instruction) }
     )
-
 
 
     val toneChangerModel = GenerativeModel(
@@ -61,10 +61,18 @@ class ChatViewModel @Inject constructor(
 
 //    val response = chat.sendMessage(content{})
 
-    fun geminiChat(userPrompt: String) {
+    private val _currentImagePosition = MutableStateFlow<Int?>(null)
+    val currentImagePosition = _currentImagePosition.asStateFlow()
+
+    fun geminiChat(userPrompt: String, userImage: Bitmap) {
         launch {
             val chat = generativeModel.startChat()
-            val response = chat.sendMessage(userPrompt)
+            val response = chat.sendMessage(
+                content {
+                    text(userPrompt)
+                    image(userImage)
+                }
+            )
 
             _chatUiState.update {
                 it.copy(inputContent = userPrompt, outputContent = response.text ?: "",
