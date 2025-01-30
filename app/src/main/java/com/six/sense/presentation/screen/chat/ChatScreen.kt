@@ -62,7 +62,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.six.sense.presentation.screen.chat.components.ChatTextField
-import com.six.sense.presentation.screen.chat.gemini.ChatUiState
 import com.six.sense.presentation.screen.chat.gemini.ImageResources.imageList
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import ir.kaaveh.sdpcompose.sdp
