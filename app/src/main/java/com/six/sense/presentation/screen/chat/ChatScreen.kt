@@ -116,7 +116,7 @@ fun ChatScreen(
                             .size(24 .dp), onClick = {
                             bitmap = null
                         }, colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer,
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )) {
                             Icon(Icons.Outlined.Close, null,modifier= Modifier.padding(3.dp),)

@@ -3,6 +3,7 @@ package com.six.sense.presentation.screen.chat
 import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.TextPart
 import com.google.ai.client.generativeai.type.content
 import com.six.sense.BuildConfig
 import com.six.sense.domain.repo.OpenAiRepo
@@ -26,14 +27,14 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val openAiRepo: OpenAiRepo
+    private val openAiRepo: OpenAiRepo,
 ) : BaseViewModel() {
     private val _chatUiState = MutableStateFlow(ChatUiState())
     val chatUiState = _chatUiState
 
     init {
         launch {
-            val threadIds= openAiRepo.getAllThreads()
+            val threadIds = openAiRepo.getAllThreads()
             val ass = openAiRepo.getAllAssistants()
             ass.log()
             ass.firstOrNull()?.id()?.let { id ->
@@ -62,19 +63,19 @@ class ChatViewModel @Inject constructor(
             val chat = generativeModel.startChat()
             val response = chat.sendMessage(
                 content {
+                    parts.addAll(_chatUiState.value.chatHistory.map { TextPart(it) })
                     text(userPrompt)
-                    userImage?.let {
-                        image(it)
-                    }
+                    userImage?.let { image(it) }
                 }
             )
 
             _chatUiState.update {
-                it.copy(inputContent = userPrompt, outputContent = response.text ?: "",
+                it.copy(
+                    inputContent = userPrompt, outputContent = response.text ?: "",
                     chatHistory = it.chatHistory.toMutableList().apply {
-                        add(userPrompt)
-                        add(response.text ?: "")
-                    }.toList())
+                        add(userPrompt); add(response.text ?: "")
+                    }.toList()
+                )
             }
         }
     }
@@ -83,7 +84,7 @@ class ChatViewModel @Inject constructor(
         _chatUiState.update { it.copy(systemRole = systemRole) }
     }
 
-    fun openAiChat(userPrompt: String){
+    fun openAiChat(userPrompt: String) {
         launch {
             (openAiRepo.threads.value.lastOrNull() ?: openAiRepo.createNewThread()).let {
                 it.log("threadId")
