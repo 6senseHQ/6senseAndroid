@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
-import com.google.ai.client.generativeai.type.generationConfig
 import com.six.sense.BuildConfig
 import com.six.sense.domain.repo.OpenAiRepo
 import com.six.sense.presentation.base.BaseViewModel
@@ -13,7 +12,6 @@ import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -54,32 +52,10 @@ class ChatViewModel @Inject constructor(
         systemInstruction = content { text(_chatUiState.value.systemRole.instruction) }
     )
 
-
-    val toneChangerModel = GenerativeModel(
-        "gemini-1.5-flash",
-        // Retrieve API key as an environmental variable defined in a Build Configuration
-        // see https://github.com/google/secrets-gradle-plugin for further instructions
-        BuildConfig.apiKey,
-        generationConfig = generationConfig {
-            temperature = 2f
-            topK = 40
-            topP = 0.95f
-            maxOutputTokens = 8192
-            responseMimeType = "text/plain"
-        },
-    )
-
-    val chatHistory = emptyList<String>()
-
-    val chat = toneChangerModel.startChat()
-
     // Note that sendMessage() is a suspend function and should be called from
 // a coroutine scope or another suspend function
 
 //    val response = chat.sendMessage(content{})
-
-    private val _currentImagePosition = MutableStateFlow<Int?>(null)
-    val currentImagePosition = _currentImagePosition.asStateFlow()
 
     fun geminiChat(userPrompt: String, userImage: Bitmap?) {
         launch {
@@ -106,29 +82,6 @@ class ChatViewModel @Inject constructor(
     fun changeSystemRole(systemRole: SystemInstructions) {
         _chatUiState.update { it.copy(systemRole = systemRole) }
     }
-
-    /**
-     * Send prompt.
-     *
-     * @param prompt Prompt to send.
-     */
-    fun sendPrompt(
-        prompt: String,
-    ) {
-        launch {
-//            val fileLink = geminiFilesRepo.uploadFile()
-            val response = generativeModel
-                .generateContent(content {
-                    text(prompt)
-//                    fileData(fileLink , "text/plain")
-                })
-            response.text?.let { outputContent ->
-                _chatUiState.update { it.copy(outputContent = outputContent) }
-            }
-        }
-    }
-
-
 
     fun openAiChat(userPrompt: String){
         launch {

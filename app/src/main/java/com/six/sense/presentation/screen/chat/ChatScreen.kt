@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,14 +17,22 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -38,6 +48,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
@@ -67,10 +80,10 @@ fun ChatScreen(
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val pickMedia = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
-        bitmap = if (uri != null)
-            BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
-        else
-            null
+        uri?.let { bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(it)) }
+    }
+    val iconButton = IconButton(onClick = {}, modifier = Modifier.size(8.dp)) {
+        Icon(Icons.Outlined.Close, null)
     }
 
     val listState = rememberLazyListState()
@@ -82,30 +95,50 @@ fun ChatScreen(
     Scaffold(modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
-            ChatBottom(
-                modifier = Modifier
-                    .consumeWindowInsets(WindowInsets.systemBars)
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .imePadding(),
-                chatText = chatText,
-                setChatText = setChatText,
-                pickMedia = { pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
-                sendPrompt = { s ->
-                    sendPrompt(s, bitmap)
-                    setChatText("")
-                    bitmap = null
-                    keyboardController?.hide()
-                }
+            Column {
+                if (bitmap != null)
+                    Box(
+                        modifier = Modifier
 
-                /*sendPrompt = {
-                    sendPrompt(
-                        chatText,
-                        BitmapFactory.decodeResource(context.resources, imageList[currentImage])
-                    ); setChatText("")
-                },
-                imagePosition = 2*/
-            )
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Image(
+                            bitmap = bitmap!!.asImageBitmap(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(58.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                        FilledIconButton(modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .size(24 .dp), onClick = {
+                            bitmap = null
+                        }, colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )) {
+                            Icon(Icons.Outlined.Close, null,modifier= Modifier.padding(3.dp),)
+                        }
+                    }
+                ChatBottom(
+                    modifier = Modifier
+                        .consumeWindowInsets(WindowInsets.systemBars)
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .imePadding(),
+                    chatText = chatText,
+                    setChatText = setChatText,
+                    pickMedia = { pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
+                    sendPrompt = { s ->
+                        sendPrompt(s, bitmap)
+                        setChatText("")
+                        bitmap = null
+                        keyboardController?.hide()
+                    }
+                )
+            }
         }) { innerPadding ->
         LazyColumn(
             modifier = Modifier
