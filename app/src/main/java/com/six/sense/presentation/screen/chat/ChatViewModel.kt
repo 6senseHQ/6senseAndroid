@@ -3,6 +3,7 @@ package com.six.sense.presentation.screen.chat
 import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.TextPart
 import com.google.ai.client.generativeai.type.content
 import com.six.sense.BuildConfig
 import com.six.sense.domain.repo.OpenAiRepo
@@ -10,11 +11,9 @@ import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 /**
  * ViewModel for the chat screen.

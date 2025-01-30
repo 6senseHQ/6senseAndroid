@@ -31,7 +31,6 @@ import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -81,9 +80,6 @@ fun ChatScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val pickMedia = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
         uri?.let { bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(it)) }
-    }
-    val iconButton = IconButton(onClick = {}, modifier = Modifier.size(8.dp)) {
-        Icon(Icons.Outlined.Close, null)
     }
 
     val listState = rememberLazyListState()
