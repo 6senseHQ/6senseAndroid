@@ -1,4 +1,4 @@
-package com.six.sense.presentation.screen.chat.gemini
+package com.six.sense.presentation.screen.chat
 
 import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +8,8 @@ import com.google.ai.client.generativeai.type.generationConfig
 import com.six.sense.BuildConfig
 import com.six.sense.domain.repo.OpenAiRepo
 import com.six.sense.presentation.base.BaseViewModel
+import com.six.sense.presentation.screen.chat.gemini.ChatUiState
+import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

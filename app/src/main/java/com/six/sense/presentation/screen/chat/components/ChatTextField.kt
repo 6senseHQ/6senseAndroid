@@ -34,8 +34,7 @@ fun ChatTextField(
     chatText: String = "",
     setChatText: (String) -> Unit = {},
     setBitMap: Bitmap,
-
-    sendPrompt: (String, Bitmap) -> Unit,
+    sendPrompt: (String, Bitmap?) -> Unit,
     openSheet: () -> Unit,
 ) {
     TextField(

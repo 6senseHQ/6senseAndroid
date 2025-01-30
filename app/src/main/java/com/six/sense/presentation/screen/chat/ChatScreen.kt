@@ -1,4 +1,4 @@
-package com.six.sense.presentation.screen.chat.gemini
+package com.six.sense.presentation.screen.chat
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -61,9 +61,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
-import com.six.sense.presentation.screen.chat.Model
 import com.six.sense.presentation.screen.chat.components.ChatTextField
+import com.six.sense.presentation.screen.chat.gemini.ChatUiState
 import com.six.sense.presentation.screen.chat.gemini.ImageResources.imageList
+import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
 
@@ -72,7 +73,7 @@ import kotlinx.coroutines.launch
  * @param modifier [Modifier] Modifier for the layout.
  */
 @Composable
-fun ChatView(
+fun ChatScreen(
     modifier: Modifier = Modifier,
     selectedModel: MutableState<Model>,
     showModelDialog: Boolean,

@@ -10,9 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.six.sense.presentation.EmptyViewModel
 import com.six.sense.presentation.navigation.Screens
+import com.six.sense.presentation.screen.chat.ChatScreen
+import com.six.sense.presentation.screen.chat.ChatViewModel
 import com.six.sense.presentation.screen.chat.Model
-import com.six.sense.presentation.screen.chat.gemini.ChatView
-import com.six.sense.presentation.screen.chat.gemini.ChatViewModel
 import com.six.sense.presentation.screen.materialComponents.ComponentsScreen
 import com.six.sense.presentation.screen.profile.ProfileScreen
 import com.six.sense.presentation.screen.profile.ProfileViewModel
@@ -47,7 +47,7 @@ fun NavGraphBuilder.navDrawerRoute(
         val chatUiState by viewModel.chatUiState.collectAsStateWithLifecycle()
         val showModelDialog by mainViewModel.showChatDialog.collectAsStateWithLifecycle()
         val selectedModel = remember { mutableStateOf(Model.OpenAI) }
-        ChatView(
+        ChatScreen(
             modifier = modifier,
             selectedModel = selectedModel,
             showModelDialog = showModelDialog,
