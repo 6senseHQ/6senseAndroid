@@ -11,6 +11,9 @@ import com.openai.models.BetaThreadMessageCreateParams
 import com.openai.models.BetaThreadMessageListParams
 import com.openai.models.BetaThreadRunCreateParams
 import com.openai.models.ChatCompletion
+import com.openai.models.ChatCompletionContentPart
+import com.openai.models.ChatCompletionContentPartImage
+import com.openai.models.ChatCompletionContentPartImage.ImageUrl
 import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
 import com.openai.models.ChatCompletionUserMessageParam
@@ -116,6 +119,13 @@ class MainViewModel @Inject constructor(
                         ChatCompletionMessageParam.ofUser(
                             ChatCompletionUserMessageParam.builder()
                                 .content(ChatCompletionUserMessageParam.Content.ofText("Hay, this is a test"))
+                                .content(ChatCompletionUserMessageParam.Content.ofArrayOfContentParts(
+                                    listOf(
+                                        ChatCompletionContentPart.ofImageUrl(
+                                            ChatCompletionContentPartImage.builder().imageUrl(ImageUrl.builder().url("").build()).build()
+                                        )
+                                    )
+                                ))
                                 .build()
                         )
                     )

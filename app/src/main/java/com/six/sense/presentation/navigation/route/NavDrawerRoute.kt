@@ -1,6 +1,7 @@
 package com.six.sense.presentation.navigation.route
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,19 @@ fun NavGraphBuilder.navDrawerRoute(
         val chatUiState by viewModel.chatUiState.collectAsStateWithLifecycle()
         val showModelDialog by mainViewModel.showChatDialog.collectAsStateWithLifecycle()
         val selectedModel = remember { mutableStateOf(Model.OpenAI) }
+
+        LaunchedEffect(selectedModel.value) {
+            viewModel.chatUiState.update {
+                it.copy(chatHistory = emptyList())
+            }
+            when (selectedModel.value) {
+                Model.Gemini -> Unit
+                Model.OpenAI -> {
+                    viewModel.initOpenAi()
+                }
+            }
+        }
+
         ChatScreen(
             modifier = modifier,
             selectedModel = selectedModel,

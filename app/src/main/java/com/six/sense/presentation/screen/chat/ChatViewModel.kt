@@ -3,7 +3,6 @@ package com.six.sense.presentation.screen.chat
 import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.TextPart
 import com.google.ai.client.generativeai.type.content
 import com.six.sense.BuildConfig
 import com.six.sense.domain.repo.OpenAiRepo
@@ -32,20 +31,6 @@ class ChatViewModel @Inject constructor(
     private val _chatUiState = MutableStateFlow(ChatUiState())
     val chatUiState = _chatUiState
 
-    init {
-        launch {
-            val threadIds = openAiRepo.getAllThreads()
-            val ass = openAiRepo.getAllAssistants()
-            ass.log()
-            ass.firstOrNull()?.id()?.let { id ->
-                _chatUiState.update {
-                    it.copy(assistantId = id, assistants = ass)
-                }
-            }
-            if (threadIds.isEmpty()) return@launch
-            getOpenAiThreadHistory(threadIds.first())
-        }
-    }
 
     val generativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash-exp",
@@ -84,7 +69,22 @@ class ChatViewModel @Inject constructor(
         _chatUiState.update { it.copy(systemRole = systemRole) }
     }
 
-    fun openAiChat(userPrompt: String) {
+    fun initOpenAi() {
+        launch {
+            val threadIds = openAiRepo.getAllThreads()
+            val ass = openAiRepo.getAllAssistants()
+            ass.log()
+            ass.firstOrNull()?.id()?.let { id ->
+                _chatUiState.update {
+                    it.copy(assistantId = id, assistants = ass)
+                }
+            }
+            if (threadIds.isEmpty()) return@launch
+            getOpenAiThreadHistory(threadIds.first())
+        }
+    }
+
+    fun openAiChat(userPrompt: String){
         launch {
             (openAiRepo.threads.value.lastOrNull() ?: openAiRepo.createNewThread()).let {
                 it.log("threadId")
@@ -93,8 +93,11 @@ class ChatViewModel @Inject constructor(
                     threadId = it,
                     message = userPrompt
                 )
-                delay(5.seconds)
-                getOpenAiThreadHistory(it)
+                if(userPrompt.isNotEmpty())
+                    getOpenAiThreadHistory(it)
+                else _chatUiState.update { state ->
+                    state.copy(chatHistory = emptyList())
+                }
             }
         }
     }

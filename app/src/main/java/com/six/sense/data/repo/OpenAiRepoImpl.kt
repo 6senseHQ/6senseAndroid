@@ -8,13 +8,17 @@ import com.openai.models.BetaThreadDeleteParams
 import com.openai.models.BetaThreadMessageCreateParams
 import com.openai.models.BetaThreadMessageListParams
 import com.openai.models.BetaThreadRunCreateParams
+import com.openai.models.BetaThreadRunRetrieveParams
 import com.openai.models.Message
+import com.openai.models.RunStatus
 import com.six.sense.data.local.room.ThreadDao
 import com.six.sense.data.local.room.entities.ThreadsEntity
 import com.six.sense.domain.repo.OpenAiRepo
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.seconds
 
 class OpenAiRepoImpl(
     private val openAIClient: OpenAIClient,
@@ -94,22 +98,22 @@ class OpenAiRepoImpl(
                     .content(message)
                     .build()
             ).content()
-            openAIClient.beta().threads().runs().create(
+            val run = openAIClient.beta().threads().runs().create(
                 BetaThreadRunCreateParams.builder()
                     .assistantId(assistantId)
                     .threadId(threadId)
                     .build()
             )
-//            openAIClient.beta().threads().runs().create(
-//                BetaThreadRunCreateParams.builder().build()
-//            ).threadId()
-//            openAIClient.beta().threads().createAndRun(
-//                BetaThreadCreateAndRunParams.builder()
-//                    .assistantId(assistantId)
-////                    .thread(BetaThreadCreateAndRunParams.Thread.builder().)
-//                    .instructions("Help me about the knowledge of the company")
-//                    .build()
-//            ).threadId()
+            while (true) {
+                val updatedRun = openAIClient.beta().threads().runs().retrieve(
+                    BetaThreadRunRetrieveParams.builder().threadId(threadId).runId(run.id()).build()
+                )
+                if (updatedRun.status() == RunStatus.COMPLETED)
+                    break
+                else if (updatedRun.status() == RunStatus.FAILED)
+                    error("Generation failed!")
+                delay(1.seconds)
+            }
         }
     }
 }
