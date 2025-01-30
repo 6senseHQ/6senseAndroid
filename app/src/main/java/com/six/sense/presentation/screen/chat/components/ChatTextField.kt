@@ -1,6 +1,5 @@
 package com.six.sense.presentation.screen.chat.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,9 +32,8 @@ fun ChatTextField(
     modifier: Modifier = Modifier,
     chatText: String = "",
     setChatText: (String) -> Unit = {},
-    setBitMap: Bitmap,
-    sendPrompt: (String, Bitmap?) -> Unit,
-    openSheet: () -> Unit,
+    sendPrompt: (String) -> Unit,
+    pickMedia: () -> Unit,
 ) {
     TextField(
         modifier = modifier, value = chatText, onValueChange = setChatText,
@@ -51,7 +49,7 @@ fun ChatTextField(
                 IconButton(
                     modifier = Modifier
                         .bounceClick(),
-                    onClick = openSheet
+                    onClick = pickMedia
                 ) {
                     Icon(
                         modifier = Modifier
@@ -63,7 +61,7 @@ fun ChatTextField(
 
                 FilledIconButton(modifier = Modifier
                     .bounceClick(),
-                    onClick = { sendPrompt(chatText.trimEnd(), setBitMap) }) {
+                    onClick = { sendPrompt(chatText.trimEnd()) }) {
                     Icon(
                         modifier = Modifier
                             .offset(x = 2.dp),

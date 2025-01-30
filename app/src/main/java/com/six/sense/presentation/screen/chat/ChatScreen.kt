@@ -2,70 +2,50 @@ package com.six.sense.presentation.screen.chat
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonGroup
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.six.sense.presentation.screen.chat.components.ChatTextField
-import com.six.sense.presentation.screen.chat.gemini.ImageResources.imageList
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import ir.kaaveh.sdpcompose.sdp
-import kotlinx.coroutines.launch
 
 /**
  * A composable function that renders a chat view.
@@ -83,11 +63,15 @@ fun ChatScreen(
 ) {
     val (chatText, setChatText) = remember { mutableStateOf("") }
     var currentModel by remember { mutableIntStateOf(0) }
-    var isImagePickerVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    val currentImage = remember { mutableIntStateOf(1) }
-
+    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val pickMedia = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
+        bitmap = if (uri != null)
+            BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+        else
+            null
+    }
 
     val listState = rememberLazyListState()
     LaunchedEffect(chatUiState.outputContent) {
@@ -106,13 +90,11 @@ fun ChatScreen(
                     .imePadding(),
                 chatText = chatText,
                 setChatText = setChatText,
-                setBitMap = BitmapFactory.decodeResource(
-                    context.resources, imageList[currentImage.intValue]
-                ),
-                openSheet = { isImagePickerVisible = !isImagePickerVisible },
-                sendPrompt = { s, b ->
-                    sendPrompt(s, b)
+                pickMedia = { pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
+                sendPrompt = { s ->
+                    sendPrompt(s, bitmap)
                     setChatText("")
+                    bitmap = null
                     keyboardController?.hide()
                 }
 
@@ -178,18 +160,6 @@ fun ChatScreen(
             onClickAssistant = onClickAssistant
         )
     }
-    if (isImagePickerVisible) {
-        ImagePickerSheet(
-            onImagePickerVisible = { isImagePickerVisible = !isImagePickerVisible },
-            currentImage = currentImage,
-            onImageClick = {
-                currentImage.intValue = it
-                BitmapFactory.decodeResource(
-                    context.resources, imageList[it]
-                )
-            }
-        )
-    }
 }
 
 @Composable
@@ -197,9 +167,8 @@ fun ChatBottom(
     modifier: Modifier = Modifier,
     chatText: String,
     setChatText: (String) -> Unit,
-    setBitMap: Bitmap,
-    sendPrompt: (String, Bitmap?) -> Unit,
-    openSheet: () -> Unit,
+    sendPrompt: (String) -> Unit,
+    pickMedia: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -211,55 +180,8 @@ fun ChatBottom(
             chatText = chatText,
             setChatText = setChatText,
             sendPrompt = sendPrompt,
-            setBitMap = setBitMap,
-            openSheet = openSheet
+            pickMedia = pickMedia
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ChatBottomSheet(modifier: Modifier = Modifier) {
-    val sheetState = rememberModalBottomSheetState()
-
-    /**
-     * Coroutine Scope.
-     */
-    val scope = rememberCoroutineScope()
-
-    /**
-     * Show bottom sheet.
-     */
-    var showBottomSheet by remember { mutableStateOf(false) }
-    Scaffold(floatingActionButton = {
-        ExtendedFloatingActionButton(text = { Text("Show sheet") },
-            icon = { Icon(Icons.Outlined.Add, contentDescription = "") },
-            onClick = { showBottomSheet = true })
-    }) { contentPadding ->
-        Column(
-            modifier = Modifier
-        ) {
-            if (showBottomSheet) ModalBottomSheet(
-                modifier = Modifier
-                    .padding(contentPadding)
-                    .fillMaxSize(), onDismissRequest = {
-                    showBottomSheet = false
-                }, sheetState = sheetState
-            ) {
-                // Sheet content
-                Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            showBottomSheet = false
-                        }
-                    }
-                }) {
-                    Text(
-                        text = "Hide bottom sheet"
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -271,7 +193,7 @@ fun ModelSelection(
     onSelectedButton: (Int) -> Unit,
     onClickAssistant: (String) -> Unit,
     onDismissRequest: () -> Unit,
-    chatUiState: ChatUiState
+    chatUiState: ChatUiState,
 ) {
     AlertDialog(
         title = {
@@ -366,50 +288,3 @@ fun ModelSelection(
     )
 }
 
-/**
- * Image picker sheet
- *
- * @param modifier
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ImagePickerSheet(
-    modifier: Modifier = Modifier,
-    onImagePickerVisible: (Boolean) -> Unit,
-    currentImage: MutableIntState,
-    onImageClick: (Int) -> Unit,
-) {
-    val sheetState = rememberModalBottomSheetState()
-
-    ModalBottomSheet(
-        onDismissRequest = { onImagePickerVisible(false) }, sheetState = sheetState
-    ) {
-        LazyVerticalGrid(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(imageList.size) {
-                Image(
-                    modifier = Modifier
-                        .aspectRatio(1 / 1f)
-                        .clip(RoundedCornerShape(4.dp))
-                        .clickable {
-                            onImageClick(it)
-                            onImagePickerVisible(false)
-                        }
-                        .border(
-                            if (currentImage.intValue == it) BorderStroke(
-                                4.dp,
-                                MaterialTheme.colorScheme.primary
-                            ) else BorderStroke(0.dp, MaterialTheme.colorScheme.background),
-                        ),
-                    painter = painterResource(imageList[it]),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
-    }
-}
