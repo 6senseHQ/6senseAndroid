@@ -3,11 +3,12 @@ package com.six.sense.data.repo
 import com.openai.client.OpenAIClient
 import com.openai.models.Assistant
 import com.openai.models.BetaAssistantListParams
-import com.openai.models.BetaThreadCreateAndRunParams
+import com.openai.models.BetaThreadCreateParams
+import com.openai.models.BetaThreadDeleteParams
 import com.openai.models.BetaThreadMessageCreateParams
 import com.openai.models.BetaThreadMessageListParams
+import com.openai.models.BetaThreadRunCreateParams
 import com.openai.models.Message
-import com.openai.models.MessageContent
 import com.six.sense.data.local.room.ThreadDao
 import com.six.sense.data.local.room.entities.ThreadsEntity
 import com.six.sense.domain.repo.OpenAiRepo
@@ -35,13 +36,22 @@ class OpenAiRepoImpl(
         }
     }
 
-    override suspend fun createNewThread(assistantId: String): String {
+    override suspend fun createNewThread(): String {
         return withContext(dispatcher) {
-            openAIClient.beta().threads().createAndRun(
-                BetaThreadCreateAndRunParams.builder()
-                    .assistantId(assistantId)
-                    .instructions("Help me about the knowledge of the company")
-                    .build()
+//            val threadId = openAIClient.beta().threads().create(
+//                BetaThreadCreateParams.builder().build()
+//            ).id()
+//            openAIClient.beta().threads().createAndRun(
+//                BetaThreadCreateAndRunParams.builder()
+//                    .assistantId(assistantId)
+//                    .thread(
+//                        BetaThreadCreateAndRunParams.Thread.builder().
+//                    )
+//                    .instructions("")
+//                    .build()
+//            )
+            openAIClient.beta().threads().create(
+                BetaThreadCreateParams.builder().build()
             ).id().also {
                 threadDao.insertData(ThreadsEntity(threadId = it))
                 getAllThreads()
@@ -66,16 +76,40 @@ class OpenAiRepoImpl(
     }
 
     override suspend fun sendMessageToThread(
+        assistantId: String,
         threadId: String,
         message: String
-    ): List<MessageContent> {
-        return withContext(dispatcher) {
+    ) {
+        withContext(dispatcher) {
+            if(message.isEmpty()) {
+                openAIClient.beta().threads()
+                    .delete(BetaThreadDeleteParams.builder().threadId(threadId).build())
+                threadDao.deleteThread(threadId)
+                return@withContext
+            }
             openAIClient.beta().threads().messages().create(
                 BetaThreadMessageCreateParams.builder()
+                    .role(BetaThreadMessageCreateParams.Role.USER)
                     .threadId(threadId)
-                    .content("")
+                    .content(message)
                     .build()
             ).content()
+            openAIClient.beta().threads().runs().create(
+                BetaThreadRunCreateParams.builder()
+                    .assistantId(assistantId)
+                    .threadId(threadId)
+                    .build()
+            )
+//            openAIClient.beta().threads().runs().create(
+//                BetaThreadRunCreateParams.builder().build()
+//            ).threadId()
+//            openAIClient.beta().threads().createAndRun(
+//                BetaThreadCreateAndRunParams.builder()
+//                    .assistantId(assistantId)
+////                    .thread(BetaThreadCreateAndRunParams.Thread.builder().)
+//                    .instructions("Help me about the knowledge of the company")
+//                    .build()
+//            ).threadId()
         }
     }
 }

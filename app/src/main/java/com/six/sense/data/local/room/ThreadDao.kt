@@ -18,7 +18,10 @@ interface ThreadDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertData(threads: ThreadsEntity)
 
-
     @Query("SELECT * FROM threads_table")
     suspend fun getAllThreads(): List<ThreadsEntity>
+
+    @Query("DELETE FROM threads_table WHERE threadId = :threadId")
+    suspend fun deleteThread(threadId: String)
+
 }

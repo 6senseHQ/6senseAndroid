@@ -27,9 +27,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,10 +39,12 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -52,9 +56,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
+import com.six.sense.presentation.screen.chat.Model
 import com.six.sense.presentation.screen.chat.components.ChatTextField
 import com.six.sense.presentation.screen.chat.gemini.ImageResources.imageList
 import ir.kaaveh.sdpcompose.sdp
@@ -67,13 +74,20 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChatView(
     modifier: Modifier = Modifier,
-    sendPrompt: (String, Bitmap) -> Unit,
+    selectedModel: MutableState<Model>,
+    showModelDialog: Boolean,
+    sendPrompt: (String, Bitmap?) -> Unit,
     chatUiState: ChatUiState,
+    onDismissRequest: () -> Unit,
+    onClickAssistant: (String) -> Unit,
 ) {
     val (chatText, setChatText) = remember { mutableStateOf("") }
+    var currentModel by remember { mutableIntStateOf(0) }
     var isImagePickerVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    var currentImage = remember { mutableIntStateOf(1) }
+    val currentImage = remember { mutableIntStateOf(1) }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val listState = rememberLazyListState()
     LaunchedEffect(chatUiState.outputContent) {
@@ -81,19 +95,7 @@ fun ChatView(
             listState.animateScrollToItem(chatUiState.chatHistory.lastIndex)
         }
     }
-    if (isImagePickerVisible) {
-        ImagePickerSheet(
-            isImagePickerVisible = isImagePickerVisible,
-            onImagePickerVisible = { isImagePickerVisible = !isImagePickerVisible },
-            currentImage = currentImage,
-            onImageClick = {
-                currentImage.intValue = it;
-                BitmapFactory.decodeResource(
-                    context.resources, imageList[it]
-                )
-            }
-        )
-    } else Scaffold(modifier = modifier,
+    Scaffold(modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             ChatBottom(
@@ -108,9 +110,10 @@ fun ChatView(
                     context.resources, imageList[currentImage.intValue]
                 ),
                 openSheet = { isImagePickerVisible = !isImagePickerVisible },
-                sendPrompt = { s,b->
-                    sendPrompt(s,b)
+                sendPrompt = { s, b ->
+                    sendPrompt(s, b)
                     setChatText("")
+                    keyboardController?.hide()
                 }
 
                 /*sendPrompt = {
@@ -162,6 +165,31 @@ fun ChatView(
             }
         }
     }
+    if (showModelDialog) {
+        ModelSelection(
+            selectedButton = currentModel,
+            onSelectedButton = {
+                currentModel = it
+                onDismissRequest()
+            },
+            onDismissRequest = onDismissRequest,
+            selectedModel = selectedModel,
+            chatUiState = chatUiState,
+            onClickAssistant = onClickAssistant
+        )
+    }
+    if (isImagePickerVisible) {
+        ImagePickerSheet(
+            onImagePickerVisible = { isImagePickerVisible = !isImagePickerVisible },
+            currentImage = currentImage,
+            onImageClick = {
+                currentImage.intValue = it
+                BitmapFactory.decodeResource(
+                    context.resources, imageList[it]
+                )
+            }
+        )
+    }
 }
 
 @Composable
@@ -169,9 +197,8 @@ fun ChatBottom(
     modifier: Modifier = Modifier,
     chatText: String,
     setChatText: (String) -> Unit,
-
     setBitMap: Bitmap,
-    sendPrompt: (String, Bitmap) -> Unit,
+    sendPrompt: (String, Bitmap?) -> Unit,
     openSheet: () -> Unit,
 ) {
     Row(
@@ -236,22 +263,107 @@ fun ChatBottomSheet(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ModelSelection(
-    modifier: Modifier = Modifier,
     selectedButton: Int,
+    selectedModel: MutableState<Model>,
     onSelectedButton: (Int) -> Unit,
+    onClickAssistant: (String) -> Unit,
+    onDismissRequest: () -> Unit,
+    chatUiState: ChatUiState
 ) {
-    BasicAlertDialog(onDismissRequest = {}) {
-        SystemInstructions.entries.forEachIndexed { index, instruction ->
-            Row {
-                RadioButton(selected = selectedButton == index,
-                    onClick = { onSelectedButton(selectedButton) })
-                Text(text = instruction.role)
+    AlertDialog(
+        title = {
+            Text(text = "Chat Settings")
+        }, onDismissRequest = onDismissRequest,
+        confirmButton = {
+            Button(onClick = onDismissRequest) {
+                Text(text = "Close")
+            }
+        }, text = {
+            Column {
+                Text(
+                    text = "Select Model",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+                ButtonGroup {
+                    Model.entries.fastForEach { model ->
+                        ToggleButton(
+                            checked = model == selectedModel.value,
+                            onCheckedChange = {
+                                if (it) selectedModel.value = model
+                            },
+                            modifier = Modifier.weight(if (model == selectedModel.value) 1.3f else 1f)
+                        ) {
+                            Text(model.name, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+                when (selectedModel.value) {
+                    Model.Gemini -> {
+                        Column {
+                            Text(
+                                text = "Select System Instructions",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            )
+                            SystemInstructions.entries.drop(1)
+                                .forEachIndexed { index, instruction ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        RadioButton(
+                                            selected = selectedButton == index,
+                                            onClick = { onSelectedButton(selectedButton) })
+                                        Text(text = instruction.role)
+                                    }
+                                }
+                        }
+                    }
+
+                    Model.OpenAI -> {
+                        Column {
+                            Text(
+                                text = "Select an Assistant",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            )
+//                            ButtonGroup {
+                            chatUiState.assistants.forEachIndexed { index, assistant ->
+//                                ToggleButton(
+//                                    checked = assistant.id() == chatUiState.assistantId,
+//                                    onCheckedChange = {
+//                                        if(it) onClickAssistant(assistant.id())
+//                                    },
+//                                    modifier = Modifier.weight(if(assistant.id() == chatUiState.assistantId) 1.3f else 1f)
+//                                ) {
+//                                    Text(assistant.name().orElse("null"), style = MaterialTheme.typography.bodyMedium)
+//                                }
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    RadioButton(
+                                        selected = assistant.id() == chatUiState.assistantId,
+                                        onClick = { onClickAssistant(assistant.id()) })
+                                    Text(
+                                        assistant.name().orElse("null"),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+//                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
-    }
+    )
 }
 
 /**
@@ -262,43 +374,41 @@ fun ModelSelection(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePickerSheet(
-    modifier: Modifier = Modifier, isImagePickerVisible: Boolean,
+    modifier: Modifier = Modifier,
     onImagePickerVisible: (Boolean) -> Unit,
     currentImage: MutableIntState,
     onImageClick: (Int) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState()
 
-    if (isImagePickerVisible) {
-        ModalBottomSheet(
-            onDismissRequest = { onImagePickerVisible(false) }, sheetState = sheetState
+    ModalBottomSheet(
+        onDismissRequest = { onImagePickerVisible(false) }, sheetState = sheetState
+    ) {
+        LazyVerticalGrid(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
-            LazyVerticalGrid(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                items(imageList.size) {
-                    Image(
-                        modifier = Modifier
-                            .aspectRatio(1 / 1f)
-                            .clip(RoundedCornerShape(4.dp))
-                            .clickable {
-                                onImageClick(it)
-                                onImagePickerVisible(false)
-                            }
-                            .border(
-                                if (currentImage.intValue == it) BorderStroke(
-                                    4.dp,
-                                    MaterialTheme.colorScheme.primary
-                                ) else BorderStroke(0.dp, MaterialTheme.colorScheme.background),
-                            ),
-                        painter = painterResource(imageList[it]),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                }
+            items(imageList.size) {
+                Image(
+                    modifier = Modifier
+                        .aspectRatio(1 / 1f)
+                        .clip(RoundedCornerShape(4.dp))
+                        .clickable {
+                            onImageClick(it)
+                            onImagePickerVisible(false)
+                        }
+                        .border(
+                            if (currentImage.intValue == it) BorderStroke(
+                                4.dp,
+                                MaterialTheme.colorScheme.primary
+                            ) else BorderStroke(0.dp, MaterialTheme.colorScheme.background),
+                        ),
+                    painter = painterResource(imageList[it]),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
             }
         }
     }

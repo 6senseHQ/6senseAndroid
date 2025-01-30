@@ -34,7 +34,6 @@ fun SetupBottomNavGraph(
     navController: NavHostController,
     navControllerBottomBar: NavHostController,
     modifier: Modifier,
-    showModelDialog : Boolean
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),

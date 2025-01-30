@@ -25,11 +25,7 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -81,7 +77,6 @@ fun SetupSideNavGraph(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val isUiLightMode by mainViewModel.isUiLightMode.collectAsStateWithLifecycle()
-    var showModelDialog by remember { mutableStateOf(false) }
 
     val mainContent: @Composable () -> Unit = {
         Scaffold(
@@ -112,7 +107,7 @@ fun SetupSideNavGraph(
                                 contentDescription = "Menu"
                             )
                         }
-                        if (currentRoute == Screens.Home.Chat.serializer().route) IconButton(onClick = { showModelDialog = !showModelDialog }) {
+                        else if (currentRoute == Screens.Home.Chat.serializer().route) IconButton(onClick = { mainViewModel.showChatDialog.value = !mainViewModel.showChatDialog.value }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.page_info_24px),
                                 contentDescription = "Automate"

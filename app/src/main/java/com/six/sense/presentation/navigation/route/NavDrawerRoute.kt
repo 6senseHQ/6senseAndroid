@@ -2,18 +2,22 @@ package com.six.sense.presentation.navigation.route
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.six.sense.presentation.EmptyViewModel
 import com.six.sense.presentation.navigation.Screens
+import com.six.sense.presentation.screen.chat.Model
 import com.six.sense.presentation.screen.chat.gemini.ChatView
 import com.six.sense.presentation.screen.chat.gemini.ChatViewModel
 import com.six.sense.presentation.screen.materialComponents.ComponentsScreen
 import com.six.sense.presentation.screen.profile.ProfileScreen
 import com.six.sense.presentation.screen.profile.ProfileViewModel
 import com.six.sense.utils.composableWithVM
+import kotlinx.coroutines.flow.update
 
 /**
  * Defines the navigation route for the authentication flow.
@@ -41,15 +45,30 @@ fun NavGraphBuilder.navDrawerRoute(
     }
     composableWithVM<Screens.Home.Chat, ChatViewModel>(navController = navController) {
         val chatUiState by viewModel.chatUiState.collectAsStateWithLifecycle()
+        val showModelDialog by mainViewModel.showChatDialog.collectAsStateWithLifecycle()
+        val selectedModel = remember { mutableStateOf(Model.OpenAI) }
         ChatView(
             modifier = modifier,
+            selectedModel = selectedModel,
+            showModelDialog = showModelDialog,
             sendPrompt = { userPrompt, userImage ->
-                viewModel.geminiChat(
-                    userPrompt = userPrompt,
-                    userImage = userImage
-                )
+                when (selectedModel.value) {
+                    Model.Gemini -> {
+                        viewModel.geminiChat(
+                            userPrompt = userPrompt,
+                            userImage = userImage
+                        )
+                    }
+                    Model.OpenAI -> viewModel.openAiChat(userPrompt = userPrompt)
+                }
             },
-            chatUiState = chatUiState
+            chatUiState = chatUiState,
+            onDismissRequest = { mainViewModel.showChatDialog.value = false },
+            onClickAssistant = { id ->
+                viewModel.chatUiState.update {
+                    it.copy(assistantId = id)
+                }
+            }
         )
     }
     composableWithVM<Screens.Home.Components, EmptyViewModel>(navController = navController) {
