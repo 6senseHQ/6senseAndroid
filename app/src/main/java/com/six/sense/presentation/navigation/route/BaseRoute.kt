@@ -3,10 +3,13 @@ package com.six.sense.presentation.navigation.route
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
+import com.six.sense.presentation.MainViewModel
+import com.six.sense.presentation.base.ImageViewerDialog
 import com.six.sense.presentation.navigation.Screens
 
 /**
@@ -14,7 +17,8 @@ import com.six.sense.presentation.navigation.Screens
  *
  */
 fun NavGraphBuilder.baseRoute(
-    navController: NavController
+    navController: NavController,
+    mainViewModel: MainViewModel
 ) {
     dialog<Screens.ErrorDialog> {
         AlertDialog(
@@ -24,14 +28,17 @@ fun NavGraphBuilder.baseRoute(
             text = {
                 Text(text = it.toRoute<Screens.ErrorDialog>().error)
             },
-            onDismissRequest = {
-                navController.popBackStack()
-            },
+            onDismissRequest = navController::popBackStack,
             confirmButton = {
-                Button(onClick = { navController.popBackStack() }) {
+                Button(onClick = navController::popBackStack) {
                     Text(text = "Close")
                 }
             }
         )
+    }
+    dialog<Screens.ImageViewer>(dialogProperties = DialogProperties(decorFitsSystemWindows= false, usePlatformDefaultWidth= false)){
+        mainViewModel.bitmap?.let { bitmap ->
+            ImageViewerDialog(bitmap, onDismissRequest = navController::popBackStack)
+        }
     }
 }

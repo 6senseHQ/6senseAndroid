@@ -26,20 +26,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.headers
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineDispatcher
@@ -91,7 +83,7 @@ object NetworkModule {
                 append(HttpHeaders.Authorization, Constants.TOKEN)
                 append(HttpHeaders.ContentType, ContentType.Application.Json) //not needed , but for understanding
                 }*/
-                headers { append(HttpHeaders.Authorization, "Bearer ${"TOKEN"}") }
+//                headers { append(HttpHeaders.Authorization, "Bearer ${"TOKEN"}") }
             }
             install(ContentNegotiation) {
                 //for kotlinx and gson serialization
@@ -103,21 +95,21 @@ object NetworkModule {
                     encodeDefaults = true
                 })
             }
-            install(Auth) {
-                bearer {
-                    loadTokens {
-                        BearerTokens("access", "refresh")
-                    }
-                    refreshTokens {
-                        val token = client.post("jwt/refresh/") {
-                            markAsRefreshTokenRequest()
-                            setBody(BearerTokens("access", "refresh"))
-                        }.body<BearerTokens>()
-                        //Save the token to local
-                        BearerTokens("access", "refresh")
-                    }
-                }
-            }
+//            install(Auth) {
+//                bearer {
+//                    loadTokens {
+//                        BearerTokens("access", "refresh")
+//                    }
+//                    refreshTokens {
+//                        val token = client.post("jwt/refresh/") {
+//                            markAsRefreshTokenRequest()
+//                            setBody(BearerTokens("access", "refresh"))
+//                        }.body<BearerTokens>()
+//                        //Save the token to local
+//                        BearerTokens("access", "refresh")
+//                    }
+//                }
+//            }
         }
     }
 
@@ -175,6 +167,7 @@ object NetworkModule {
      * @param openAIClient The OpenAI client.
      * @param threadDao The ThreadDao for database access.
      * @param ioDispatcher The IO coroutine dispatcher.
+     * @param ktorClient The Ktor HTTP client.
      * @return A singleton instance of [OpenAiRepoImpl].
      */
     @Provides
@@ -183,10 +176,12 @@ object NetworkModule {
         openAIClient: OpenAIClient,
         threadDao: ThreadDao,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        ktorClient: HttpClient
     ): OpenAiRepo = OpenAiRepoImpl(
         openAIClient = openAIClient,
         threadDao = threadDao,
-        dispatcher = ioDispatcher
+        dispatcher = ioDispatcher,
+        ktorClient = ktorClient
     )
 
 

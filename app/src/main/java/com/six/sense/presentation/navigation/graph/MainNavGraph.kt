@@ -46,7 +46,8 @@ fun SetupMainNavGraph(
         navController = navController
     ) {
         baseRoute(
-            navController = navController
+            navController = navController,
+            mainViewModel = viewModel
         )
         authRoute(
             navController = navController,

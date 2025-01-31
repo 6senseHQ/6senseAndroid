@@ -1,5 +1,6 @@
 package com.six.sense.presentation
 
+import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -50,6 +51,8 @@ class MainViewModel @Inject constructor(
     var keepSplashOpened: Boolean = true
 
     val showChatDialog = MutableStateFlow(false)
+
+    var bitmap: Bitmap? = null
 
     /**
      * Ui mode state light by default
@@ -122,7 +125,7 @@ class MainViewModel @Inject constructor(
                                 .content(ChatCompletionUserMessageParam.Content.ofArrayOfContentParts(
                                     listOf(
                                         ChatCompletionContentPart.ofImageUrl(
-                                            ChatCompletionContentPartImage.builder().imageUrl(ImageUrl.builder().url("").build()).build()
+                                            ChatCompletionContentPartImage.builder().imageUrl(ImageUrl.builder().url("base64").build()).build()
                                         )
                                     )
                                 ))

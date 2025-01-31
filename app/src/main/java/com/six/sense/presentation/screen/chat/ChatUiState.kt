@@ -1,6 +1,7 @@
 package com.six.sense.presentation.screen.chat
 
 import com.openai.models.Assistant
+import com.six.sense.domain.model.MessageData
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 
 data class ChatUiState(
@@ -9,6 +10,6 @@ data class ChatUiState(
     val assistants: List<Assistant> = listOf(),
     val outputContent: String = "",
     val inputContent: String = "",
-    val chatHistory: List<String> = listOf(),
+    val chatHistory: List<MessageData> = listOf(),
     val systemRole: SystemInstructions = SystemInstructions.DEFAULT,
 )

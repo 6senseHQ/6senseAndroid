@@ -1,5 +1,8 @@
 package com.six.sense.utils
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -26,6 +29,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -126,4 +131,25 @@ fun Modifier.bounceClick(onClick: () -> Unit = {}): Modifier = composed {
 enum class ButtonState {
     Pressed,
     Idle
+}
+
+fun Bitmap.toBase64(format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 80): String {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    this.compress(format, quality, byteArrayOutputStream)
+    val byteArray = byteArrayOutputStream.toByteArray()
+    return Base64.encodeToString(byteArray, Base64.DEFAULT)
+}
+
+fun Bitmap.toByteArray(format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 80): ByteArray {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    this.compress(format, quality, byteArrayOutputStream)
+    return byteArrayOutputStream.toByteArray()
+}
+
+fun Long.toByteArray(): ByteArray {
+    return ByteBuffer.allocate(Long.SIZE_BYTES).putLong(this).array()
+}
+
+fun ByteArray.toBitmap(): Bitmap? {
+    return BitmapFactory.decodeByteArray(this, 0, size)
 }

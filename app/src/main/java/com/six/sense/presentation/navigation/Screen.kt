@@ -41,6 +41,8 @@ object Screens {
     @Serializable
     data class ErrorDialog(val error: String)
 
+    @Serializable
+    object ImageViewer
 }
 
 /**

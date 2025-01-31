@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
@@ -57,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.six.sense.presentation.screen.chat.components.ChatTextField
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
+import com.six.sense.utils.bounceClick
 import ir.kaaveh.sdpcompose.sdp
 
 /**
@@ -72,6 +72,7 @@ fun ChatScreen(
     chatUiState: ChatUiState,
     onDismissRequest: () -> Unit,
     onClickAssistant: (String) -> Unit,
+    navigateToImageViewer: (Bitmap) -> Unit,
 ) {
     val (chatText, setChatText) = remember { mutableStateOf("") }
     var currentModel by remember { mutableIntStateOf(0) }
@@ -95,34 +96,33 @@ fun ChatScreen(
                 if (bitmap != null)
                     Box(
                         modifier = Modifier
-
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 16.sdp)
                     ) {
                         Image(
                             bitmap = bitmap!!.asImageBitmap(),
                             contentDescription = null,
                             modifier = Modifier
-                                .padding(4.dp)
+                                .padding(4.sdp)
                                 .size(58.dp)
-                                .clip(RoundedCornerShape(8.dp)),
+                                .clip(RoundedCornerShape(8.sdp)),
                             contentScale = ContentScale.Crop
                         )
                         FilledIconButton(modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .size(24 .dp), onClick = {
+                            .size(24.dp), onClick = {
                             bitmap = null
                         }, colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer,
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )) {
-                            Icon(Icons.Outlined.Close, null,modifier= Modifier.padding(3.dp),)
+                            Icon(Icons.Outlined.Close, null,modifier= Modifier.padding(3.sdp))
                         }
                     }
                 ChatBottom(
                     modifier = Modifier
                         .consumeWindowInsets(WindowInsets.systemBars)
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .padding(vertical = 8.sdp, horizontal = 16.sdp)
                         .imePadding(),
                     chatText = chatText,
                     setChatText = setChatText,
@@ -141,33 +141,46 @@ fun ChatScreen(
                 .consumeWindowInsets(WindowInsets.systemBars)
                 .padding(innerPadding)
                 .fillMaxWidth(), contentPadding = PaddingValues(
-                horizontal = 16.dp
+                horizontal = 16.sdp
             ), state = listState
         ) {
             items(chatUiState.chatHistory.size) { index ->
-                if (index % 2 != 0) {
+                if (chatUiState.chatHistory[index].role == Role.ASSISTANT) {
                     Text(
                         modifier = Modifier,
-                        text = chatUiState.chatHistory[index],
+                        text = chatUiState.chatHistory[index].message,
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.bodyMedium
                     )
-
                 } else {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 16.dp)
+                            .padding(bottom = 16.sdp)
                     ) {
+                        chatUiState.chatHistory[index].image?.let {
+                            Image(
+                                bitmap = it.asImageBitmap(),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .padding(top = 16.sdp, bottom = 5.sdp)
+                                    .size(55.sdp)
+                                    .bounceClick {
+                                        navigateToImageViewer(it)
+                                    }.clip(RoundedCornerShape(8.sdp))
+
+                            )
+                        }
                         Text(
                             modifier = Modifier
                                 .align(Alignment.End)
                                 .background(
                                     color = MaterialTheme.colorScheme.surfaceContainer,
-                                    shape = CircleShape
+                                    shape = RoundedCornerShape(20.sdp)
                                 )
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            text = chatUiState.chatHistory[index],
+                                .padding(horizontal = 16.sdp, vertical = 8.sdp),
+                            text = chatUiState.chatHistory[index].message,
                             textAlign = TextAlign.End,
                             style = MaterialTheme.typography.bodyMedium
                         )
@@ -238,7 +251,7 @@ fun ModelSelection(
                     text = "Select Model",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.sdp)
                 )
                 ButtonGroup {
                     Model.entries.fastForEach { model ->
@@ -260,7 +273,7 @@ fun ModelSelection(
                                 text = "Select System Instructions",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
-                                modifier = Modifier.padding(vertical = 8.dp)
+                                modifier = Modifier.padding(vertical = 8.sdp)
                             )
                             SystemInstructions.entries.drop(1)
                                 .forEachIndexed { index, instruction ->
@@ -282,19 +295,9 @@ fun ModelSelection(
                                 text = "Select an Assistant",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f),
-                                modifier = Modifier.padding(vertical = 8.dp)
+                                modifier = Modifier.padding(vertical = 8.sdp)
                             )
-//                            ButtonGroup {
-                            chatUiState.assistants.forEachIndexed { index, assistant ->
-//                                ToggleButton(
-//                                    checked = assistant.id() == chatUiState.assistantId,
-//                                    onCheckedChange = {
-//                                        if(it) onClickAssistant(assistant.id())
-//                                    },
-//                                    modifier = Modifier.weight(if(assistant.id() == chatUiState.assistantId) 1.3f else 1f)
-//                                ) {
-//                                    Text(assistant.name().orElse("null"), style = MaterialTheme.typography.bodyMedium)
-//                                }
+                            chatUiState.assistants.forEach { assistant ->
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
@@ -306,7 +309,6 @@ fun ModelSelection(
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
-//                                }
                             }
                         }
                     }

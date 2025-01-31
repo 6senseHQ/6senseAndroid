@@ -67,13 +67,14 @@ fun NavGraphBuilder.navDrawerRoute(
             showModelDialog = showModelDialog,
             sendPrompt = { userPrompt, userImage ->
                 when (selectedModel.value) {
-                    Model.Gemini -> {
-                        viewModel.geminiChat(
-                            userPrompt = userPrompt,
-                            userImage = userImage
-                        )
-                    }
-                    Model.OpenAI -> viewModel.openAiChat(userPrompt = userPrompt)
+                    Model.Gemini -> viewModel.geminiChat(
+                        userPrompt = userPrompt,
+                        userImage = userImage
+                    )
+                    Model.OpenAI -> viewModel.openAiChat(
+                        userPrompt = userPrompt,
+                        userImage = userImage
+                    )
                 }
             },
             chatUiState = chatUiState,
@@ -82,6 +83,10 @@ fun NavGraphBuilder.navDrawerRoute(
                 viewModel.chatUiState.update {
                     it.copy(assistantId = id)
                 }
+            },
+            navigateToImageViewer = {
+                mainViewModel.bitmap = it
+                navController.navigate(Screens.ImageViewer)
             }
         )
     }

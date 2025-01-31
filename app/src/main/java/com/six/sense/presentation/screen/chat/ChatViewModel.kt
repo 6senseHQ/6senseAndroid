@@ -6,6 +6,7 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.TextPart
 import com.google.ai.client.generativeai.type.content
 import com.six.sense.BuildConfig
+import com.six.sense.domain.model.MessageData
 import com.six.sense.domain.repo.OpenAiRepo
 import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
@@ -27,14 +28,13 @@ class ChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val openAiRepo: OpenAiRepo,
 ) : BaseViewModel() {
-    private val _chatUiState = MutableStateFlow(ChatUiState())
-    val chatUiState = _chatUiState
+    val chatUiState = MutableStateFlow(ChatUiState())
 
 
-    val generativeModel = GenerativeModel(
+    private val generativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash-exp",
         apiKey = BuildConfig.apiKey,
-        systemInstruction = content { text(_chatUiState.value.systemRole.instruction) }
+        systemInstruction = content { text(chatUiState.value.systemRole.instruction) }
     )
 
     // Note that sendMessage() is a suspend function and should be called from
@@ -45,19 +45,31 @@ class ChatViewModel @Inject constructor(
     fun geminiChat(userPrompt: String, userImage: Bitmap?) {
         launch {
             val chat = generativeModel.startChat()
+            val time = System.currentTimeMillis()
             val response = chat.sendMessage(
                 content {
-                    parts.addAll(_chatUiState.value.chatHistory.map { TextPart(it) })
+                    parts.addAll(chatUiState.value.chatHistory.map { TextPart(it.message) })
                     text(userPrompt)
                     userImage?.let { image(it) }
                 }
             )
 
-            _chatUiState.update {
+            chatUiState.update {
                 it.copy(
                     inputContent = userPrompt, outputContent = response.text ?: "",
                     chatHistory = it.chatHistory.toMutableList().apply {
-                        add(userPrompt); add(response.text ?: "")
+                        add(MessageData(
+                            message = userPrompt,
+                            image = userImage,
+                            time = time,
+                            role = Role.USER
+                        ))
+                        add(MessageData(
+                            message = response.text.orEmpty(),
+                            image = null,
+                            time = System.currentTimeMillis(),
+                            role = Role.ASSISTANT
+                        ))
                     }.toList()
                 )
             }
@@ -65,7 +77,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun changeSystemRole(systemRole: SystemInstructions) {
-        _chatUiState.update { it.copy(systemRole = systemRole) }
+        chatUiState.update { it.copy(systemRole = systemRole) }
     }
 
     fun initOpenAi() {
@@ -74,7 +86,7 @@ class ChatViewModel @Inject constructor(
             val ass = openAiRepo.getAllAssistants()
             ass.log()
             ass.firstOrNull()?.id()?.let { id ->
-                _chatUiState.update {
+                chatUiState.update {
                     it.copy(assistantId = id, assistants = ass)
                 }
             }
@@ -83,18 +95,19 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun openAiChat(userPrompt: String){
+    fun openAiChat(userPrompt: String, userImage: Bitmap?){
         launch {
             (openAiRepo.threads.value.lastOrNull() ?: openAiRepo.createNewThread()).let {
                 it.log("threadId")
                 openAiRepo.sendMessageToThread(
                     assistantId = chatUiState.value.assistantId,
                     threadId = it,
-                    message = userPrompt
+                    message = userPrompt,
+                    image = userImage
                 )
                 if(userPrompt.isNotEmpty())
                     getOpenAiThreadHistory(it)
-                else _chatUiState.update { state ->
+                else chatUiState.update { state ->
                     state.copy(chatHistory = emptyList())
                 }
             }
@@ -104,11 +117,9 @@ class ChatViewModel @Inject constructor(
     private suspend fun getOpenAiThreadHistory(threadId: String) {
         openAiRepo.getThreadMessages(threadId).also {
             it.log()
-        }.map { it.content().map { it.asText().text().value() } }.let {
-            _chatUiState.update { state ->
-                state.copy(
-                    chatHistory = it.flatten().reversed()
-                )
+        }.let {
+            chatUiState.update { state ->
+                state.copy(chatHistory = it)
             }
         }
     }
