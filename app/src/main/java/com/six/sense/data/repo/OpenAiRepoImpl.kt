@@ -194,11 +194,7 @@ class OpenAiRepoImpl(
             header(HttpHeaders.Authorization, "Bearer ${BuildConfig.OPENAI_API_KEY}")
         }
         val responseBody = response.body<JsonObject>()
-        responseBody.log("fileId")
         val fileId = responseBody["id"]?.jsonPrimitive?.content ?: error("Failed to upload image")
-//        val fileId = responseBody["id"].toString()
-        fileId.log("fileId")
-
         return fileId
     }
 
@@ -208,9 +204,7 @@ class OpenAiRepoImpl(
         }
         val imageBytes = response.body<ByteArray>() // Get raw bytes
         imageBytes.log("imageBytes")
-        return imageBytes.toBitmap().apply {
-            log("bitmap")
-        }
+        return imageBytes.toBitmap()
     }
 
 }
