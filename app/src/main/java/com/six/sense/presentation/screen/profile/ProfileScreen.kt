@@ -243,7 +243,7 @@ fun PaymentItem(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
     ProfileScreen()

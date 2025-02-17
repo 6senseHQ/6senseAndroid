@@ -1,17 +1,25 @@
 package com.six.sense.presentation.screen.auth
 
 import android.annotation.SuppressLint
+import android.os.LocaleList
 import android.view.View
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,48 +40,71 @@ import ir.kaaveh.sdpcompose.sdp
  * @param onClickGoogleLogin A callback function that is invoked when the Google login button is clicked.
  * @param modifier Modifier for the layout.
  */
-@SuppressLint("InflateParams")
+@SuppressLint("InflateParams", "LocalContextConfigurationRead")
 @Composable
 fun LoginScreen(
     onClickFacebookLogin: (View) -> Unit,
     onClickGoogleLogin: (View) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxSize()
-            .imePadding()
-            .padding(vertical = 50.sdp)
-    ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 80.sdp)
-        )
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.sdp)) {
-            AndroidViewBinding(
-                factory = { li, vg, atr ->
-                    FbLoginBtnBinding.inflate(li, vg, atr).apply {
-                        loginButton.setOnClickListener(onClickFacebookLogin)
-                    }
-                },
-                update = {
-                }
-            )
-            Text(text = "or")
-            AndroidViewBinding(
-                factory = { li, vg, atr ->
-                    GoogleLoginBtnBinding.inflate(li, vg, atr).apply {
-                        signInButton.setSize(SignInButton.SIZE_WIDE)
-                        signInButton.setOnClickListener(onClickGoogleLogin)
-                    }
-                }
-            )
+    val context = LocalContext.current
+    var local by remember {mutableStateOf("en") }
+    val localizedContext = run {
+        val locales = LocaleList.forLanguageTags(local)
+        val configuration = context.resources.configuration
+        configuration.setLocales(locales)
+        context.createConfigurationContext(configuration)
+    }
+    val localizedString = localizedContext.resources.getString(R.string.app_name)
+    CompositionLocalProvider(){
 
-        }
+    }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxSize()
+                .imePadding()
+                .padding(vertical = 50.sdp)
+        ) {
+            Text(
+                text = localizedString,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 80.sdp)
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.sdp)
+            ) {
+                Button(onClick = {
+                    local = "bn"
+//                    AppCompatDelegate.setApplicationLocales(
+//                        LocaleListCompat.create(Locale("bn"))
+//                    )
+                }) {
+                    Text(text = "বাংলা")
+                }
+                AndroidViewBinding(
+                    factory = { li, vg, atr ->
+                        FbLoginBtnBinding.inflate(li, vg, atr).apply {
+                            loginButton.setOnClickListener(onClickFacebookLogin)
+                        }
+                    },
+                    update = {
+                    }
+                )
+                Text(text = stringResource(R.string.or))
+                AndroidViewBinding(
+                    factory = { li, vg, atr ->
+                        GoogleLoginBtnBinding.inflate(li, vg, atr).apply {
+                            signInButton.setSize(SignInButton.SIZE_WIDE)
+                            signInButton.setOnClickListener(onClickGoogleLogin)
+                        }
+                    }
+                )
+
+            }
     }
 }
 
@@ -84,9 +115,9 @@ fun LoginScreen(
 @Composable
 fun Previews() {
     SixSenseAndroidTheme {
-        LoginScreen ({
+        LoginScreen({
 //            val btn = view.findViewById<LoginButton>(R.id.login_button)
 //            btn.setPermissions("id", "name", "link")
-        },{})
+        }, {})
     }
 }

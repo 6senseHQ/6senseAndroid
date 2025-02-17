@@ -168,8 +168,9 @@ fun ChatScreen(
                                     .size(55.sdp)
                                     .bounceClick {
                                         navigateToImageViewer(it)
-                                    }.clip(RoundedCornerShape(8.sdp))
-
+                                    }
+                                    .clip(RoundedCornerShape(8.sdp)),
+                                contentScale = ContentScale.Crop
                             )
                         }
                         Text(

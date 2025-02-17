@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 object Screens {
+    @Serializable object Onboarding
     /**
      * Represents the login screen.
      */

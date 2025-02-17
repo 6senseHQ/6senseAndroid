@@ -1,10 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">6sense</string>
-    <string name="facebook_app_id" translatable="false">9201280986629786</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb9201280986629786</string>
-    <string name="facebook_client_token" translatable="false">9c203284309ae18f4690baa17733d495</string>
-    <string name="or">OR</string>
-    <string name="navigation_bar">Navigation Bar</string>
+    <string name="app_name">৬সেন্স</string>
+    <string name="or">অথবা</string>
+    <string name="navigation_bar">নেভিগেশন বার</string>
     <string name="nav_dsc_one">Navigation bars let people switch between UI views on smaller devices</string>
     <string name="nav_dsc_two">Destinations in navigation bars always include an icon. It’s best to pair icons with text labels, especially if the icon doesn’t have obvious meaning Use a filled icon for the active destination and outlined icons for inactive destinations.</string>
 </resources>

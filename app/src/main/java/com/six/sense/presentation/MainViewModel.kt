@@ -23,7 +23,6 @@ import com.openai.models.FunctionTool
 import com.openai.models.ModelListParams
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.presentation.base.BaseViewModel
-import com.six.sense.presentation.screen.chat.gemini.SystemInstructions
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,6 +51,8 @@ class MainViewModel @Inject constructor(
 
     val showChatDialog = MutableStateFlow(false)
 
+    var onBoardingCompleted = true
+
     var bitmap: Bitmap? = null
 
     /**
@@ -67,16 +68,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    val currentModel = dataStoreManager.readAsFlow("MODEL", SystemInstructions.DEFAULT).stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(5_000), SystemInstructions.DEFAULT
+    val showOnboarding = dataStoreManager.readAsFlow<Boolean?>("onboarding", null).stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5_000), null
     )
-
-    fun switchModel(model: String, isVisible: Boolean) {
-        if (isVisible)
-            viewModelScope.launch {
-                dataStoreManager.save("MODEL", model)
-            }
-    }
 
     /**
      * A function to test the OpenAI API.
@@ -122,13 +116,17 @@ class MainViewModel @Inject constructor(
                         ChatCompletionMessageParam.ofUser(
                             ChatCompletionUserMessageParam.builder()
                                 .content(ChatCompletionUserMessageParam.Content.ofText("Hay, this is a test"))
-                                .content(ChatCompletionUserMessageParam.Content.ofArrayOfContentParts(
-                                    listOf(
-                                        ChatCompletionContentPart.ofImageUrl(
-                                            ChatCompletionContentPartImage.builder().imageUrl(ImageUrl.builder().url("base64").build()).build()
+                                .content(
+                                    ChatCompletionUserMessageParam.Content.ofArrayOfContentParts(
+                                        listOf(
+                                            ChatCompletionContentPart.ofImageUrl(
+                                                ChatCompletionContentPartImage.builder().imageUrl(
+                                                    ImageUrl.builder().url("base64").build()
+                                                ).build()
+                                            )
                                         )
                                     )
-                                ))
+                                )
                                 .build()
                         )
                     )
