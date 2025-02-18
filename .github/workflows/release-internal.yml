@@ -1,0 +1,45 @@
+name: Release APK to Internal Testing
+
+on:
+  push:
+    branches:
+      - test  # release branch name
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Deploy APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > release.keystore
+
+      - name: Grant Execute Permissions
+        run: chmod +x gradlew
+
+      - name: Build AAB (Android App Bundle)
+        run: |
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=release.keystore \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEYSTORE_PASSWORD }}
+
+      - name: Upload to Google Play Internal Testing
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_CREDENTIALS }}
+          packageName: "com.six.sense"
+          releaseFiles: "app/build/outputs/bundle/release/app-release.aab"
+          track: internal
+          status: completed
