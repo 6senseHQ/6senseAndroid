@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.util.fastForEachIndexed
 import com.six.sense.R
-import com.six.sense.presentation.screen.materialComponents.ComponentInfo
+import com.six.sense.presentation.screen.materialComponents.ComponentInfoV
 import ir.kaaveh.sdpcompose.sdp
 
 /**
@@ -56,6 +56,7 @@ fun MaterialBottomNavigation(modifier: Modifier = Modifier) {
         R.drawable.person_24px_fill,
         R.drawable.settings_24px_fill
     )
+
     /**
      * Labels list.
      */
@@ -63,14 +64,10 @@ fun MaterialBottomNavigation(modifier: Modifier = Modifier) {
 
 
     Column(modifier.fillMaxSize()) {
-        ComponentInfo(
+        ComponentInfoV(
             modifier = Modifier,
-            title = "Navigation bar",
-            description = arrayOf(
-                "Navigation bars let people switch between UI views on smaller devices",
-                "",
-                "Destinations in navigation bars always include an icon. It’s best to pair icons with text labels, especially if the icon doesn’t have obvious meaning Use a filled icon for the active destination and outlined icons for inactive destinations."
-            )
+            title = R.string.navigation_bar,
+            description = intArrayOf(R.string.nav_dsc_one, R.string.nav_dsc_two)
         )
         Column(
             modifier = Modifier

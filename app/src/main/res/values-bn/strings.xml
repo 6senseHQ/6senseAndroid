@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">৬সেন্স</string>
     <string name="or">অথবা</string>
     <string name="navigation_bar">নেভিগেশন বার</string>
-    <string name="nav_dsc_one">Navigation bars let people switch between UI views on smaller devices</string>
-    <string name="nav_dsc_two">Destinations in navigation bars always include an icon. It’s best to pair icons with text labels, especially if the icon doesn’t have obvious meaning Use a filled icon for the active destination and outlined icons for inactive destinations.</string>
+    <string name="nav_dsc_one">নেভিগেশন বারগুলি মানুষকে ছোট ডিভাইসগুলিতে UI ভিউগুলির মধ্যে পরিবর্তন করতে দেয়৷</string>
+    <string name="nav_dsc_two">নেভিগেশন বারে গন্তব্যে সবসময় একটি আইকন থাকে। টেক্সট লেবেলগুলির সাথে আইকনগুলি যুক্ত করা ভাল, বিশেষত যদি আইকনের স্পষ্ট অর্থ না থাকে তবে সক্রিয় গন্তব্যের জন্য একটি ভরাট আইকন এবং নিষ্ক্রিয় গন্তব্যগুলির জন্য রূপরেখাযুক্ত আইকনগুলি ব্যবহার করুন৷</string>
 </resources>

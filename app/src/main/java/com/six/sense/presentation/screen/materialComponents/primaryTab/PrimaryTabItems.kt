@@ -20,12 +20,12 @@ fun PrimaryTabItems(
     selectedTabIndex: Int,
     onClick: (Int) -> Unit,
 ) {
-    MaterialComponents.componentsList.forEachIndexed { index, title ->
-        Tab(
-            selected = selectedTabIndex == index,
-            onClick = { onClick(index) },
-            modifier = modifier,
-            text = { Text(title) }
-        )
-    }
+        MaterialComponents.componentsList.forEachIndexed { index, title ->
+            Tab(
+                selected = selectedTabIndex == index,
+                onClick = { onClick(index) },
+                modifier = modifier,
+                text = { Text(title) }
+            )
+        }
 }
