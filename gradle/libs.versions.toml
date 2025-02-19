@@ -37,7 +37,7 @@ truth = "1.4.4"
 dokka = "2.0.0"
 generativeai = "0.9.0"
 secrets = "2.0.1"
-
+paging = "3.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -132,10 +132,14 @@ androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", nam
 androidx-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding" }
 
 #gemini
-generativeai = { group = "com.google.ai.client.generativeai",    name = "generativeai", version.ref = "generativeai" }
+generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 
 android-documentation-plugin = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
+
+#paging-compose
+paging-core = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
+paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 
 [bundles]
 compose-ui = [
@@ -186,6 +190,10 @@ coil = [
     "coil-svg",
     "coil-compose"
 ]
+paging = ["paging-core",
+    "paging-compose"
+]
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

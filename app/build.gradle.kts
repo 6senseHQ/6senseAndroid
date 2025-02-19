@@ -143,6 +143,9 @@ dependencies {
     implementation(libs.datastore.pref)
     implementation(libs.generativeai)
 
+    //paging
+    implementation(libs.bundles.paging)
+
 }
 
 secrets {
