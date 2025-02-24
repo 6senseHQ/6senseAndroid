@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.os.ConfigurationCompat
+import com.six.sense.presentation.screen.materialComponents.camera.CameraXScreen
 import com.six.sense.presentation.screen.materialComponents.materialBottomNav.MaterialBottomNavigation
 import com.six.sense.presentation.screen.materialComponents.materialBottomSheet.MaterialBottomSheet
 import com.six.sense.presentation.screen.materialComponents.materialList.MaterialList
@@ -36,7 +37,7 @@ import java.util.Locale
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComponentsScreen(modifier: Modifier = Modifier) {
+fun ComponentsScreen(modifier: Modifier = Modifier, onNavigateToCamera: () -> Unit = {}) {
     val configuration = LocalConfiguration.current
     val locale = ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()
     val layoutDirection = if (locale.language == "ar" || locale.language == "he") {
@@ -66,16 +67,18 @@ fun ComponentsScreen(modifier: Modifier = Modifier) {
                 ) {
                     PrimaryTabItems(
                         selectedTabIndex = selectedTabIndex,
-                        onClick = { selectedTabIndex = it })
+                        onClick = { selectedTabIndex = it }
+                    )
                 }
             }
-            HorizontalPager(state = pagerState, userScrollEnabled = false) { pagerItems ->
+            HorizontalPager(state = pagerState, userScrollEnabled = false) {
                 when (selectedTabIndex) {
-                    0 -> MaterialTextFields()
-                    1 -> MaterialList()
-                    2 -> MaterialBottomNavigation()
-                    3 -> MaterialBottomSheet()
-                    4 -> MaterialTopBar()
+                    0 -> CameraXScreen(onNavigateToCamera = onNavigateToCamera)
+                    1 -> MaterialTextFields()
+                    2 -> MaterialList()
+                    3 -> MaterialBottomNavigation()
+                    4 -> MaterialBottomSheet()
+                    5 -> MaterialTopBar()
                 }
             }
         }

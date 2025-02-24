@@ -9,7 +9,8 @@ object MaterialComponents {
     /**
      * Components list.
      */
-    val componentsList = listOf<String>(
+    val componentsList = listOf(
+        "CameraX",
         "TextFields",
         "Material ListItem",
         "Bottom Navigation",

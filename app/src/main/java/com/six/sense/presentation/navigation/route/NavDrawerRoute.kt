@@ -91,6 +91,10 @@ fun NavGraphBuilder.navDrawerRoute(
         )
     }
     composableWithVM<Screens.Home.Components, EmptyViewModel>(navController = navController) {
-        ComponentsScreen(modifier = modifier)
+        ComponentsScreen(
+            modifier = modifier,
+            onNavigateToCamera = {
+                navController.navigate(Screens.Home.CameraX)
+            })
     }
 }

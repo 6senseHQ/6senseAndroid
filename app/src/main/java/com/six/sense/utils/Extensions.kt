@@ -1,9 +1,13 @@
 package com.six.sense.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -100,26 +104,28 @@ fun Modifier.bounceClick(onClick: () -> Unit = {}): Modifier = composed {
     graphicsLayer {
         scaleX = scale
         scaleY = scale
-    }.clickable(
-        interactionSource = remember { MutableInteractionSource() },
-        indication = null,
-        onClick = {
-            scope.launch {
-                delay(150L)
-                onClick()
-            }
-        }
-    ).pointerInput(buttonState) {
-        awaitPointerEventScope {
-            buttonState = if (buttonState == Pressed) {
-                waitForUpOrCancellation()
-                Idle
-            } else {
-                awaitFirstDown(false)
-                Pressed
-            }
-        }
     }
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = {
+                scope.launch {
+                    delay(150L)
+                    onClick()
+                }
+            }
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = if (buttonState == Pressed) {
+                    waitForUpOrCancellation()
+                    Idle
+                } else {
+                    awaitFirstDown(false)
+                    Pressed
+                }
+            }
+        }
 }
 
 /**
@@ -152,4 +158,28 @@ fun Long.toByteArray(): ByteArray {
 
 fun ByteArray.toBitmap(): Bitmap? {
     return BitmapFactory.decodeByteArray(this, 0, size)
+}
+
+fun Context?.getClipBoardData(): String {
+    this ?: return ""
+    val clipBoardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    var data = ""
+    if (clipBoardManager.primaryClip?.description?.hasMimeType("text/*") == true) {
+        clipBoardManager.primaryClip?.itemCount?.let {
+            for (i in 0 until it) {
+                data += clipBoardManager.primaryClip?.getItemAt(i)?.text ?: ""
+            }
+        }
+    }
+    data.log("getClipBoardData")
+    return data
+}
+
+fun Context.setClipBoardData(data: String?) {
+    data?.let {
+        val clipBoardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(data, data)
+        clipBoardManager.setPrimaryClip(clip)
+        Toast.makeText(this, "$data Copied!", Toast.LENGTH_SHORT).show()
+    }
 }

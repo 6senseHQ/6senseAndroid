@@ -34,6 +34,10 @@ object Screens {
          * Represents the profile sub-screen within the home screen.
          */
         @Serializable object Profile
+        /**
+         * Represents the cameraX sub-screen within the home screen.
+         */
+        @Serializable object CameraX
     }
 
     /**

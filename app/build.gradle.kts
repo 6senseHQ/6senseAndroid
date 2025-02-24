@@ -146,6 +146,19 @@ dependencies {
     //paging
     implementation(libs.bundles.paging)
 
+    implementation(libs.bundles.coil)
+
+    val cameraX = "1.5.0-alpha05"
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.compose)
+
+    //QR code
+    implementation(libs.androidx.camera.mlkit.vision)
+    implementation(libs.play.services.mlkit.barcode.scanning)
+    implementation(libs.play.services.code.scanner)
+
 }
 
 secrets {
