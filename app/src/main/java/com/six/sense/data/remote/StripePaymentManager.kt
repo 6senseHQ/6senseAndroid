@@ -8,7 +8,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.rememberPaymentSheet
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.post
+import io.ktor.client.request.forms.submitForm
 import io.ktor.http.isSuccess
 
 class StripePaymentManager(
@@ -18,7 +18,7 @@ class StripePaymentManager(
 
     private var paymentSheet: PaymentSheet? = null
     private var customerConfig: PaymentSheet.CustomerConfiguration? = null
-    private var paymentIntentClientSecret: String = ""
+    private var paymentIntentClientSecret: String = "sk_test_51QkJ5VLrwe3wNGP9WqFa5NzcxmDBJepQTejY5owpNC7jaH7FhazCke9SlTr2cjwFhvmFvp3mxhVGslULnEWTy5LX00SYIGpolt"
 
     @Composable
     fun CreatePaymentSheet() {
@@ -26,7 +26,7 @@ class StripePaymentManager(
     }
 
     suspend fun connectToStripeBackend() {
-        val response = ktorClient.post("payment-sheet")
+        val response = ktorClient.submitForm("https://d4de-103-85-241-46.ngrok-free.app/payment-sheet")
         if (response.status.isSuccess()) {
             val responseBody = response.body<Map<String, String>>()
             paymentIntentClientSecret =

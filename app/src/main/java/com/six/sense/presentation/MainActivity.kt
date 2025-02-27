@@ -1,5 +1,6 @@
 package com.six.sense.presentation
 
+import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -31,9 +32,9 @@ class MainActivity : ComponentActivity() {
         viewModel.isUiLightMode.collectWithLifecycle {
             enableEdgeToEdge(
                 statusBarStyle = if (!it)
-                    SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                    SystemBarStyle.dark(TRANSPARENT)
                 else
-                    SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT),
+                    SystemBarStyle.light(TRANSPARENT, TRANSPARENT),
             )
         }
         enableEdgeToEdge()
