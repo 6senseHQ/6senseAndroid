@@ -2,6 +2,7 @@ package com.six.sense.data.remote
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import com.six.sense.BuildConfig
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
@@ -18,7 +19,7 @@ class StripePaymentManager(
 
     private var paymentSheet: PaymentSheet? = null
     private var customerConfig: PaymentSheet.CustomerConfiguration? = null
-    private var paymentIntentClientSecret: String = "sk_test_51QkJ5VLrwe3wNGP9WqFa5NzcxmDBJepQTejY5owpNC7jaH7FhazCke9SlTr2cjwFhvmFvp3mxhVGslULnEWTy5LX00SYIGpolt"
+    private var paymentIntentClientSecret: String = BuildConfig.STRIPE_CLIENT_SECRET
 
     @Composable
     fun CreatePaymentSheet() {
@@ -26,7 +27,7 @@ class StripePaymentManager(
     }
 
     suspend fun connectToStripeBackend() {
-        val response = ktorClient.submitForm("https://d4de-103-85-241-46.ngrok-free.app/payment-sheet")
+        val response = ktorClient.submitForm(BuildConfig.STRIPE_URL)
         if (response.status.isSuccess()) {
             val responseBody = response.body<Map<String, String>>()
             paymentIntentClientSecret =
