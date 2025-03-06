@@ -1,5 +1,6 @@
 package com.six.sense.presentation.navigation.route
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ fun NavGraphBuilder.homeRoute(
     modifier: Modifier
 ) {
     composable<Screens.Home> {
+        AnimatedContentTransitionScope.SlideDirection.Up
         val navControllerBottomBar = rememberNavController()
         val currentDestination by navControllerBottomBar.currentBackStackEntryFlow.mapNotNull { it.destination.route?.split(".")?.lastOrNull() }
             .collectAsStateWithLifecycle("")
