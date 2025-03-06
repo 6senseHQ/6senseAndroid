@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.1"
+agp = "8.9.0"
 appUpdate = "2.1.0"
 cameraX = "1.5.0-alpha05"
 facebookAndroidSdk = "18.0.2"
@@ -158,6 +158,9 @@ androidx-compose-animation = { module = "androidx.compose.animation:animation", 
 androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "composeBom" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "composeBom" }
 
+#KTOR WebSocket
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+
 [bundles]
 compose-ui = [
     "androidx-core-ktx",
@@ -180,24 +183,28 @@ ktor = [
     "slf4j-android",
     "ktor-auth"
 ]
+
 firebase = [
     "firebase-auth",
     "firebase-analytics",
     "firebase-crashlytics",
     "firebase-messaging",
 ]
+
 test = [
     "junit",
     "mockk-android",
     "mockk-agent",
     "google-truth"
 ]
+
 androidx-test = [
     "androidx-junit",
     "androidx-espresso-core",
     "androidx-ui-test-junit4",
     "mockk"
 ]
+
 androidx-debug-test = [
     "androidx-ui-tooling",
     "androidx-ui-test-manifest",
@@ -207,11 +214,11 @@ coil = [
     "coil-svg",
     "coil-compose"
 ]
+
 paging = [
     "paging-core",
     "paging-compose"
 ]
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
