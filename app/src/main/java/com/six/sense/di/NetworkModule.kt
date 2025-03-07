@@ -99,6 +99,8 @@ object NetworkModule {
             }
             install(WebSockets){
                 contentConverter = KotlinxWebsocketSerializationConverter(Json)
+                pingInterval = 20_000
+                maxFrameSize = Long.MAX_VALUE
             }
 //            install(Auth) {
 //                bearer {
