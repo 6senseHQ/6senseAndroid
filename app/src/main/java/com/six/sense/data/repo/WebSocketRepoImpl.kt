@@ -18,7 +18,7 @@ class WebSocketRepoImpl @Inject constructor(
 ) : WebSocketRepo {
     private var session: WebSocketSession? = null
     override suspend fun connect(): Boolean {
-        session = webSocketClient.webSocketSession { url("ws://192.168.1.2:8080/chat") }
+        session = webSocketClient.webSocketSession { url("ws://localhost:8080/chat") }
         return session?.isActive == true
     }
 
