@@ -25,6 +25,20 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.SubcomposeAsyncImage
 
+/**
+ * A composable function that displays an image viewer dialog with pan and zoom functionality.
+ *
+ * This dialog allows the user to:
+ * - View an image provided by the `image` parameter.
+ * - Zoom in and out of the image using pinch gestures or double-tap.
+ * - Pan the image when zoomed in by dragging.
+ * - Close the dialog by tapping the close button.
+ *
+ * @param image The image to be displayed. Can be any type supported by Coil's SubcomposeAsyncImage,
+ *              such as a URL string, a drawable resource ID, a File, or a Uri.
+ * @param onDismissRequest Callback invoked when the user requests to dismiss the dialog, typically by
+ *                         tapping the close button.
+ */
 @Composable
 fun ImageViewerDialog(
     image: Any,

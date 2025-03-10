@@ -16,6 +16,38 @@ val fontFamily = FontFamily(
 
 
 // Display
+/**
+ * A [Typography] instance that defines the text styles for the Open Sans font family.
+ *
+ * This typography configuration provides a comprehensive set of text styles based on the Open Sans
+ * font family, including display, headline, title, label, and body styles. Each style is defined
+ * with specific font weight, size, and line height to ensure a consistent and readable user interface.
+ *
+ * The styles are categorized as follows:
+ * - **Display:** Large, prominent text styles for titles and headings on large screens.
+ *   - `displayLarge`: For the largest display text (57.sp).
+ *   - `displayMedium`: For medium display text (45.sp).
+ *   - `displaySmall`: For smaller display text (36.sp).
+ * - **Headline:** Text styles for primary headings.
+ *   - `headlineLarge`: For large headings (32.sp).
+ *   - `headlineMedium`: For medium headings (28.sp).
+ *   - `headlineSmall`: For small headings (24.sp).
+ * - **Title:** Text styles for titles and subtitles.
+ *   - `titleLarge`: For large titles (22.sp).
+ *   - `titleMedium`: For medium titles (16.sp, Medium font weight).
+ *   - `titleSmall`: For small titles (14.sp, Medium font weight).
+ * - **Label:** Text styles for labels and captions.
+ *   - `labelLarge`: For large labels (10.sp, Medium font weight).
+ *   - `labelMedium`: For medium labels (12.sp, Medium font weight).
+ *   - `labelSmall`: For small labels (11.sp, Medium font weight).
+ * - **Body:** Text styles for paragraphs and general text.
+ *   - `bodyLarge`: For large body text (16.sp).
+ *   - `bodyMedium`: For medium body text (14.sp).
+ *   - `bodySmall`: For small body text (12.sp).
+ *
+ * All styles in this [Typography] use the provided `fontFamily` and are designed to work
+ * seamlessly within the Material Design system.
+ */
 val OpenSansTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = fontFamily,

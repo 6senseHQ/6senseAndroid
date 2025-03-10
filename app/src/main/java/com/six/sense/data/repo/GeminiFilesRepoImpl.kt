@@ -15,15 +15,44 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
+/**
+ * Implementation of the [GeminiFilesRepo] interface for uploading files to the Gemini API.
+ *
+ * This class handles the process of uploading a file (in this case, a raw resource)
+ * to the Gemini API's file storage service using a resumable upload protocol.
+ *
+ * @property ktorClient The [HttpClient] instance used for making HTTP requests.
+ * @property dispatcher The [CoroutineDispatcher] used for offloading the file upload operation to a background thread.
+ * @property context The [Context] used to access application resources, such as the raw file.
+ */
 class GeminiFilesRepoImpl(
     private val ktorClient: HttpClient,
     private val dispatcher: CoroutineDispatcher,
     private val context: Context,
 ) : GeminiFilesRepo {
+    /**
+     * The base URL for the Generative Language API.
+     */
     val baseUrl = "https://generativelanguage.googleapis.com"
+
+    /**
+     * The display name for the file being uploaded.
+     */
     val displayName = "TEXT"
+
+    /**
+     * The bytes of the file being uploaded.
+     */
     val fileBytes = context.resources.openRawResource(R.raw.login).readBytes()
+
+    /**
+     * The MIME type of the file being uploaded.
+     */
     val mimeType = "text/plain" // Adjust based on your file type
+
+    /**
+     * The number of bytes in the file being uploaded.
+     */
     val numBytes = fileBytes.size
     override suspend fun uploadFile(): String {
         return withContext(dispatcher) {

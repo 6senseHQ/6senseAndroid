@@ -13,6 +13,13 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * [GooglePlayBillingManager] is a class that manages interactions with the Google Play Billing Library.
+ *
+ * It handles setting up the billing client, querying for product details, and launching the billing flow for purchases.
+ *
+ * @param context The application context.
+ */
 class GooglePlayBillingManager(
     private val context: Context,
 ) {

@@ -29,6 +29,21 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
+/**
+ * [CameraXViewModel] is a ViewModel class that manages the camera operations and data flow for the CameraX API.
+ *
+ * It handles:
+ * - Camera Preview setup and management.
+ * - Image Capture functionality.
+ * - QR Code scanning using ML Kit.
+ * - Camera switching (front/back).
+ * - Managing the UI state related to the camera.
+ * - Binding camera use cases to the lifecycle.
+ *
+ * This class uses Hilt for dependency injection.
+ *
+ * @constructor Creates a [CameraXViewModel] instance.
+ */
 @HiltViewModel
 class CameraXViewModel @Inject constructor() : BaseViewModel() {
     // Used to set up a link between the Camera and your UI.
@@ -141,6 +156,22 @@ class CameraXViewModel @Inject constructor() : BaseViewModel() {
 
 }
 
+/**
+ * Represents the UI state of the camera screen.
+ *
+ * This data class holds the necessary information to manage the camera's visual
+ * and functional state, including the active camera surface, camera selection,
+ * captured image URIs, and any detected QR code data.
+ *
+ * @property surfaceRequest The [SurfaceRequest] object used to request a surface for camera preview.
+ *                          If null, no preview is currently being requested.
+ * @property cameraSelector The [CameraSelector] indicating which camera is currently active (e.g., front or back).
+ *                         Defaults to the back camera.
+ * @property imageUris A list of [Uri] objects representing the captured images.
+ *                    Initially an empty list, it will contain URIs to captured images.
+ * @property qrData The string data decoded from a QR code, if one is detected.
+ *                  Null if no QR code has been detected.
+ */
 data class CameraUiState(
     val surfaceRequest: SurfaceRequest? = null,
     val cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,

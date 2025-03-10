@@ -24,8 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.six.sense.ui.theme.SixSenseAndroidTheme
-/*
-mask input, clipboard protection, accessibility, autofill
+
+/**
+ *mask input, clipboard protection, accessibility, autofill
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable

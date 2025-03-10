@@ -13,6 +13,18 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import javax.inject.Inject
 
+/**
+ * Implementation of the [WebSocketRepo] interface responsible for managing the WebSocket connection
+ * and communication with the server.
+ *
+ * This class handles the following:
+ * - Establishing and closing a WebSocket connection.
+ * - Receiving messages from the server.
+ * - Sending messages to the server.
+ *
+ * @property webSocketClient The [HttpClient] instance used for creating the WebSocket connection.
+ * It should be configured with the WebSocket plugin.
+ */
 class WebSocketRepoImpl @Inject constructor(
     private val webSocketClient: HttpClient,
 ) : WebSocketRepo {

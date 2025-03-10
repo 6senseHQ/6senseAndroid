@@ -30,6 +30,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.six.sense.R
 
+/**
+ * A composable function that displays an onboarding flow to the user.
+ *
+ * This screen guides the user through a series of steps (pages) to introduce
+ * them to the application's features or gather initial information.
+ *
+ * The onboarding flow consists of three pages:
+ *   - Page 0: [OnboardingPageOne]
+ *   - Page 1: [OnboardingPageTwo]
+ *   - Page 2: [OnboardingPageThree]
+ *
+ * Navigation between pages is handled internally, and the `onBoardingCompleted`
+ * callback is invoked when the user completes the final page.
+ *
+ * @param modifier The modifier to apply to this layout.
+ * @param onBoardingCompleted A callback function that is invoked when the user
+ *   has completed the entire onboarding process.
+ *
+ * Example Usage:
+ * ```
+ * OnboardingScreen(onBoardingCompleted = {
+ *     // Navigate to the main screen or perform other actions
+ *     // after onboarding is finished.
+ *     Log.d("Onboarding", "Onboarding Completed!")
+ * })
+ * ```
+ */
 @Composable
 fun OnboardingScreen(modifier: Modifier = Modifier, onBoardingCompleted: () -> Unit) {
     var currentPage by remember { mutableIntStateOf(0) }

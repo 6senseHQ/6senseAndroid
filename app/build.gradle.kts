@@ -156,7 +156,6 @@ dependencies {
 
     implementation(libs.bundles.coil)
 
-    val cameraX = "1.5.0-alpha05"
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
@@ -167,7 +166,12 @@ dependencies {
     implementation(libs.play.services.mlkit.barcode.scanning)
     implementation(libs.play.services.code.scanner)
 
+    //WebSocket
     implementation(libs.ktor.client.websockets)
+
+    //AppSearch
+    implementation(libs.bundles.appsearch)
+    ksp(libs.androidx.appsearch.compiler)
 
 }
 

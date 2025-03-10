@@ -38,9 +38,28 @@ import androidx.compose.ui.unit.dp
 import com.six.sense.ui.theme.SixSenseAndroidTheme
 
 /**
- * Login screen
+ * A composable function that displays the login screen.
  *
- * @param modifier Modifier for the screen.
+ * This screen provides an interface for users to log in to the application. It includes fields for
+ * entering an email and password, options for toggling password visibility, a "Forgot password?"
+ * link, a login button, and a link to navigate to the account creation screen.
+ *
+ * @param modifier Modifier for styling and layout of the login screen. Defaults to [Modifier].
+ *
+ * The screen consists of the following elements:
+ *  - A top app bar with the title "Login".
+ *  - An email text field.
+ *  - A password text field with password visibility toggle.
+ *  - A "Forgot password?" text button.
+ *  - A login button.
+ *  - A row with text "Don't have an account?" and a "Create account" text button.
+ *
+ * The layout uses a [Scaffold] to position the top app bar and a [Column] to arrange the input fields and buttons vertically.
+ *  [AuthRegularField] and [AuthSecureField] composables are used for email and password fields respectively.
+ *
+ * @OptIn ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class:
+ * These are used to access experimental Material 3 and Material 3 Expressive API features. These might be subject to
+ * changes in future releases.
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
