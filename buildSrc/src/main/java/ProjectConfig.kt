@@ -38,7 +38,7 @@ object ProjectConfig {
     /**
      * The Java version used by the project.
      */
-    val javaVersion = JavaVersion.VERSION_21
+    val javaVersion = JavaVersion.VERSION_23
 
     /**
      * Flag indicating whether internal testing is enabled.

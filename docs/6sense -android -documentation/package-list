@@ -1,5 +1,11 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:com.six.sense.data.local.appsearch////PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/index.html
+$dokka.location:com.six.sense.data.local.appsearch/Note///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/-note/index.html
+$dokka.location:com.six.sense.data.local.appsearch/Note/Note/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/-note/-note.html
+$dokka.location:com.six.sense.data.local.appsearch/Note/id/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/-note/id.html
+$dokka.location:com.six.sense.data.local.appsearch/Note/namespace/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/-note/namespace.html
+$dokka.location:com.six.sense.data.local.appsearch/Note/text/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.appsearch/-note/text.html
 $dokka.location:com.six.sense.data.local.datastore////PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.datastore/index.html
 $dokka.location:com.six.sense.data.local.datastore/DataStoreManager///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.datastore/-data-store-manager/index.html
 $dokka.location:com.six.sense.data.local.datastore/DataStoreManager/DataStoreManager/#android.content.Context/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.datastore/-data-store-manager/-data-store-manager.html
@@ -32,6 +38,11 @@ $dokka.location:com.six.sense.data.local.room/ThreadDao/getAllThreads/#/Pointing
 $dokka.location:com.six.sense.data.local.room/ThreadDao/insertData/#com.six.sense.data.local.room.entities.ThreadsEntity/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.room/-thread-dao/insert-data.html
 $dokka.location:com.six.sense.data.local.room/UserDao///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.room/-user-dao/index.html
 $dokka.location:com.six.sense.data.local.room/UserDao/insertData/#com.six.sense.data.local.room.entities.UserEntity/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.local.room/-user-dao/insert-data.html
+$dokka.location:com.six.sense.data.paging////PointingToDeclaration/6sense -android -documentation/com.six.sense.data.paging/index.html
+$dokka.location:com.six.sense.data.paging/DummyPagingSource///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.paging/-dummy-paging-source/index.html
+$dokka.location:com.six.sense.data.paging/DummyPagingSource/DummyPagingSource/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.paging/-dummy-paging-source/-dummy-paging-source.html
+$dokka.location:com.six.sense.data.paging/DummyPagingSource/getRefreshKey/#androidx.paging.PagingState[kotlin.Int,com.six.sense.domain.model.DummyPaging]/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.paging/-dummy-paging-source/get-refresh-key.html
+$dokka.location:com.six.sense.data.paging/DummyPagingSource/load/#androidx.paging.PagingSource.LoadParams[kotlin.Int]/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.paging/-dummy-paging-source/load.html
 $dokka.location:com.six.sense.data.remote.dto////PointingToDeclaration/6sense -android -documentation/com.six.sense.data.remote.dto/index.html
 $dokka.location:com.six.sense.data.remote.dto/UserDto///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.remote.dto/-user-dto/index.html
 $dokka.location:com.six.sense.data.remote.dto/UserDto/UserDto/#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.remote.dto/-user-dto/-user-dto.html
@@ -77,6 +88,15 @@ $dokka.location:com.six.sense.data.repo/OpenAiRepoImpl/getAllThreads/#/PointingT
 $dokka.location:com.six.sense.data.repo/OpenAiRepoImpl/getThreadMessages/#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-open-ai-repo-impl/get-thread-messages.html
 $dokka.location:com.six.sense.data.repo/OpenAiRepoImpl/sendMessageToThread/#kotlin.String#kotlin.String#kotlin.String#android.graphics.Bitmap?/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-open-ai-repo-impl/send-message-to-thread.html
 $dokka.location:com.six.sense.data.repo/OpenAiRepoImpl/threads/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-open-ai-repo-impl/threads.html
+$dokka.location:com.six.sense.data.repo/PagingRepoImpl///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-paging-repo-impl/index.html
+$dokka.location:com.six.sense.data.repo/PagingRepoImpl/PagingRepoImpl/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-paging-repo-impl/-paging-repo-impl.html
+$dokka.location:com.six.sense.data.repo/PagingRepoImpl/getPagingData/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-paging-repo-impl/get-paging-data.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl///PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/index.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl/WebSocketRepoImpl/#io.ktor.client.HttpClient/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/-web-socket-repo-impl.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl/connect/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/connect.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl/disconnect/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/disconnect.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl/observeMessages/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/observe-messages.html
+$dokka.location:com.six.sense.data.repo/WebSocketRepoImpl/sendMessage/#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.data.repo/-web-socket-repo-impl/send-message.html
 $dokka.location:com.six.sense.di////PointingToDeclaration/6sense -android -documentation/com.six.sense.di/index.html
 $dokka.location:com.six.sense.di/CoroutinesModule///PointingToDeclaration/6sense -android -documentation/com.six.sense.di/-coroutines-module/index.html
 $dokka.location:com.six.sense.di/CoroutinesModule/providesDefaultDispatcher/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.di/-coroutines-module/provides-default-dispatcher.html
@@ -101,6 +121,11 @@ $dokka.location:com.six.sense.di/NetworkModule/provideOpenAIClient/#/PointingToD
 $dokka.location:com.six.sense.di/NetworkModule/provideOpenAiRepo/#com.openai.client.OpenAIClient#com.six.sense.data.local.room.ThreadDao#kotlinx.coroutines.CoroutineDispatcher#io.ktor.client.HttpClient/PointingToDeclaration/6sense -android -documentation/com.six.sense.di/-network-module/provide-open-ai-repo.html
 $dokka.location:com.six.sense.di/NetworkModule/provideStripePaymentManager/#android.content.Context#io.ktor.client.HttpClient/PointingToDeclaration/6sense -android -documentation/com.six.sense.di/-network-module/provide-stripe-payment-manager.html
 $dokka.location:com.six.sense.domain.model////PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/index.html
+$dokka.location:com.six.sense.domain.model/DummyPaging///PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-dummy-paging/index.html
+$dokka.location:com.six.sense.domain.model/DummyPaging/DummyPaging/#kotlin.Int#kotlin.String#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-dummy-paging/-dummy-paging.html
+$dokka.location:com.six.sense.domain.model/DummyPaging/description/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-dummy-paging/description.html
+$dokka.location:com.six.sense.domain.model/DummyPaging/id/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-dummy-paging/id.html
+$dokka.location:com.six.sense.domain.model/DummyPaging/title/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-dummy-paging/title.html
 $dokka.location:com.six.sense.domain.model/MessageData///PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-message-data/index.html
 $dokka.location:com.six.sense.domain.model/MessageData/MessageData/#kotlin.String#android.graphics.Bitmap?#kotlin.Long#com.six.sense.presentation.screen.chat.Role/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-message-data/-message-data.html
 $dokka.location:com.six.sense.domain.model/MessageData/image/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.model/-message-data/image.html
@@ -131,6 +156,13 @@ $dokka.location:com.six.sense.domain.repo/OpenAiRepo/getAllThreads/#/PointingToD
 $dokka.location:com.six.sense.domain.repo/OpenAiRepo/getThreadMessages/#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-open-ai-repo/get-thread-messages.html
 $dokka.location:com.six.sense.domain.repo/OpenAiRepo/sendMessageToThread/#kotlin.String#kotlin.String#kotlin.String#android.graphics.Bitmap?/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-open-ai-repo/send-message-to-thread.html
 $dokka.location:com.six.sense.domain.repo/OpenAiRepo/threads/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-open-ai-repo/threads.html
+$dokka.location:com.six.sense.domain.repo/PagingRepo///PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-paging-repo/index.html
+$dokka.location:com.six.sense.domain.repo/PagingRepo/getPagingData/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-paging-repo/get-paging-data.html
+$dokka.location:com.six.sense.domain.repo/WebSocketRepo///PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-web-socket-repo/index.html
+$dokka.location:com.six.sense.domain.repo/WebSocketRepo/connect/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-web-socket-repo/connect.html
+$dokka.location:com.six.sense.domain.repo/WebSocketRepo/disconnect/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-web-socket-repo/disconnect.html
+$dokka.location:com.six.sense.domain.repo/WebSocketRepo/observeMessages/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-web-socket-repo/observe-messages.html
+$dokka.location:com.six.sense.domain.repo/WebSocketRepo/sendMessage/#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.domain.repo/-web-socket-repo/send-message.html
 $dokka.location:com.six.sense.domain////PointingToDeclaration/6sense -android -documentation/com.six.sense.domain/index.html
 $dokka.location:com.six.sense.domain/ConnectivityObserver.Status.Available///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}6sense -android -documentation/com.six.sense.domain/-connectivity-observer/-status/-available/index.html
 $dokka.location:com.six.sense.domain/ConnectivityObserver.Status.Idle///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}6sense -android -documentation/com.six.sense.domain/-connectivity-observer/-status/-idle/index.html
@@ -158,6 +190,9 @@ $dokka.location:com.six.sense.presentation.base/BaseViewModel/launch/#kotlin.cor
 $dokka.location:com.six.sense.presentation.base/BaseViewModel/loadingFlow/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.base/-base-view-model/loading-flow.html
 $dokka.location:com.six.sense.presentation.base/BaseViewModel/mainContext/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.base/-base-view-model/main-context.html
 $dokka.location:com.six.sense.presentation.base/BaseViewModel/successFlow/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.base/-base-view-model/success-flow.html
+$dokka.location:com.six.sense.presentation.camera////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.camera/index.html
+$dokka.location:com.six.sense.presentation.camera//startQrScanner/android.content.Context#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.camera/start-qr-scanner.html
+$dokka.location:com.six.sense.presentation.camera//startQrScanner/androidx.camera.view.PreviewView#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.camera/start-qr-scanner.html
 $dokka.location:com.six.sense.presentation.navigation.component////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation.component/index.html
 $dokka.location:com.six.sense.presentation.navigation.component//BottomBar/#kotlin.String#kotlin.Function1[com.six.sense.presentation.navigation.MainScreenType,kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation.component/-bottom-bar.html
 $dokka.location:com.six.sense.presentation.navigation.graph////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation.graph/index.html
@@ -183,12 +218,14 @@ $dokka.location:com.six.sense.presentation.navigation/MainScreenType/values/#/Po
 $dokka.location:com.six.sense.presentation.navigation/Screens.ErrorDialog///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-error-dialog/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.ErrorDialog/ErrorDialog/#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-error-dialog/-error-dialog.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.ErrorDialog/error/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-error-dialog/error.html
+$dokka.location:com.six.sense.presentation.navigation/Screens.Home.CameraX///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-home/-camera-x/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.Home.Chat///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-home/-chat/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.Home.Components///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-home/-components/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.Home.Profile///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-home/-profile/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.Home///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-home/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.ImageViewer///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-image-viewer/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens.Login///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-login/index.html
+$dokka.location:com.six.sense.presentation.navigation/Screens.Onboarding///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/-onboarding/index.html
 $dokka.location:com.six.sense.presentation.navigation/Screens///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.navigation/-screens/index.html
 $dokka.location:com.six.sense.presentation.screen.auth////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.auth/index.html
 $dokka.location:com.six.sense.presentation.screen.auth//LoginScreen/#kotlin.Function1[android.view.View,kotlin.Unit]#kotlin.Function1[android.view.View,kotlin.Unit]#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.auth/-login-screen.html
@@ -201,8 +238,6 @@ $dokka.location:com.six.sense.presentation.screen.chat.components////PointingToD
 $dokka.location:com.six.sense.presentation.screen.chat.components//ChatMessageItem/#androidx.compose.ui.Modifier#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat.components/-chat-message-item.html
 $dokka.location:com.six.sense.presentation.screen.chat.components//ChatTextField/#androidx.compose.ui.Modifier#kotlin.String#kotlin.Function1[kotlin.String,kotlin.Unit]#kotlin.Function1[kotlin.String,kotlin.Unit]#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat.components/-chat-text-field.html
 $dokka.location:com.six.sense.presentation.screen.chat.gemini////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/index.html
-$dokka.location:com.six.sense.presentation.screen.chat.gemini/ImageResources///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/-image-resources/index.html
-$dokka.location:com.six.sense.presentation.screen.chat.gemini/ImageResources/imageList/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/-image-resources/image-list.html
 $dokka.location:com.six.sense.presentation.screen.chat.gemini/SystemInstructions.ACCOUNTANT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/-system-instructions/-a-c-c-o-u-n-t-a-n-t/index.html
 $dokka.location:com.six.sense.presentation.screen.chat.gemini/SystemInstructions.DEFAULT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/-system-instructions/-d-e-f-a-u-l-t/index.html
 $dokka.location:com.six.sense.presentation.screen.chat.gemini/SystemInstructions.MARKETING_SPECIALIST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}6sense -android -documentation/com.six.sense.presentation.screen.chat.gemini/-system-instructions/-m-a-r-k-e-t-i-n-g_-s-p-e-c-i-a-l-i-s-t/index.html
@@ -252,6 +287,23 @@ $dokka.location:com.six.sense.presentation.screen.login//AuthRegularField/#andro
 $dokka.location:com.six.sense.presentation.screen.login//AuthSecureField/#androidx.compose.ui.Modifier#androidx.compose.foundation.text.input.TextFieldState#kotlin.String#androidx.compose.runtime.MutableState[kotlin.Boolean]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.login/-auth-secure-field.html
 $dokka.location:com.six.sense.presentation.screen.login//LoginScreen/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.login/-login-screen.html
 $dokka.location:com.six.sense.presentation.screen.login//SignupScreen/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.login/-signup-screen.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera//CameraXScreen/#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-screen.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera//CaptureScreen/#com.six.sense.presentation.screen.materialComponents.camera.CameraUiState#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-capture-screen.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera//QRCodeCopyPopup/#kotlin.String?#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-q-r-code-copy-popup.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState/CameraUiState/#androidx.camera.core.SurfaceRequest?#androidx.camera.core.CameraSelector#kotlin.collections.List[android.net.Uri]#kotlin.String?/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/-camera-ui-state.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState/cameraSelector/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/camera-selector.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState/imageUris/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/image-uris.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState/qrData/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/qr-data.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraUiState/surfaceRequest/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-ui-state/surface-request.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/index.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/CameraXViewModel/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/-camera-x-view-model.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/bindToCamera/#android.content.Context#androidx.lifecycle.LifecycleOwner/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/bind-to-camera.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/cameraUiState/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/camera-ui-state.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/captureImage/#android.content.Context/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/capture-image.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/clearQrData/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/clear-qr-data.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents.camera/CameraXViewModel/flipCamera/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.camera/-camera-x-view-model/flip-camera.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents.materialBottomNav////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.materialBottomNav/index.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents.materialBottomNav//MaterialBottomNavigation/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.materialBottomNav/-material-bottom-navigation.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents.materialBottomSheet////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.materialBottomSheet/index.html
@@ -266,11 +318,19 @@ $dokka.location:com.six.sense.presentation.screen.materialComponents.textFields/
 $dokka.location:com.six.sense.presentation.screen.materialComponents.textFields//MaterialTextFields/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents.textFields/-material-text-fields.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/index.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents//ComponentInfo/#androidx.compose.ui.Modifier#kotlin.String#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-component-info.html
-$dokka.location:com.six.sense.presentation.screen.materialComponents//ComponentsScreen/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-components-screen.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents//ComponentInfoV/#androidx.compose.ui.Modifier#kotlin.Int#kotlin.Int/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-component-info-v.html
+$dokka.location:com.six.sense.presentation.screen.materialComponents//ComponentsScreen/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-components-screen.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents/MaterialComponents///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-material-components/index.html
 $dokka.location:com.six.sense.presentation.screen.materialComponents/MaterialComponents/componentsList/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.materialComponents/-material-components/components-list.html
+$dokka.location:com.six.sense.presentation.screen.onboarding////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/index.html
+$dokka.location:com.six.sense.presentation.screen.onboarding//OnboardingPageOne/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-page-one.html
+$dokka.location:com.six.sense.presentation.screen.onboarding//OnboardingPageThree/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-page-three.html
+$dokka.location:com.six.sense.presentation.screen.onboarding//OnboardingPageTwo/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-page-two.html
+$dokka.location:com.six.sense.presentation.screen.onboarding//OnboardingScreen/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-screen.html
+$dokka.location:com.six.sense.presentation.screen.onboarding/OnboardingViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-view-model/index.html
+$dokka.location:com.six.sense.presentation.screen.onboarding/OnboardingViewModel/OnboardingViewModel/#com.six.sense.data.local.datastore.DataStoreManager/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-view-model/-onboarding-view-model.html
+$dokka.location:com.six.sense.presentation.screen.onboarding/OnboardingViewModel/saveOnboarding/#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.onboarding/-onboarding-view-model/save-onboarding.html
 $dokka.location:com.six.sense.presentation.screen.profile////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/index.html
-$dokka.location:com.six.sense.presentation.screen.profile//GooglePlayBilling/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-google-play-billing.html
 $dokka.location:com.six.sense.presentation.screen.profile//PaymentItem/#kotlin.String#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-payment-item.html
 $dokka.location:com.six.sense.presentation.screen.profile//ProfileScreen/#androidx.compose.ui.Modifier#com.six.sense.domain.model.UserInfo#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-profile-screen.html
 $dokka.location:com.six.sense.presentation.screen.profile/GooglePlayBillingManager///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-google-play-billing-manager/index.html
@@ -284,16 +344,11 @@ $dokka.location:com.six.sense.presentation.screen.profile/ProfileViewModel/prese
 $dokka.location:com.six.sense.presentation.screen.profile/ProfileViewModel/stripePaymentManager/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-profile-view-model/stripe-payment-manager.html
 $dokka.location:com.six.sense.presentation.screen.profile/ProfileViewModel/userInfo/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.profile/-profile-view-model/user-info.html
 $dokka.location:com.six.sense.presentation.screen.worker////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/index.html
-$dokka.location:com.six.sense.presentation.screen.worker//WorkerScreen/#androidx.compose.ui.Modifier/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-worker-screen.html
 $dokka.location:com.six.sense.presentation.screen.worker//scheduleWork/#android.content.Context#kotlin.Long#java.util.concurrent.TimeUnit#kotlin.Long#java.util.concurrent.TimeUnit/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/schedule-work.html
 $dokka.location:com.six.sense.presentation.screen.worker//setupWorkManagerOnAppStart/#android.content.Context/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/setup-work-manager-on-app-start.html
 $dokka.location:com.six.sense.presentation.screen.worker/NotificationWorker///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-notification-worker/index.html
 $dokka.location:com.six.sense.presentation.screen.worker/NotificationWorker/NotificationWorker/#android.content.Context#androidx.work.WorkerParameters/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-notification-worker/-notification-worker.html
 $dokka.location:com.six.sense.presentation.screen.worker/NotificationWorker/doWork/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-notification-worker/do-work.html
-$dokka.location:com.six.sense.presentation.screen.worker/WorkerUiState///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-worker-ui-state/index.html
-$dokka.location:com.six.sense.presentation.screen.worker/WorkerUiState/WorkerUiState/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-worker-ui-state/-worker-ui-state.html
-$dokka.location:com.six.sense.presentation.screen.worker/WorkerViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-worker-view-model/index.html
-$dokka.location:com.six.sense.presentation.screen.worker/WorkerViewModel/WorkerViewModel/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation.screen.worker/-worker-view-model/-worker-view-model.html
 $dokka.location:com.six.sense.presentation////PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/index.html
 $dokka.location:com.six.sense.presentation/EmptyViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-empty-view-model/index.html
 $dokka.location:com.six.sense.presentation/EmptyViewModel/EmptyViewModel/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-empty-view-model/-empty-view-model.html
@@ -309,12 +364,12 @@ $dokka.location:com.six.sense.presentation/MainActivity/onCreate/#android.os.Bun
 $dokka.location:com.six.sense.presentation/MainViewModel///PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/index.html
 $dokka.location:com.six.sense.presentation/MainViewModel/MainViewModel/#androidx.lifecycle.SavedStateHandle#com.openai.client.OpenAIClient#com.six.sense.data.local.datastore.DataStoreManager#com.google.firebase.analytics.FirebaseAnalytics/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/-main-view-model.html
 $dokka.location:com.six.sense.presentation/MainViewModel/bitmap/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/bitmap.html
-$dokka.location:com.six.sense.presentation/MainViewModel/currentModel/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/current-model.html
 $dokka.location:com.six.sense.presentation/MainViewModel/firebaseAnalytics/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/firebase-analytics.html
 $dokka.location:com.six.sense.presentation/MainViewModel/isUiLightMode/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/is-ui-light-mode.html
 $dokka.location:com.six.sense.presentation/MainViewModel/keepSplashOpened/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/keep-splash-opened.html
+$dokka.location:com.six.sense.presentation/MainViewModel/onBoardingCompleted/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/on-boarding-completed.html
 $dokka.location:com.six.sense.presentation/MainViewModel/showChatDialog/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/show-chat-dialog.html
-$dokka.location:com.six.sense.presentation/MainViewModel/switchModel/#kotlin.String#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/switch-model.html
+$dokka.location:com.six.sense.presentation/MainViewModel/showOnboarding/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/show-onboarding.html
 $dokka.location:com.six.sense.presentation/MainViewModel/switchUiMode/#kotlin.Boolean/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/switch-ui-mode.html
 $dokka.location:com.six.sense.presentation/MainViewModel/testOpenAI/#/PointingToDeclaration/6sense -android -documentation/com.six.sense.presentation/-main-view-model/test-open-a-i.html
 $dokka.location:com.six.sense.ui.theme////PointingToDeclaration/6sense -android -documentation/com.six.sense.ui.theme/index.html
@@ -332,7 +387,9 @@ $dokka.location:com.six.sense.utils//LoadingLayout/#androidx.compose.ui.Modifier
 $dokka.location:com.six.sense.utils//bounceClick/androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/bounce-click.html
 $dokka.location:com.six.sense.utils//collectWithLifecycle/kotlinx.coroutines.flow.Flow[TypeParam(bounds=[kotlin.Any?])?]#kotlin.coroutines.CoroutineContext#androidx.lifecycle.Lifecycle.State#kotlin.coroutines.SuspendFunction2[kotlinx.coroutines.CoroutineScope,TypeParam(bounds=[kotlin.Any?]),kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/collect-with-lifecycle.html
 $dokka.location:com.six.sense.utils//composableWithVM/androidx.navigation.NavGraphBuilder#androidx.navigation.NavController#kotlin.Function2[com.six.sense.utils.BaseContent[TypeParam(bounds=[com.six.sense.presentation.base.BaseViewModel])],androidx.navigation.NavBackStackEntry,kotlin.Unit]/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/composable-with-v-m.html
+$dokka.location:com.six.sense.utils//getClipBoardData/android.content.Context?#/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/get-clip-board-data.html
 $dokka.location:com.six.sense.utils//log/kotlin.Any?#kotlin.String/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/log.html
+$dokka.location:com.six.sense.utils//setClipBoardData/android.content.Context#kotlin.String?/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/set-clip-board-data.html
 $dokka.location:com.six.sense.utils//toBase64/android.graphics.Bitmap#android.graphics.Bitmap.CompressFormat#kotlin.Int/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/to-base64.html
 $dokka.location:com.six.sense.utils//toBitmap/kotlin.ByteArray#/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/to-bitmap.html
 $dokka.location:com.six.sense.utils//toByteArray/android.graphics.Bitmap#android.graphics.Bitmap.CompressFormat#kotlin.Int/PointingToDeclaration/6sense -android -documentation/com.six.sense.utils/to-byte-array.html
@@ -359,9 +416,11 @@ $dokka.location:com.six.sense/SixSenseApplication///PointingToDeclaration/6sens
 $dokka.location:com.six.sense/SixSenseApplication/SixSenseApplication/#/PointingToDeclaration/6sense -android -documentation/com.six.sense/-six-sense-application/-six-sense-application.html
 $dokka.location:com.six.sense/SixSenseApplication/onCreate/#/PointingToDeclaration/6sense -android -documentation/com.six.sense/-six-sense-application/on-create.html
 com.six.sense
+com.six.sense.data.local.appsearch
 com.six.sense.data.local.datastore
 com.six.sense.data.local.room
 com.six.sense.data.local.room.entities
+com.six.sense.data.paging
 com.six.sense.data.remote
 com.six.sense.data.remote.dto
 com.six.sense.data.repo
@@ -371,6 +430,7 @@ com.six.sense.domain.model
 com.six.sense.domain.repo
 com.six.sense.presentation
 com.six.sense.presentation.base
+com.six.sense.presentation.camera
 com.six.sense.presentation.navigation
 com.six.sense.presentation.navigation.component
 com.six.sense.presentation.navigation.graph
@@ -381,12 +441,14 @@ com.six.sense.presentation.screen.chat.components
 com.six.sense.presentation.screen.chat.gemini
 com.six.sense.presentation.screen.login
 com.six.sense.presentation.screen.materialComponents
+com.six.sense.presentation.screen.materialComponents.camera
 com.six.sense.presentation.screen.materialComponents.materialBottomNav
 com.six.sense.presentation.screen.materialComponents.materialBottomSheet
 com.six.sense.presentation.screen.materialComponents.materialList
 com.six.sense.presentation.screen.materialComponents.materialTopBar
 com.six.sense.presentation.screen.materialComponents.primaryTab
 com.six.sense.presentation.screen.materialComponents.textFields
+com.six.sense.presentation.screen.onboarding
 com.six.sense.presentation.screen.profile
 com.six.sense.presentation.screen.worker
 com.six.sense.ui.theme

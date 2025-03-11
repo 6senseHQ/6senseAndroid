@@ -41,10 +41,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     applicationVariants.all {
@@ -61,11 +58,7 @@ android {
     kotlin {
         jvmToolchain(ProjectConfig.javaVersion.toString().toInt())
         compilerOptions {
-            freeCompilerArgs.addAll(
-                "-Xcontext-receivers",
-                "-Xwhen-guards",
-                "-Xnon-local-break-continue"
-            )
+            freeCompilerArgs.addAll("-Xcontext-receivers", "-Xwhen-guards", "-Xnon-local-break-continue")
         }
     }
     buildFeatures {
