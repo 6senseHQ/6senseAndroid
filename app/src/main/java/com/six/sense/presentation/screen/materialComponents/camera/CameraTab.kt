@@ -109,6 +109,13 @@ fun CameraXScreen(
 }
 
 
+/**
+ * A composable function that displays a screen for capturing images with a camera preview.
+ * It provides controls for flipping the camera, capturing images, closing the screen, and viewing
+ * previously captured images. It also renders an overlay for the camera view with these controls.
+ * Additionally, it shows a popup for QR code data and can clear it.
+ *
+ */
 @Composable
 fun CaptureScreen(
     cameraUiState: CameraUiState,

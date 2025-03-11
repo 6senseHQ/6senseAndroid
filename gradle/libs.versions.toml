@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.1"
+agp = "8.9.0"
 appUpdate = "2.1.0"
 cameraX = "1.5.0-alpha05"
 facebookAndroidSdk = "18.0.2"
@@ -41,6 +41,7 @@ dokka = "2.0.0"
 generativeai = "0.9.0"
 secrets = "2.0.1"
 paging = "3.3.6"
+appsearch_version = "1.1.0-beta01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -153,6 +154,21 @@ androidx-camera-mlkit-vision = { module = "androidx.camera:camera-mlkit-vision",
 play-services-mlkit-barcode-scanning = { module = "com.google.android.gms:play-services-mlkit-barcode-scanning", version.ref = "mlkitBarcode" }
 play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "codeScanner" }
 
+#Compose Animation API
+androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "composeBom" }
+androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "composeBom" }
+androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "composeBom" }
+
+#KTOR WebSocket
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+
+#AppSearch
+appsearch = { module = "androidx.appsearch:appsearch", version.ref = "appsearch_version" }
+appsearch-local-storage = { module = "androidx.appsearch:appsearch-local-storage", version.ref = "appsearch_version" }
+appsearch-platform-storage = { module = "androidx.appsearch:appsearch-platform-storage", version.ref = "appsearch_version" }
+appsearch-play-services-storage = { module = "androidx.appsearch:appsearch-play-services-storage", version.ref = "appsearch_version" }
+androidx-appsearch-compiler = { module = "androidx.appsearch:appsearch-compiler", version.ref = "appsearch_version" }
+
 [bundles]
 compose-ui = [
     "androidx-core-ktx",
@@ -175,24 +191,28 @@ ktor = [
     "slf4j-android",
     "ktor-auth"
 ]
+
 firebase = [
     "firebase-auth",
     "firebase-analytics",
     "firebase-crashlytics",
     "firebase-messaging",
 ]
+
 test = [
     "junit",
     "mockk-android",
     "mockk-agent",
     "google-truth"
 ]
+
 androidx-test = [
     "androidx-junit",
     "androidx-espresso-core",
     "androidx-ui-test-junit4",
     "mockk"
 ]
+
 androidx-debug-test = [
     "androidx-ui-tooling",
     "androidx-ui-test-manifest",
@@ -202,11 +222,18 @@ coil = [
     "coil-svg",
     "coil-compose"
 ]
+
 paging = [
     "paging-core",
     "paging-compose"
 ]
 
+appsearch = [
+    "appsearch",
+    "appsearch-local-storage",
+    "appsearch-platform-storage",
+    "appsearch-play-services-storage"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

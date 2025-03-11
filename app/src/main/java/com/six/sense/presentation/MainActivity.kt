@@ -1,5 +1,6 @@
 package com.six.sense.presentation
 
+import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -31,9 +32,9 @@ class MainActivity : ComponentActivity() {
         viewModel.isUiLightMode.collectWithLifecycle {
             enableEdgeToEdge(
                 statusBarStyle = if (!it)
-                    SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                    SystemBarStyle.dark(TRANSPARENT)
                 else
-                    SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT),
+                    SystemBarStyle.light(TRANSPARENT, TRANSPARENT),
             )
         }
         enableEdgeToEdge()
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
             SixSenseAndroidTheme(darkTheme = !isUiLightMode) {
                 val navController = rememberNavController()
                 SetupMainNavGraph(
-                    startDestination = if (Firebase.auth.currentUser == null) Screens.Login else Screens.Home,
+                    startDestination = if (Firebase.auth.currentUser != null) Screens.Login else Screens.Home,
                     navController = navController
                 )
             }

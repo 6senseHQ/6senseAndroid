@@ -23,6 +23,9 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val dataStoreManager: DataStoreManager,
+    /**
+     * [StripePaymentManager] instance for managing Stripe payment.
+     */
     val stripePaymentManager: StripePaymentManager,
     private val googlePlayBillingManager: GooglePlayBillingManager,
     private val firebaseAnalytics: FirebaseAnalytics

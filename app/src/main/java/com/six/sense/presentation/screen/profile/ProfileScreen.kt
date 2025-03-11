@@ -52,6 +52,16 @@ import coil.compose.AsyncImage
 import com.six.sense.domain.model.UserInfo
 import ir.kaaveh.sdpcompose.sdp
 
+/**
+ * [ProfileScreen] is a composable function that displays the user's profile information.
+ *
+ * It includes a profile picture, user name, user email, and payment options.
+ * @param modifier The modifier to be applied to the layout.
+ * @param userInfo The user's information to be displayed.
+ * @param onLogoutClicked The callback to be invoked when the user logs out.
+ * @param onStripePaymentClicked The callback to be invoked when the user clicks on the Stripe payment option.
+ * @param onPlayInAppPaymentClicked The callback to be invoked when the user clicks on the Play In-App payment option.
+ */
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,

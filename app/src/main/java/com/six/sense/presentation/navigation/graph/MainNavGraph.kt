@@ -1,6 +1,11 @@
 package com.six.sense.presentation.navigation.graph
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,9 +46,24 @@ fun SetupMainNavGraph(
         ?.split('/')?.firstOrNull() ?: ""
     val isOnMainScreen = backStack == Screens.serializer().route
     val mainModifier : Modifier = Modifier.fillMaxSize()
-    NavHost(
+    NavHost (
         startDestination = startDestination,
-        navController = navController
+        navController = navController,
+        enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    300,
+                    delayMillis = 300,
+                    easing = FastOutLinearInEasing
+                )
+            )
+        },
+        popExitTransition = {
+            fadeOut() + slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                targetOffset = { it })
+        },
+
     ) {
         baseRoute(
             navController = navController,
