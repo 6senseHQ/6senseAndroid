@@ -14,7 +14,6 @@ val fontFamily = FontFamily(
     Font(R.font.open_sans_bold, FontWeight.Bold)
 )
 
-
 // Display
 /**
  * A [Typography] instance that defines the text styles for the Open Sans font family.

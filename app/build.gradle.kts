@@ -166,6 +166,10 @@ dependencies {
     implementation(libs.bundles.appsearch)
     ksp(libs.androidx.appsearch.compiler)
 
+    //Charts
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m3)
+
 }
 
 secrets {

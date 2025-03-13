@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.os.ConfigurationCompat
 import com.six.sense.presentation.screen.materialComponents.camera.CameraXScreen
+import com.six.sense.presentation.screen.materialComponents.graph.ChartScreen
 import com.six.sense.presentation.screen.materialComponents.materialBottomNav.MaterialBottomNavigation
 import com.six.sense.presentation.screen.materialComponents.materialBottomSheet.MaterialBottomSheet
 import com.six.sense.presentation.screen.materialComponents.materialList.MaterialList
@@ -79,6 +80,7 @@ fun ComponentsScreen(modifier: Modifier = Modifier, onNavigateToCamera: () -> Un
                     3 -> MaterialBottomNavigation()
                     4 -> MaterialBottomSheet()
                     5 -> MaterialTopBar()
+                    6 -> ChartScreen()
                 }
             }
         }

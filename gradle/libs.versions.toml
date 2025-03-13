@@ -42,6 +42,7 @@ generativeai = "0.9.0"
 secrets = "2.0.1"
 paging = "3.3.6"
 appsearch_version = "1.1.0-beta01"
+vico = "2.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -168,6 +169,12 @@ appsearch-local-storage = { module = "androidx.appsearch:appsearch-local-storage
 appsearch-platform-storage = { module = "androidx.appsearch:appsearch-platform-storage", version.ref = "appsearch_version" }
 appsearch-play-services-storage = { module = "androidx.appsearch:appsearch-play-services-storage", version.ref = "appsearch_version" }
 androidx-appsearch-compiler = { module = "androidx.appsearch:appsearch-compiler", version.ref = "appsearch_version" }
+
+#VICO
+# For Jetpack Compose.
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+# For Material 3 theming in Jetpack Compose.
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
 [bundles]
 compose-ui = [

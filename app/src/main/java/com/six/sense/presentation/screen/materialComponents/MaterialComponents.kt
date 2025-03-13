@@ -16,7 +16,6 @@ object MaterialComponents {
         "Bottom Navigation",
         "Bottom Sheet",
         "Top AppBar",
-        "Primary Tab",
-        "Primary Scrollable Tab"
+        "Charts"
     )
 }
