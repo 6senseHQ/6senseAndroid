@@ -11,6 +11,7 @@ data class Note(
     val id: String,
 
     @Document.StringProperty(indexingType = AppSearchSchema.StringPropertyConfig.INDEXING_TYPE_PREFIXES)
-    val text: String,
+    val title: String,
 
+    val content: String,
     )

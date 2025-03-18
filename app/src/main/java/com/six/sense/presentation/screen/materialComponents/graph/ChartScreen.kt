@@ -46,7 +46,8 @@ fun ChartScreen(modifier: Modifier = Modifier) {
                 modelProducer
             )
         }
-        //PieChart
+
+        //LineChart
         item {
             Text("Line Chart")
             Spacer(modifier = Modifier.height(10.dp))

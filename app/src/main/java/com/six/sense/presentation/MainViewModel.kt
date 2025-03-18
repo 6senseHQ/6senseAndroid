@@ -1,6 +1,7 @@
 package com.six.sense.presentation
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -21,12 +22,15 @@ import com.openai.models.ChatCompletionUserMessageParam
 import com.openai.models.ChatModel
 import com.openai.models.FunctionTool
 import com.openai.models.ModelListParams
+import com.six.sense.data.local.appsearch.AppSearchManager
 import com.six.sense.data.local.datastore.DataStoreManager
 import com.six.sense.presentation.base.BaseViewModel
 import com.six.sense.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -46,6 +50,7 @@ class MainViewModel @Inject constructor(
     private val openAIClient: OpenAIClient,
     private val dataStoreManager: DataStoreManager,
     val firebaseAnalytics: FirebaseAnalytics,
+    private val appSearchManager: AppSearchManager,
 ) : BaseViewModel() {
     var keepSplashOpened: Boolean = true
 
@@ -54,6 +59,14 @@ class MainViewModel @Inject constructor(
     var onBoardingCompleted = true
 
     var bitmap: Bitmap? = null
+
+    init {
+        viewModelScope.launch {
+            appSearchManager.isInitialized().filter { it }.collectLatest {
+                Log.i("AppSearch", "Initialized")
+            }
+        }
+    }
 
     /**
      * Ui mode state light by default
