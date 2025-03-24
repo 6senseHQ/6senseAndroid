@@ -56,6 +56,12 @@ A boilerplate android project for future use to make the development quicker.
     │  ├─ utils
     buildSrc
 
+## Setup Guide
+
+Import application from github then the android studion will do the rest automatically if any error occurs follow...
+
+Menu-> Build-> Sync Project With Gradle
+
 ## Authors
 
 - [@AhmadUmarMahdi](https://github.com/AhmadUmarMahdi)
